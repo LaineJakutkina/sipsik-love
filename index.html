@@ -1,0 +1,926 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Сипсик Love</title>
+<meta name="theme-color" content="#1f1d38">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Montserrat+Alternates:wght@600;700&display=swap">
+<style>
+/* Layout: navy header band with dripping edge on every screen, white body of outlined cards, floating navy tab bar. One deliberate light look (navy, white, peach). */
+:root{
+  color-scheme:light;
+  --navy:#1f1d38;--navy-2:#34315a;--paper:#ffffff;--mist:#f2f1f7;--grey:#8b89a1;
+  --peach:#f8a878;--peach-soft:#fde5d4;--peach-ink:#7a3a12;--sky:#7cc7f2;
+  --brand:"Montserrat Alternates","Montserrat",system-ui,sans-serif;
+  --body:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --bw:2px;--r:20px;
+}
+*{box-sizing:border-box}
+html,body{background:var(--paper)}
+html,body{margin:0}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{-webkit-font-smoothing:antialiased;color:var(--navy);font-family:var(--body);font-size:15px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--navy)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.45;cursor:default}
+:focus-visible{outline:3px solid var(--peach);outline-offset:2px}
+p{margin:0}
+h1,h2{margin:0;text-wrap:balance}
+h1{font-family:var(--brand);font-weight:700;font-size:22px;color:var(--paper);text-align:center}
+h2{font-weight:800;font-size:16px}
+
+/* band */
+.band{background:var(--navy);color:var(--paper)}
+.bandin{max-width:520px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px 4px;display:flex;flex-direction:column;gap:14px}
+.drip{display:block;width:100%;height:46px;margin-top:-1px}
+.drip path,.drip circle{fill:var(--navy)}
+.toprow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{font-family:var(--brand);font-weight:700;font-size:19px;display:flex;align-items:center;gap:8px}
+.brand .face{width:34px;height:34px;border-radius:50%;background:var(--paper);padding:2px}
+.brand em{font-style:normal;color:var(--peach)}
+.iconbtn{width:40px;height:40px;border-radius:50%;border:var(--bw) solid currentColor;background:none;display:grid;place-items:center;color:inherit;padding:0}
+.iconbtn svg{width:19px;height:19px}
+
+.app{max-width:520px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:2px calc(112px + env(safe-area-inset-bottom,0px))}
+.stack{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--paper);border:var(--bw) solid var(--navy);border-radius:var(--r);padding:16px;min-width:0}
+.card.dark{background:var(--navy);color:var(--paper)}
+.muted{color:var(--grey)}
+.small{font-size:13px}
+.row{display:flex;align-items:center;gap:10px}
+.between{justify-content:space-between}
+.tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--grey);border:1.5px dashed var(--grey);border-radius:99px;padding:1px 7px;vertical-align:middle}
+
+/* buttons & pills */
+.btn{border:var(--bw) solid var(--navy);border-radius:99px;padding:11px 18px;font-weight:700;background:var(--paper);color:var(--navy)}
+.btn.navy{background:var(--navy);color:var(--paper)}
+.btn.peach{background:var(--peach);border-color:var(--peach);color:var(--navy)}
+.btn.block{width:100%}
+.linkbtn{border:0;background:none;padding:6px 0;color:var(--peach-ink);font-weight:700;font-size:13px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{border:var(--bw) solid var(--navy);background:var(--paper);border-radius:99px;padding:7px 14px;font-weight:700;font-size:14px}
+.pill[aria-pressed="true"]{background:var(--navy);color:var(--paper)}
+.band .pill{border-color:var(--paper);background:none;color:var(--paper)}
+.band .pill[aria-pressed="true"]{background:var(--paper);color:var(--navy)}
+.band .pills{justify-content:center}
+
+/* fields */
+input[type=text],input[type=date],input[type=time],input[type=url],select,textarea{width:100%;min-width:0;border:var(--bw) solid var(--navy);background:var(--paper);border-radius:99px;padding:11px 16px;outline:none}
+textarea{border-radius:18px;resize:vertical}
+input::placeholder,textarea::placeholder{color:var(--grey)}
+input:focus,select:focus,textarea:focus{border-color:var(--peach)}
+.form{display:flex;flex-direction:column;gap:8px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.addrow{display:flex;gap:8px}
+.addrow input{flex:1}
+.addrow .btn{flex:none}
+
+/* us band */
+.stage{position:relative;display:block;width:100%;max-width:100%;aspect-ratio:300/215;border:0;padding:0;border-radius:36px 36px 36px 36px;background:var(--paper);overflow:hidden;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.stage svg{width:100%;height:100%;display:block}
+.stage .catbody{transform-origin:150px 208px}
+.stage.boop .catbody{animation:boop .2s ease-out}
+@keyframes boop{0%{transform:scale(1,1)}40%{transform:scale(1.05,.93)}100%{transform:scale(1,1)}}
+.plus{position:absolute;font-weight:800;color:var(--peach);pointer-events:none;animation:rise .7s ease-out forwards;font-size:17px;-webkit-text-stroke:.5px var(--navy)}
+@keyframes rise{from{opacity:1;transform:translate(-50%,0)}to{opacity:0;transform:translate(-50%,-46px)}}
+.namepill{align-self:center;margin-top:-34px;position:relative;background:var(--navy);color:var(--paper);border:3px solid var(--paper);border-radius:99px;padding:8px 20px;font-weight:700;display:flex;gap:10px;align-items:baseline}
+.namepill b{font-variant-numeric:tabular-nums;color:var(--peach)}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{border:var(--bw) solid var(--navy);border-radius:18px;padding:9px 6px;text-align:center;min-width:0}
+.stat b{display:block;font-size:20px;font-weight:800;line-height:1.15;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;color:var(--grey);font-weight:600}
+.stat.hl{background:var(--peach);border-color:var(--peach)}
+.stat.hl span{color:var(--navy)}
+
+.bar{height:10px;border-radius:99px;border:var(--bw) solid var(--navy);overflow:hidden;background:var(--paper)}
+.bar i{display:block;height:100%;background:var(--peach);transition:width .25s}
+.nextline{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:700;margin-bottom:6px}
+.items{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.item{border:var(--bw) solid var(--navy);background:var(--paper);border-radius:18px;padding:8px 6px 9px;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;min-width:0}
+.item svg{width:100%;height:38px}
+.item b{font-size:12px;line-height:1.2}
+.item span{font-size:11px;color:var(--grey);font-weight:600;font-variant-numeric:tabular-nums}
+.item.on{background:var(--peach);border-color:var(--peach)}
+.item.on span{color:var(--navy)}
+.item.locked{border-style:dashed;border-color:var(--grey)}
+.item.locked svg{filter:grayscale(1);opacity:.3}
+.item.locked b{color:var(--grey)}
+
+.moods{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:12px}
+.mood{border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;font-weight:700;min-width:0}
+.mood .face{width:56px;height:56px;border-radius:50%;border:var(--bw) solid var(--navy);padding:4px;background:var(--paper)}
+.mood[aria-pressed="true"] .face{background:var(--peach);border-color:var(--peach)}
+.face svg{width:100%;height:100%;display:block}
+.partner{margin-top:14px;display:flex;align-items:center;gap:8px;font-size:13px;flex-wrap:wrap}
+.partner .face{width:30px;height:30px;flex:none}
+
+.soon{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.prow{display:flex;align-items:center;justify-content:space-between;gap:10px;border:var(--bw) solid var(--navy);border-radius:99px;padding:9px 16px;min-width:0}
+.prow.fill{background:var(--peach);border-color:var(--peach)}
+.prow .t{font-weight:700;min-width:0;overflow-wrap:anywhere}
+.prow .r{font-size:12px;font-weight:700;flex:none;font-variant-numeric:tabular-nums}
+
+/* lists */
+.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.li{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1.5px solid var(--mist);min-width:0}
+.li:first-child{border-top:0}
+.li .grow{flex:1;min-width:0;overflow-wrap:anywhere}
+.li .sub{font-size:12px;color:var(--grey);font-weight:600}
+.check{flex:none;width:28px;height:28px;border-radius:50%;border:var(--bw) solid var(--navy);background:none;display:grid;place-items:center;padding:0}
+.check svg{width:14px;height:14px;opacity:0}
+.check[aria-pressed="true"]{background:var(--peach);border-color:var(--peach)}
+.check[aria-pressed="true"] svg{opacity:1}
+.li.done .grow>.t{text-decoration:line-through;color:var(--grey)}
+.x{flex:none;border:0;background:none;color:var(--grey);width:30px;height:30px;border-radius:50%;font-size:20px;line-height:1;padding:0}
+.who{flex:none;border:var(--bw) solid var(--navy);border-radius:99px;padding:4px 10px;font-size:12px;font-weight:800;background:var(--paper)}
+.who.p{background:var(--navy);color:var(--paper)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 4px}
+.chip{border:1.5px solid var(--navy);background:var(--paper);border-radius:99px;padding:6px 12px;font-size:13px;font-weight:600}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.split div{border:var(--bw) solid var(--navy);border-radius:18px;padding:10px 14px}
+.split div:last-child{background:var(--navy);color:var(--paper)}
+.split b{font-size:22px;font-weight:800;display:block;font-variant-numeric:tabular-nums}
+.split span{font-size:12px;font-weight:600;opacity:.75}
+
+.notes{margin-top:12px}
+.st{display:inline-block;font-size:11px;font-weight:800;border-radius:99px;padding:2px 9px}
+.st.wait{border:1.5px solid var(--navy)}
+.st.ok{background:var(--peach)}
+.empty{text-align:center;color:var(--grey);padding:18px 8px;font-size:14px;font-weight:600}
+
+/* wishlist */
+.lockline{display:flex;gap:8px;align-items:center;font-size:12px;font-weight:600;color:var(--grey);background:var(--mist);border-radius:99px;padding:9px 14px}
+.lockline svg{width:15px;height:15px;flex:none}
+.wgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.wish{border:var(--bw) solid var(--navy);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;min-width:0;background:var(--paper)}
+.wish.got{opacity:.5}
+.wish.res{border-color:var(--peach);box-shadow:0 0 0 2px var(--peach)}
+.photo{position:relative;display:block;aspect-ratio:1;max-width:100%;background:var(--mist);border-bottom:var(--bw) solid var(--navy);cursor:pointer;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;color:transparent;font-size:0}
+.photo .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:700;color:var(--grey)}
+.photo .ph .face{width:54px;height:54px;opacity:.9}
+.photo input{position:absolute;width:1px;height:1px;opacity:0}
+.photo .badge{position:absolute;top:8px;left:8px;background:var(--peach);color:var(--navy);font-size:11px;font-weight:800;border-radius:99px;padding:3px 9px}
+.wbody{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px;min-width:0;flex:1}
+.wbody .t{font-weight:800;font-size:14px;line-height:1.3;overflow-wrap:anywhere}
+.wbody .note{font-size:12px;color:var(--grey);overflow-wrap:anywhere}
+.price{align-self:flex-start;font-size:12px;font-weight:800;background:var(--navy);color:var(--paper);border-radius:99px;padding:3px 10px}
+a.ext{color:var(--peach-ink);font-weight:700;font-size:12px}
+.wacts{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:4px}
+.mini{border:1.5px solid var(--navy);background:var(--paper);border-radius:99px;padding:5px 10px;font-size:12px;font-weight:700}
+.mini.peach{background:var(--peach);border-color:var(--peach)}
+.mini.navy{background:var(--navy);color:var(--paper)}
+.photopick{display:flex;align-items:center;gap:12px;border:var(--bw) dashed var(--navy);border-radius:18px;padding:10px;cursor:pointer;position:relative}
+.photopick input{position:absolute;width:1px;height:1px;opacity:0}
+.photopick .thumb{width:64px;height:64px;border-radius:14px;background:var(--mist);flex:none;overflow:hidden;display:grid;place-items:center;font-size:26px;font-weight:300;color:var(--grey)}
+.photopick .thumb img{width:100%;height:100%;object-fit:cover}
+.photopick b{display:block;font-size:14px}
+.photopick span{font-size:12px;color:var(--grey);font-weight:600}
+
+/* calendar */
+.calhead{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:10px}
+.calhead b{font-weight:800;font-size:17px;min-width:9ch;text-align:center}
+.calhead .iconbtn{width:34px;height:34px;border-width:0;font-size:22px;font-weight:700}
+.grid7{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.grid7 .wd{font-size:12px;font-weight:700;color:var(--grey);padding:2px 0}
+.day{position:relative;border:var(--bw) solid var(--navy);background:var(--paper);border-radius:50%;aspect-ratio:1;display:grid;place-items:center;font-weight:700;font-variant-numeric:tabular-nums;font-size:13px;padding:0;min-width:0}
+.day.out{border-color:var(--mist);color:var(--grey)}
+.day.plan{background:var(--peach);border-color:var(--peach)}
+.day.bd::after{content:"";position:absolute;top:-2px;right:-2px;width:9px;height:9px;border-radius:50%;background:var(--navy);border:2px solid var(--paper)}
+.day.today{box-shadow:0 0 0 3px var(--peach-soft)}
+.day[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:var(--paper)}
+.legend{display:flex;gap:14px;justify-content:center;margin-top:12px;font-size:12px;font-weight:600;color:var(--grey)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.bdico{flex:none;width:38px;height:38px;border-radius:50%;background:var(--navy);color:var(--paper);display:grid;place-items:center;font-weight:800;font-size:13px}
+
+/* roulette */
+.slot{min-height:110px;display:grid;place-items:center;border-radius:28px;background:var(--paper);color:var(--navy);padding:14px;text-align:center}
+.slot b{font-family:var(--brand);font-size:23px;line-height:1.2;overflow-wrap:anywhere;text-wrap:balance}
+.slot.spinning b{opacity:.6}
+.slot.hit{background:var(--peach)}
+.rouacts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rouacts .btn{border-color:var(--paper)}
+.rouacts .btn.ghost{background:none;color:var(--paper)}
+
+/* nav */
+.nav{position:fixed;z-index:20;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:496px;margin:0 auto;background:var(--navy);border-radius:28px;padding:6px 6px}
+.nav .in{display:grid;grid-template-columns:repeat(5,1fr)}
+.nav button{border:0;background:none;color:var(--paper);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;font-size:10.5px;font-weight:700;min-width:0;opacity:.72}
+.nav .ic{width:42px;height:34px;border-radius:99px;display:grid;place-items:center}
+.nav svg{width:22px;height:22px}
+.nav button[aria-current="page"]{opacity:1}
+.nav button[aria-current="page"] .ic{background:var(--peach);color:var(--navy)}
+
+/* sheet + toast */
+.scrim{position:fixed;inset:0;z-index:30;background:rgba(31,29,56,.55);display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:520px;background:var(--paper);border-radius:28px 28px 0 0;padding:22px max(16px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px;max-height:90%;overflow:auto}
+.sheet label{font-size:12px;font-weight:700;color:var(--grey);display:flex;flex-direction:column;gap:5px}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:var(--peach);color:var(--navy);border:var(--bw) solid var(--navy);padding:10px 18px;border-radius:99px;font-weight:800;font-size:14px;width:max-content;max-width:calc(100% - 32px);text-align:center;animation:pop .2s ease-out}
+@keyframes pop{from{opacity:0;transform:translate(-50%,8px)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* real app additions */
+.app.nonav{padding-bottom:calc(32px + env(safe-area-inset-bottom,0px))}
+body.busy{cursor:progress}
+body.busy [data-act]{pointer-events:none}
+body.busy .stage,body.busy .nav button{pointer-events:auto}
+.lbl{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:700;color:var(--grey)}
+.invite{background:var(--navy);color:var(--paper);display:flex;flex-direction:column;gap:10px}
+.invite .code{background:var(--navy-2);border-radius:14px;padding:10px 12px;font-size:13px;font-weight:600;overflow-wrap:anywhere;user-select:all;-webkit-user-select:all}
+.btn.ghostw{background:none;color:var(--paper);border-color:var(--paper)}
+.prow.onnavy{border-color:var(--paper)}
+.prow.fill{color:var(--navy)}
+.prow.navyrow{background:var(--navy);border-color:var(--navy);color:var(--paper)}
+.who:disabled{opacity:1}
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="bandin">
+    <div class="toprow">
+      <div class="brand"><span class="face" id="brandFace"></span>Сипсик <em>Love</em></div>
+      <button class="iconbtn" data-act="settings" aria-label="Настройки пары"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>
+    </div>
+    <div id="bandSlot" class="stack"></div>
+  </div>
+  <svg class="drip" viewBox="0 0 400 46" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H400V14Q384 14 378 22Q372 40 362 40Q352 40 350 26Q347 14 326 14H262Q246 14 240 22Q235 30 228 30Q220 30 216 22Q211 14 196 14H104Q86 14 80 26Q74 44 62 44Q50 44 48 30Q45 14 24 14H0Z"/></svg>
+</header>
+<main id="view" class="app stack nonav"></main>
+<nav class="nav" aria-label="Разделы" hidden><div class="in" id="nav"></div></nav>
+
+<script>
+(function(){
+/* ======== НАСТРОЙКИ: замени на свои ======== */
+const API_URL = 'https://mkjjqvywkwzwdscihibm.supabase.co/functions/v1/api';
+const BOT_USERNAME = 'SipsikLoveBot';
+/* =========================================== */
+const tg = window.Telegram && window.Telegram.WebApp;
+const ITEMS=[
+  {id:'panama',n:'Панама',at:10},{id:'chain',n:'Золотая цепь',at:100},{id:'cig',n:'Сигарета',at:1000},
+  {id:'bag',n:'Барсетка',at:2000},{id:'mouse',n:'Мышь',at:5000},{id:'truck',n:'Фура',at:10000}];
+const MOODS=[{id:'tears',n:'Слёзы'},{id:'tired',n:'Устал'},{id:'angry',n:'Злюсь'},{id:'neutral',n:'Нейтрально'},{id:'happy',n:'Счастлив'}];
+const MON=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+const MONN=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+const WD=['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
+const QUICK=['Хлеб','Яйца','Молоко','Сахар','Кофе','Корм Сипсику'];
+const FREQ=['Каждый день','2 раза в неделю','Раз в неделю','Раз в месяц'];
+
+/* dates */
+const pad=n=>String(n).padStart(2,'0');
+const ymd=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const today=()=>ymd(new Date());
+const pd=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
+const addDays=(s,n)=>{const d=pd(s);d.setDate(d.getDate()+n);return ymd(d)};
+const diff=(a,b)=>Math.round((pd(b)-pd(a))/864e5);
+const fmt=s=>{const d=pd(s);return d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()};
+const fmtShort=s=>{const d=pd(s);return d.getDate()+' '+MON[d.getMonth()]};
+function plural(n,f){n=Math.abs(n)%100;const a=n%10;if(n>10&&n<20)return f[2];if(a>1&&a<5)return f[1];if(a===1)return f[0];return f[2]}
+const DAYS=['день','дня','дней'];
+function nextOcc(full){const t=today();const y=pd(t).getFullYear();const md=full.slice(5);let c=y+'-'+md;if(c<t)c=(y+1)+'-'+md;return c}
+const inDays=d=>{const k=diff(today(),d);return k===0?'сегодня':k===1?'завтра':'через '+k+' '+plural(k,DAYS)};
+const esc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9);
+
+/* cat drawing: round fluffy ball */
+function rng(seed){return()=>{seed=(seed*16807)%2147483647;return seed/2147483647}}
+function fur(cx,cy,rx,ry,n,amp,seed){const r=rng(seed);const P=a=>[cx+Math.cos(a)*rx,cy+Math.sin(a)*ry];let d='';for(let i=0;i<n;i++){const a0=i/n*Math.PI*2,a1=(i+1)/n*Math.PI*2,am=(a0+a1)/2+(r()-.5)*0.04,k=1+amp*(0.5+r()*0.9);const[x0,y0]=P(a0),[x1,y1]=P(a1);if(!i)d+='M'+x0.toFixed(1)+' '+y0.toFixed(1);d+='Q'+(cx+Math.cos(am)*rx*k).toFixed(1)+' '+(cy+Math.sin(am)*ry*k).toFixed(1)+' '+x1.toFixed(1)+' '+y1.toFixed(1)}return d+'Z'}
+const FUR=fur(150,126,92,82,64,0.075,7);
+const STRANDS=(()=>{const r=rng(11);let d='';for(let i=0;i<30;i++){const a=r()*Math.PI*2,rr=0.3+r()*0.62;const x=150+Math.cos(a)*86*rr,y=152+Math.sin(a)*50*rr;const dx=Math.cos(a)*9,dy=Math.sin(a)*6+5;d+=`M${x.toFixed(1)} ${y.toFixed(1)}q${(dx/2).toFixed(1)} ${(dy/2+2).toFixed(1)} ${dx.toFixed(1)} ${dy.toFixed(1)}`}return d})();
+const FC='#15141f',CR='#f1e2c2',PU='#0b0a12',MO='#8e8aa8',W='#ffffff';
+const FACE={
+  happy:`<ellipse cx="110" cy="108" rx="9" ry="5" fill="#f8a878" opacity=".75"/><ellipse cx="190" cy="108" rx="9" ry="5" fill="#f8a878" opacity=".75"/>
+    <path d="M112 96q14-16 28 0M160 96q14-16 28 0" stroke="${CR}" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    <path d="M143 116q3.5 5 7 0q3.5 5 7 0" stroke="${MO}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
+  neutral:`<circle cx="126" cy="92" r="16" fill="${CR}"/><circle cx="174" cy="92" r="16" fill="${CR}"/>
+    <circle cx="126" cy="93" r="10" fill="${PU}"/><circle cx="174" cy="93" r="10" fill="${PU}"/>
+    <circle cx="130" cy="88.5" r="3" fill="${W}"/><circle cx="177.5" cy="89" r="2.6" fill="${W}"/>
+    <path d="M144 116q3 3 6 0q3 3 6 0" stroke="${MO}" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  tired:`<path d="M110 91a16 16 0 0 0 32 0zM158 91a16 16 0 0 0 32 0z" fill="${CR}"/>
+    <circle cx="126" cy="96" r="5" fill="${PU}"/><circle cx="174" cy="96" r="5" fill="${PU}"/>
+    <path d="M107 91h38M155 91h38" stroke="#3e3b58" stroke-width="3.5" stroke-linecap="round"/>
+    <ellipse cx="150" cy="119" rx="3.5" ry="2.8" fill="none" stroke="${MO}" stroke-width="2"/>
+    <text x="210" y="40" font-family="Montserrat,system-ui" font-weight="800" font-size="15" fill="#8b89a1">z</text><text x="222" y="26" font-family="Montserrat,system-ui" font-weight="800" font-size="11" fill="#8b89a1">z</text>`,
+  angry:`<circle cx="126" cy="94" r="14" fill="${CR}"/><circle cx="174" cy="94" r="14" fill="${CR}"/>
+    <circle cx="128" cy="95" r="8" fill="${PU}"/><circle cx="172" cy="95" r="8" fill="${PU}"/>
+    <path d="M106 70l28 10M194 70l-28 10" stroke="${CR}" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M141 121q9-8 18 0" stroke="${MO}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`,
+  tears:`<circle cx="126" cy="91" r="17" fill="${CR}"/><circle cx="174" cy="91" r="17" fill="${CR}"/>
+    <circle cx="126" cy="92" r="12" fill="${PU}"/><circle cx="174" cy="92" r="12" fill="${PU}"/>
+    <circle cx="130" cy="87" r="3.4" fill="${W}"/><circle cx="178" cy="87" r="3.4" fill="${W}"/>
+    <path d="M113 106q-6 10 0 13q6-3 0-13zM187 106q-6 10 0 13q6-3 0-13z" fill="#7cc7f2"/>
+    <path d="M141 121q9-7 18 0" stroke="${MO}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`
+};
+const TRUCK=`<g stroke="#1f1d38" stroke-width="2.5" stroke-linejoin="round"><rect x="150" y="92" width="102" height="64" rx="8" fill="#fff"/>
+    <path d="M150 134h102v9H150z" fill="#f8a878"/>
+    <path d="M252 106h24q13 0 16 15v35h-40z" fill="#f8a878"/>
+    <path d="M258 113h16q7 0 9 10h-25z" fill="#fff"/>
+    <circle cx="174" cy="160" r="10" fill="#1f1d38"/><circle cx="200" cy="160" r="10" fill="#1f1d38"/><circle cx="272" cy="160" r="10" fill="#1f1d38"/>
+    <circle cx="174" cy="160" r="3.5" fill="#fff" stroke="none"/><circle cx="200" cy="160" r="3.5" fill="#fff" stroke="none"/><circle cx="272" cy="160" r="3.5" fill="#fff" stroke="none"/></g>`;
+const ITEMG={
+  truck:`<g stroke="#1f1d38" stroke-width="3" stroke-linejoin="round">
+    <rect x="8" y="44" width="222" height="132" rx="10" fill="#ffffff"/>
+    <path d="M8 146h222v14H8z" fill="#f8a878"/>
+    <path d="M230 84h34q22 0 28 26v66h-62z" fill="#f8a878"/>
+    <path d="M240 94h24q12 0 16 18h-40z" fill="#ffffff"/>
+    <path d="M240 128h12" stroke-width="3"/>
+    <rect x="286" y="150" width="10" height="10" rx="2" fill="#f2c94c"/>
+    <rect x="8" y="176" width="288" height="8" fill="#1f1d38"/>
+    <circle cx="38" cy="188" r="15" fill="#1f1d38"/><circle cx="74" cy="188" r="15" fill="#1f1d38"/><circle cx="258" cy="188" r="15" fill="#1f1d38"/>
+    <circle cx="38" cy="188" r="5" fill="#fff" stroke="none"/><circle cx="74" cy="188" r="5" fill="#fff" stroke="none"/><circle cx="258" cy="188" r="5" fill="#fff" stroke="none"/></g>`,
+  mouse:`<g><path d="M44 200q-14 4-20-8" stroke="#1f1d38" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <ellipse cx="60" cy="198" rx="17" ry="10" fill="#c9c7d6" stroke="#1f1d38" stroke-width="2.5"/><circle cx="70" cy="187" r="6.5" fill="#c9c7d6" stroke="#1f1d38" stroke-width="2.5"/><circle cx="70" cy="187" r="2.6" fill="#f8a878"/>
+    <circle cx="72" cy="196" r="2" fill="#1f1d38"/><circle cx="77.5" cy="200" r="2.2" fill="#f8a878"/></g>`,
+  panama:`<g stroke="#1f1d38" stroke-width="2.5" stroke-linejoin="round"><ellipse cx="150" cy="54" rx="64" ry="12" fill="#f8a878"/>
+    <path d="M113 54Q115 16 150 14Q185 16 187 54Z" fill="#fde5d4"/>
+    <path d="M114 41Q150 49 186 41L187 52Q150 58 113 52Z" fill="#1f1d38"/><text x="150" y="53.5" text-anchor="middle" font-family="Montserrat,system-ui" font-weight="800" font-size="9.5" letter-spacing=".3" fill="#ffffff" stroke="none">abibas</text></g>`,
+  chain:`<g><path d="M102 122Q150 152 198 122" stroke="#e5b52f" stroke-width="6.5" fill="none" stroke-dasharray="5 3" stroke-linecap="round"/>
+    <circle cx="150" cy="139" r="9" fill="#f2c94c" stroke="#a87c0e" stroke-width="2"/><path d="M147 135h6l-6 8h6" stroke="#a87c0e" stroke-width="1.6" fill="none"/></g>`,
+  bag:`<g stroke="#1f1d38" stroke-width="2.5" stroke-linejoin="round"><path d="M98 104L196 182" stroke="#8a5a2e" stroke-width="4.5" stroke-linecap="round"/>
+    <rect x="186" y="174" width="38" height="27" rx="7" fill="#8a5a2e"/>
+    <path d="M186 183h38" fill="none"/><circle cx="205" cy="183" r="3" fill="#f2c94c"/></g>`,
+  cig:`<g><path d="M157 119L186 126" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+    <path d="M157 119l7 1.8" stroke="#f8a878" stroke-width="6"/>
+    <path d="M186 126l5 1.3" stroke="#e5662f" stroke-width="6" stroke-linecap="round"/>
+    <path d="M195 119q6-8 0-14q-6-6 2-14" stroke="#8b89a1" stroke-width="2.2" fill="none" stroke-linecap="round"/></g>`
+};
+const ITEMVB={panama:'82 8 136 60',chain:'96 116 108 36',cig:'152 90 52 42',bag:'182 168 48 38',mouse:'20 178 64 32',truck:'0 40 300 166'};
+const EARS=`<path d="M100 74L109 34L137 56ZM200 74L191 34L163 56Z" fill="${FC}" stroke="${FC}" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M110 62L113 44L128 56ZM190 62L187 44L172 56Z" fill="#2e2b44"/>`;
+const NOSE=`<path d="M145 106h10l-5 5.5z" fill="#4a4766"/>`;
+function catInner(mood,w){
+  return `${w.truck?ITEMG.truck:''}<ellipse cx="150" cy="209" rx="96" ry="6" fill="#1f1d38" opacity=".1"/>
+  <g class="catbody">
+    ${EARS}
+    <path d="${FUR}" fill="${FC}"/>
+    <path d="${STRANDS}" stroke="#2a283d" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M116 128Q150 146 184 128" stroke="#23213a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="128" cy="204" rx="17" ry="7" fill="${FC}"/><ellipse cx="172" cy="204" rx="17" ry="7" fill="${FC}"/>
+    ${w.panama?ITEMG.panama:''}
+    ${FACE[mood]||FACE.happy}${NOSE}
+    <path d="M120 108L58 99M120 112L60 114M180 108L242 99M180 112L240 114" stroke="#9b98ad" stroke-width="1.3" stroke-linecap="round"/>
+    ${w.chain?ITEMG.chain:''}${w.bag?ITEMG.bag:''}${w.cig?ITEMG.cig:''}
+  </g>${w.mouse?ITEMG.mouse:''}`;
+}
+const catSVG=(mood,w)=>`<svg viewBox="0 0 300 215" role="img" aria-label="Пушистый чёрный котик Сипсик">${catInner(mood,w)}</svg>`;
+function faceSVG(mood){return `<svg viewBox="90 16 120 120" aria-hidden="true">${EARS}<path d="${FUR}" fill="${FC}"/>${FACE[mood]||FACE.neutral}${NOSE}</svg>`}
+const itemSVG=id=>`<svg viewBox="${ITEMVB[id]}" aria-hidden="true">${ITEMG[id]}</svg>`;
+const moodName=id=>(MOODS.find(m=>m.id===id)||{n:'—'}).n.toLowerCase();
+const CHECK=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>`;
+
+/* ---------- state ---------- */
+let S = null;
+const TABS = ['us','wish','home','cal','go'];
+let tab = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'us';
+const ui = { view:'loading', onb:'start', err:'', home:'shop', who:'me', calM:null, sel:today(),
+  wishForm:false, draftPhoto:'', spin:null, spinning:false, leaveArm:false, busy:false };
+let pendingTaps = 0, tapTimer = null, tapInFlight = false;
+
+/* ---------- server ---------- */
+async function api(action, payload, opts) {
+  const r = await fetch(API_URL, {
+    method:'POST', keepalive: !!(opts && opts.keepalive),
+    headers:{'content-type':'application/json','x-init-data':tg.initData},
+    body: JSON.stringify(Object.assign({action, day: today()}, payload || {}))
+  });
+  let data = null;
+  try { data = await r.json(); } catch (_) {}
+  if (!data) throw new Error('Сервер не ответил. Проверь интернет и попробуй ещё раз');
+  if (!r.ok || data.error) throw new Error(data.error || 'Ошибка сервера');
+  return data;
+}
+async function act(action, payload, okMsg) {
+  if (ui.busy) return false;
+  ui.busy = true; document.body.classList.add('busy');
+  try {
+    const st = await api(action, payload);
+    S = st; render();
+    if (okMsg) toast(okMsg);
+    return true;
+  } catch (e) { toast(e.message); haptic('error'); return false; }
+  finally { ui.busy = false; document.body.classList.remove('busy'); }
+}
+async function refresh() {
+  if (ui.view !== 'app' || ui.busy || pendingTaps || tapInFlight) return;
+  try {
+    const st = await api('state');
+    if (ui.busy || pendingTaps || tapInFlight) return;
+    const typing = document.activeElement && /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
+    S = st;
+    if (!typing && !document.querySelector('.scrim') && !ui.spinning) render();
+  } catch (_) {}
+}
+
+/* ---------- taps ---------- */
+function queueTap() {
+  pendingTaps++; S.couple.clicks++;
+  clearTimeout(tapTimer);
+  tapTimer = setTimeout(flushTaps, pendingTaps >= 250 ? 0 : 900);
+}
+async function flushTaps(keepalive) {
+  if (!pendingTaps || tapInFlight) return;
+  const n = Math.min(pendingTaps, 300); pendingTaps -= n; tapInFlight = true;
+  try {
+    const res = await api('tap', {n}, {keepalive});
+    S.couple.clicks = res.clicks + pendingTaps;
+    S.couple.worn = res.worn;
+    if (res.unlocked && res.unlocked.length) {
+      haptic('heavy');
+      if (tab === 'us') render();
+      toast(S.couple.pet_name + ' получил: ' + res.unlocked.map(id => ITEMS.find(i => i.id === id).n).join(', ') + '!');
+    } else updateTapUI();
+  } catch (e) {
+    S.couple.clicks -= n; updateTapUI(); toast(e.message);
+  } finally {
+    tapInFlight = false;
+    if (pendingTaps) tapTimer = setTimeout(flushTaps, 300);
+  }
+}
+function updateTapUI() {
+  const t = document.getElementById('tapN'); if (!t) return;
+  t.textContent = S.couple.clicks.toLocaleString('ru-RU');
+  document.getElementById('tapW').textContent = plural(S.couple.clicks, ['тап','тапа','тапов']);
+  const nw = document.getElementById('nextWrap'); if (nw) nw.outerHTML = nextBlock();
+}
+
+/* ---------- names ---------- */
+const meName = () => S.me.name;
+const pName = () => S.partner ? S.partner.name : 'Партнёр';
+const pet = () => S.couple.pet_name || 'Сипсик';
+
+/* ---------- views: each returns [band, body] ---------- */
+function vLoading() {
+  return [`<div class="stage">${catSVG('neutral', {})}</div>`, `<p class="empty">Загружаем вашего котика…</p>`];
+}
+function vNoTelegram() {
+  return [`<div class="stage">${catSVG('tired', {})}</div><h1>Открой меня в Telegram</h1>`,
+    `<section class="card"><p>Сипсик Love работает внутри Telegram. Найди бота${BOT_USERNAME ? ' <b>@' + esc(BOT_USERNAME) + '</b>' : ''} и нажми «Открыть Сипсик Love».</p></section>`];
+}
+function vError() {
+  return [`<div class="stage">${catSVG('tears', {})}</div><h1>Что-то пошло не так</h1>`,
+    `<section class="card stack"><p>${esc(ui.err)}</p><button class="btn navy" data-act="retry">Попробовать снова</button></section>`];
+}
+function vOnboard() {
+  const name = S.me.name;
+  if (ui.onb === 'create') {
+    return [`<div class="stage">${catSVG('happy', {})}</div><h1>Новая пара</h1>`,
+    `<section class="card form">
+      <label class="lbl">Как тебя зовут<input type="text" id="oName" value="${esc(name)}" maxlength="30"></label>
+      <label class="lbl">Когда вы вместе<input type="date" id="oStart" max="${today()}"></label>
+      <label class="lbl">Имя котика<input type="text" id="oPet" value="Сипсик" maxlength="30"></label>
+      <button class="btn navy" data-act="onbCreate">Создать пару</button>
+      <button class="btn" data-act="onb" data-id="start">Назад</button>
+    </section>`];
+  }
+  if (ui.onb === 'join') {
+    return [`<div class="stage">${catSVG('neutral', {})}</div><h1>По приглашению</h1>`,
+    `<section class="card form">
+      <p class="small muted">Проще всего перейти по ссылке, которую прислал партнёр. Если есть только код из шести символов, введи его здесь.</p>
+      <input type="text" id="oCode" placeholder="Например, K7F2QX" maxlength="12" autocapitalize="characters" autocomplete="off">
+      <button class="btn navy" data-act="onbJoin">Присоединиться</button>
+      <button class="btn" data-act="onb" data-id="start">Назад</button>
+    </section>`];
+  }
+  return [`<div class="stage">${catSVG('happy', {})}</div><h1>Привет, ${esc(name)}!</h1>`,
+  `<section class="card stack">
+    <p>Сипсик Love — пространство для вас двоих: общий котик, который собирает вещи за тапы, вишлист с фото, календарь с днями рождения, покупки, дела и записки-сюрпризы.</p>
+    <button class="btn navy" data-act="onb" data-id="create">Создать пару</button>
+    <button class="btn" data-act="onb" data-id="join">У меня есть приглашение</button>
+  </section>`];
+}
+
+function inviteCard() {
+  const c = S.couple; if (S.partner || !c.invite_link) return '';
+  return `<section class="card invite">
+    <h2>Пригласи свою половинку</h2>
+    <p class="small" style="opacity:.8;margin-top:4px">Отправь ссылку. Как только партнёр откроет её, у вас будет общий котик и все списки.</p>
+    <div class="code"><span>${esc(c.invite_link)}</span></div>
+    <div class="two"><button class="btn peach" data-act="share">Отправить</button><button class="btn ghostw" data-act="copy">Скопировать</button></div>
+  </section>`;
+}
+
+function vUs() {
+  const t = today(), c = S.couple, days = diff(c.start_date, t);
+  const st = pd(c.start_date); let n = pd(t).getFullYear() - st.getFullYear();
+  let ann = ymd(new Date(st.getFullYear() + n, st.getMonth(), st.getDate()));
+  if (ann < t) { n++; ann = ymd(new Date(st.getFullYear() + n, st.getMonth(), st.getDate())); }
+  const inA = diff(t, ann);
+  const m = S.moods.me;
+  const plans = S.plans.filter(p => p.day >= t).sort((a, b) => (a.day + (a.time || '')).localeCompare(b.day + (b.time || ''))).slice(0, 2);
+  const bd = S.birthdays.map(b => ({b, d: nextOcc(b.bdate)})).sort((a, b) => a.d.localeCompare(b.d))[0];
+  const band = `
+    <button class="stage" id="cat" data-act="pet" aria-label="Погладить котика">${catSVG(m || 'happy', c.worn)}</button>
+    <div class="namepill">${esc(pet())} <b id="tapN">${c.clicks.toLocaleString('ru-RU')}</b><span id="tapW" class="small">${plural(c.clicks, ['тап','тапа','тапов'])}</span></div>`;
+  const body = `
+  ${inviteCard()}
+  <div class="stats">
+    <div class="stat hl"><b>${Math.max(0, days).toLocaleString('ru-RU')}</b><span>${plural(days, DAYS)} вместе</span></div>
+    <div class="stat"><b>${st.getDate()} ${MON[st.getMonth()].slice(0, 3)}</b><span>с ${st.getFullYear()} года</span></div>
+    <div class="stat"><b>${inA === 0 ? 'Сегодня' : inA}</b><span>${inA === 0 ? n + '-я годовщина' : plural(inA, DAYS) + ' до ' + n + '-й годовщины'}</span></div>
+  </div>
+
+  <section class="card">
+    <p class="small muted" style="margin-bottom:10px">Тапайте по котику вдвоём, тапы общие</p>
+    ${nextBlock()}
+    <div class="items">${ITEMS.map(it => {
+      if (c.clicks >= it.at) { const on = !!c.worn[it.id]; return `<button class="item ${on ? 'on' : ''}" data-act="wear" data-id="${it.id}" aria-pressed="${on}">${itemSVG(it.id)}<b>${it.n}</b><span>${on ? 'Надето' : 'Снято'}</span></button>`; }
+      return `<div class="item locked">${itemSVG(it.id)}<b>${it.n}</b><span>${it.at.toLocaleString('ru-RU')} тапов</span></div>`;
+    }).join('')}</div>
+  </section>
+
+  <section class="card">
+    <h2>Какой ты сегодня?</h2>
+    <div class="moods">${MOODS.map(x => `<button class="mood" data-act="mood" data-id="${x.id}" aria-pressed="${m === x.id}"><span class="face">${faceSVG(x.id)}</span>${x.n}</button>`).join('')}</div>
+    ${S.partner ? `<div class="partner"><span class="face">${faceSVG(S.moods.partner || 'neutral')}</span><span>${esc(pName())} сегодня: <b>${S.moods.partner ? moodName(S.moods.partner) : 'ещё не отметил(а)'}</b></span></div>` : ''}
+  </section>
+
+  <section class="card dark">
+    <div class="row between"><h2>Не забудь</h2><button class="linkbtn" style="color:var(--peach)" data-act="tab" data-id="cal">Календарь ›</button></div>
+    <div class="soon">
+      ${plans.map((p, i) => `<div class="prow ${i === 0 ? 'fill' : 'onnavy'}"><span class="t">${esc(p.title)}</span><span class="r">${inDays(p.day)}${p.time ? ', ' + p.time : ''}</span></div>`).join('')}
+      ${bd ? `<div class="prow onnavy"><span class="t">ДР: ${esc(bd.b.name)}</span><span class="r">${inDays(bd.d)}</span></div>` : ''}
+      ${!plans.length && !bd ? '<p class="small" style="opacity:.7">Пока ничего. Добавь планы в календаре.</p>' : ''}
+    </div>
+  </section>
+
+  ${S.notes.received.length ? `<section class="card">
+    <h2>Записки от ${esc(pName())}</h2>
+    <ul class="list notes">${S.notes.received.map(nt => {const d = new Date(nt.delivered_at); return `<li class="li"><div class="grow"><div>${esc(nt.body)}</div><div class="sub" style="margin-top:4px">${d.getDate()} ${MON[d.getMonth()]}, ${pad(d.getHours())}:${pad(d.getMinutes())}</div></div></li>`;}).join('')}</ul>
+  </section>` : ''}
+
+  <section class="card">
+    <h2>Записка для ${esc(pName())}</h2>
+    <p class="muted small" style="margin-top:4px">Придёт в случайный момент в течение недели. Точное время не узнает никто, даже ты.</p>
+    <div class="form" style="margin-top:10px">
+      <textarea id="noteText" rows="3" placeholder="Напиши что-нибудь тёплое" maxlength="2000"></textarea>
+      <button class="btn navy" data-act="note">Отправить наугад</button>
+    </div>
+    ${S.notes.sent.length ? `<ul class="list notes">${S.notes.sent.map(nt => {
+      const lbl = nt.delivered_at ? `<span class="st ok">Доставлена ${fmtDT(nt.delivered_at)}</span>`
+        : `<span class="st wait">В пути · придёт до ${fmtShort(ymd(new Date(new Date(nt.created_at).getTime() + 7 * 864e5)))}</span>`;
+      return `<li class="li"><div class="grow"><div>${esc(nt.body)}</div><div style="margin-top:5px">${lbl}</div></div>${nt.delivered_at ? '' : `<button class="x" data-act="delnote" data-id="${nt.id}" aria-label="Отменить записку">×</button>`}</li>`;
+    }).join('')}</ul>` : ''}
+  </section>`;
+  return [band, body];
+}
+function fmtDT(iso) { const d = new Date(iso); return d.getDate() + ' ' + MON[d.getMonth()] + ', ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+function nextBlock() {
+  const clicks = S.couple.clicks;
+  const nx = ITEMS.find(i => clicks < i.at);
+  const prev = [...ITEMS].reverse().find(i => clicks >= i.at);
+  const base = prev ? prev.at : 0, pct = nx ? Math.min(100, (clicks - base) / (nx.at - base) * 100) : 100, left = nx ? nx.at - clicks : 0;
+  return `<div id="nextWrap"><div class="nextline"><span>${nx ? 'Следующая вещь: ' + nx.n : pet() + ' собрал всё'}</span><span class="muted">${nx ? 'ещё ' + left.toLocaleString('ru-RU') : ''}</span></div><div class="bar"><i style="width:${pct}%"></i></div></div>`;
+}
+
+function vWish() {
+  const mine = ui.who === 'me';
+  const list = S.wishes.filter(w => w.owner === (mine ? 'me' : 'partner')).sort((a, b) => a.done - b.done);
+  const band = `<h1>Наш вишлист</h1>
+    <div class="pills" role="group" aria-label="Чей список"><button class="pill" data-act="who" data-id="me" aria-pressed="${mine}">Хочу я</button><button class="pill" data-act="who" data-id="partner" aria-pressed="${!mine}">Хочет ${esc(pName())}</button></div>`;
+  if (!mine && !S.partner) return [band, `${inviteCard()}<div class="empty">Когда партнёр присоединится, здесь появятся его желания.</div>`];
+  const body = `
+  <div class="lockline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    ${mine ? 'Кто готовит тебе подарок, ты не увидишь' : 'Отметь, что даришь ты. ' + esc(pName()) + ' этого не увидит'}</div>
+  ${ui.wishForm ? `<section class="card form">
+      <h2>Новое желание ${mine ? 'для меня' : 'для ' + esc(pName())}</h2>
+      <label class="photopick"><input type="file" accept="image/*" id="wPhoto"><span class="thumb">${ui.draftPhoto ? `<img src="${ui.draftPhoto}" alt="">` : '+'}</span><span><b>${ui.draftPhoto ? 'Фото добавлено' : 'Добавить фото'}</b><span>${ui.draftPhoto ? 'Нажми, чтобы заменить' : 'Скриншот из магазина или фото вещи'}</span></span></label>
+      <input type="text" id="wT" placeholder="Что хочется" maxlength="120">
+      <div class="two"><input type="text" id="wP" placeholder="Цена" maxlength="40"><input type="url" id="wL" placeholder="Ссылка" maxlength="500"></div>
+      <input type="text" id="wN" placeholder="Размер, цвет, где купить" maxlength="300">
+      <div class="two"><button class="btn" data-act="wishcancel">Отмена</button><button class="btn navy" data-act="wishadd">Добавить</button></div>
+    </section>` : `<button class="btn peach block" data-act="wishform">+ Добавить желание</button>`}
+  ${list.length ? `<div class="wgrid">${list.map(w => `
+    <article class="wish ${w.done ? 'got' : ''} ${!mine && w.reserved_by_me && !w.done ? 'res' : ''}">
+      <label class="photo" aria-label="${w.photo_url ? 'Заменить фото' : 'Добавить фото'}">
+        ${w.photo_url ? `<img src="${esc(w.photo_url)}" alt="${esc(w.title)}" loading="lazy">` : `<span class="ph"><span class="face">${faceSVG('neutral')}</span>+ фото</span>`}
+        <input type="file" accept="image/*" class="photoIn" data-id="${w.id}">
+        ${w.done ? '<span class="badge">Сбылось</span>' : !mine && w.reserved_by_me ? '<span class="badge">Дарю я</span>' : ''}
+      </label>
+      <div class="wbody">
+        <div class="t">${esc(w.title)}</div>
+        ${w.note ? `<div class="note">${esc(w.note)}</div>` : ''}
+        ${w.price ? `<span class="price">${esc(w.price)}</span>` : ''}
+        ${w.link ? `<a class="ext" href="${esc(safeUrl(w.link))}" data-act="link" data-id="${esc(safeUrl(w.link))}">Открыть ссылку ›</a>` : ''}
+        <div class="wacts">
+          ${w.done ? '' : `${mine ? '' : `<button class="mini ${w.reserved_by_me ? '' : 'peach'}" data-act="wishres" data-id="${w.id}">${w.reserved_by_me ? 'Не дарю' : 'Я подарю'}</button>`}<button class="mini navy" data-act="wishgot" data-id="${w.id}">Сбылось</button>`}
+          ${ui.delArm === w.id ? `<button class="mini" style="border-color:var(--peach-ink);color:var(--peach-ink)" data-act="wishdel" data-id="${w.id}">Точно удалить?</button>` : `<button class="mini" data-act="wishdelarm" data-id="${w.id}" aria-label="Удалить желание">×</button>`}
+        </div>
+      </div>
+    </article>`).join('')}</div>` : `<div class="empty">${mine ? 'Список пока пуст' : esc(pName()) + ' пока ничего не загадал(а)'}. Добавь первое желание.</div>`}`;
+  return [band, body];
+}
+function safeUrl(u) { u = String(u).trim(); if (!/^https?:\/\//i.test(u)) u = 'https://' + u; return u; }
+
+function vHome() {
+  const shop = ui.home === 'shop';
+  const band = `<h1>Дом</h1><div class="pills" role="group" aria-label="Раздел"><button class="pill" data-act="homeseg" data-id="shop" aria-pressed="${shop}">Покупки</button><button class="pill" data-act="homeseg" data-id="chores" aria-pressed="${!shop}">Обязанности</button></div>`;
+  let body;
+  if (shop) {
+    const left = S.shop.filter(x => !x.done).length;
+    body = `<div class="addrow"><input type="text" id="shopIn" placeholder="Что купить" maxlength="80"><button class="btn navy" data-act="shopadd">Добавить</button></div>
+      <div class="chips">${QUICK.map(q => `<button class="chip" data-act="quick" data-id="${esc(q)}">+ ${q}</button>`).join('')}</div>
+      <section class="card">
+      <div class="row between"><h2>Список</h2><span class="small muted">осталось ${left}</span></div>
+      ${S.shop.length ? `<ul class="list" style="margin-top:6px">${S.shop.slice().sort((a, b) => a.done - b.done).map(x => `
+        <li class="li ${x.done ? 'done' : ''}"><button class="check" data-act="shoptoggle" data-id="${x.id}" aria-pressed="${x.done}" aria-label="Куплено">${CHECK}</button><div class="grow"><span class="t">${esc(x.title)}</span></div><button class="x" data-act="shopdel" data-id="${x.id}" aria-label="Удалить">×</button></li>`).join('')}</ul>`
+      : '<div class="empty">Список пуст. Добавь, что нужно купить.</div>'}
+      ${S.shop.some(x => x.done) ? `<button class="linkbtn" data-act="shopclear">Убрать купленное</button>` : ''}
+      </section>`;
+  } else {
+    const t = today(), cm = S.chores.filter(c => c.who === 'me').length, cp = S.chores.length - cm;
+    body = `<div class="split"><div><span>${esc(meName())}</span><b>${cm}</b><span>${plural(cm, ['дело','дела','дел'])}</span></div><div><span>${esc(pName())}</span><b>${cp}</b><span>${plural(cp, ['дело','дела','дел'])}</span></div></div>
+      <section class="card">
+      <div class="row between"><h2>Дела</h2>${S.partner ? '<button class="linkbtn" data-act="choresplit">Поделить поровну</button>' : ''}</div>
+      ${S.chores.length ? `<ul class="list">${S.chores.map(c => {const done = c.done_on === t; return `
+        <li class="li ${done ? 'done' : ''}"><button class="check" data-act="choretoggle" data-id="${c.id}" aria-pressed="${done}" aria-label="Сделано сегодня">${CHECK}</button>
+        <div class="grow"><span class="t">${esc(c.title)}</span><div class="sub">${esc(c.freq || '')}</div></div>
+        <button class="who ${c.who === 'me' ? 'me' : 'p'}" data-act="choreswap" data-id="${c.id}" ${S.partner ? '' : 'disabled'} aria-label="Поменять, кто делает">${esc(c.who === 'me' ? meName() : pName())}</button>
+        <button class="x" data-act="choredel" data-id="${c.id}" aria-label="Удалить">×</button></li>`;}).join('')}</ul>` : '<div class="empty">Дел пока нет</div>'}
+      </section>
+      <section class="card form">
+        <h2>Новое дело</h2>
+        <input type="text" id="chT" placeholder="Например, полить цветы" maxlength="80">
+        <div class="two"><select id="chW" aria-label="Кто делает"><option value="me">${esc(meName())}</option>${S.partner ? `<option value="partner">${esc(pName())}</option>` : ''}</select>
+        <select id="chF" aria-label="Как часто">${FREQ.map(f => `<option>${f}</option>`).join('')}</select></div>
+        <button class="btn navy" data-act="choreadd">Добавить дело</button>
+        <p class="muted small">Галочки сбрасываются каждый день. Нажми на имя, чтобы передать дело.</p>
+      </section>`;
+  }
+  return [band, body];
+}
+
+function vCal() {
+  const t = today(); if (!ui.calM) ui.calM = t.slice(0, 7);
+  const [Y, M] = ui.calM.split('-').map(Number);
+  const first = new Date(Y, M - 1, 1), off = (first.getDay() + 6) % 7, start = new Date(Y, M - 1, 1 - off);
+  let cells = '';
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(start); d.setDate(start.getDate() + i); const k = ymd(d);
+    if (i >= 35 && d.getMonth() !== M - 1) break;
+    const hasP = S.plans.some(p => p.day === k), hasB = S.birthdays.some(b => b.bdate.slice(5) === k.slice(5));
+    cells += `<button class="day ${d.getMonth() !== M - 1 ? 'out' : ''} ${k === t ? 'today' : ''} ${hasP ? 'plan' : ''} ${hasB ? 'bd' : ''}" data-act="sel" data-id="${k}" aria-pressed="${k === ui.sel}" aria-label="${fmt(k)}">${d.getDate()}</button>`;
+  }
+  const sel = ui.sel, sd = pd(sel);
+  const plans = S.plans.filter(p => p.day === sel).sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+  const bds = S.birthdays.filter(b => b.bdate.slice(5) === sel.slice(5));
+  const allB = S.birthdays.map(b => ({b, d: nextOcc(b.bdate)})).sort((a, b) => a.d.localeCompare(b.d));
+  const body = `
+  <section class="card">
+    <div class="calhead"><button class="iconbtn" data-act="mon" data-id="-1" aria-label="Предыдущий месяц">‹</button><b>${MONN[M - 1]} ${Y}</b><button class="iconbtn" data-act="mon" data-id="1" aria-label="Следующий месяц">›</button></div>
+    <div class="grid7">${['пн','вт','ср','чт','пт','сб','вс'].map(w => `<div class="wd">${w}</div>`).join('')}${cells}</div>
+    <div class="legend"><span><i style="background:var(--peach)"></i>План</span><span><i style="background:var(--navy)"></i>День рождения</span></div>
+  </section>
+  <section class="card">
+    <h2>${WD[sd.getDay()]}, ${sd.getDate()} ${MON[sd.getMonth()]}</h2>
+    <div class="soon">
+      ${bds.map(b => `<div class="prow navyrow"><span class="t">День рождения: ${esc(b.name)}</span><span class="r">${sd.getFullYear() - pd(b.bdate).getFullYear()} лет</span></div>`).join('')}
+      ${plans.map(p => `<div class="prow fill"><span class="t">${esc(p.title)}</span><span class="row" style="gap:4px"><span class="r">${p.time || ''}</span><button class="x" style="color:var(--navy)" data-act="plandel" data-id="${p.id}" aria-label="Удалить план">×</button></span></div>`).join('')}
+      ${!bds.length && !plans.length ? '<p class="empty" style="padding:8px">На этот день ничего нет</p>' : ''}
+    </div>
+    <div class="form" style="margin-top:12px">
+      <input type="text" id="plT" placeholder="Что планируем" maxlength="100">
+      <div class="two"><input type="time" id="plTime" aria-label="Время"><button class="btn navy" data-act="planadd">Добавить</button></div>
+    </div>
+  </section>
+  <section class="card">
+    <h2>Дни рождения</h2>
+    <p class="small muted" style="margin-top:2px">Бот напомнит вам обоим за 3 дня и в сам день</p>
+    <ul class="list" style="margin-top:6px">${allB.length ? allB.map(({b, d}) => `
+      <li class="li"><span class="bdico">${pd(d).getDate()}</span><div class="grow"><span class="t" style="font-weight:700">${esc(b.name)}</span>
+      <div class="sub">${fmtShort(d)} · ${inDays(d)}, исполнится ${pd(d).getFullYear() - pd(b.bdate).getFullYear()}</div></div>
+      <button class="x" data-act="bddel" data-id="${b.id}" aria-label="Удалить">×</button></li>`).join('') : '<li class="empty">Добавь близких, и бот напомнит заранее</li>'}</ul>
+    <div class="form" style="margin-top:10px">
+      <input type="text" id="bdN" placeholder="Имя" maxlength="60">
+      <div class="two"><input type="date" id="bdD" aria-label="Дата рождения" max="${today()}"><button class="btn navy" data-act="bdadd">Добавить</button></div>
+    </div>
+  </section>`;
+  return [`<h1>Календарь</h1>`, body];
+}
+
+function vGo() {
+  const r = ui.spin;
+  const band = `<h1>Куда идём сегодня?</h1>
+    <div class="slot ${r && !ui.spinning ? 'hit' : ''} ${ui.spinning ? 'spinning' : ''}"><b id="slotTxt">${r ? esc(r) : 'Доверимся жребию'}</b></div>
+    <div class="rouacts">
+      <button class="btn peach" data-act="spin" ${S.places.length < 2 || ui.spinning ? 'disabled' : ''}>${r ? 'Ещё раз' : 'Крутить'}</button>
+      <button class="btn ghost" data-act="goplan" ${!r || ui.spinning ? 'disabled' : ''}>Идём сегодня</button>
+    </div>`;
+  const body = `
+  <div class="addrow"><input type="text" id="plIn" placeholder="Кафе, парк, кино" maxlength="80"><button class="btn navy" data-act="placeadd">Добавить</button></div>
+  <section class="card">
+    <div class="row between"><h2>Наши места</h2><span class="small muted">${S.places.length} ${plural(S.places.length, ['место','места','мест'])}</span></div>
+    <ul class="list" style="margin-top:6px">${S.places.map(p => `<li class="li"><div class="grow"><span class="t" style="font-weight:600">${esc(p.title)}</span></div><button class="x" data-act="placedel" data-id="${p.id}" aria-label="Удалить">×</button></li>`).join('') || '<li class="empty">Добавь хотя бы два места</li>'}</ul>
+  </section>`;
+  return [band, body];
+}
+
+/* ---------- render ---------- */
+const NAV = [
+  {id:'us', n:'Мы', i:'<path d="M5 10L4 3l5 3.2Q12 5 15 6.2L20 3l-1 7q2 3 0 6.5Q16 20 12 20t-7-3.5Q3 13 5 10Z"/>'},
+  {id:'wish', n:'Вишлист', i:'<rect x="3" y="8" width="18" height="5" rx="1"/><path d="M5 13v8h14v-8M12 8v13M12 8C9 8 7 4 9.5 4S12 6 12 8c0-2 0-4 2.5-4S15 8 12 8"/>'},
+  {id:'home', n:'Дом', i:'<path d="M3 11l9-7 9 7v9h-6v-6h-6v6H3z"/>'},
+  {id:'cal', n:'Календарь', i:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>'},
+  {id:'go', n:'Куда идём', i:'<path d="M12 21s-7-6.3-7-12a7 7 0 0 1 14 0c0 5.7-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/>'}];
+function render() {
+  let parts, inApp = false;
+  if (ui.view === 'loading') parts = vLoading();
+  else if (ui.view === 'notg') parts = vNoTelegram();
+  else if (ui.view === 'error') parts = vError();
+  else if (!S.couple) parts = vOnboard();
+  else { inApp = true; parts = {us:vUs, wish:vWish, home:vHome, cal:vCal, go:vGo}[tab](); }
+  document.getElementById('bandSlot').innerHTML = parts[0];
+  document.getElementById('view').innerHTML = parts[1];
+  document.getElementById('brandFace').innerHTML = faceSVG((S && S.moods && S.moods.me) || 'happy');
+  document.querySelector('[data-act="settings"]').hidden = !inApp;
+  const nav = document.querySelector('.nav'); nav.hidden = !inApp;
+  document.querySelector('.app').classList.toggle('nonav', !inApp);
+  if (inApp) document.getElementById('nav').innerHTML = NAV.map(n => `<button data-act="tab" data-id="${n.id}" ${tab === n.id ? 'aria-current="page"' : ''}><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${n.i}</svg></span>${n.n}</button>`).join('');
+}
+
+/* ---------- helpers ---------- */
+let toastT;
+function toast(msg) { document.querySelectorAll('.toast').forEach(e => e.remove()); const d = document.createElement('div'); d.className = 'toast'; d.setAttribute('role', 'status'); d.textContent = msg; document.body.appendChild(d); clearTimeout(toastT); toastT = setTimeout(() => d.remove(), 2800); }
+function haptic(k) { try { if (!tg || !tg.HapticFeedback) return; if (k === 'error' || k === 'success') tg.HapticFeedback.notificationOccurred(k); else tg.HapticFeedback.impactOccurred(k || 'light'); } catch (e) {} }
+const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
+function readPhoto(file) { return new Promise((res, rej) => {
+  const fr = new FileReader(); fr.onerror = rej; fr.onload = () => { const img = new Image(); img.onerror = rej; img.onload = () => {
+    const m = 900, k = Math.min(1, m / Math.max(img.width, img.height)), c = document.createElement('canvas');
+    c.width = Math.round(img.width * k); c.height = Math.round(img.height * k); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    res(c.toDataURL('image/jpeg', .8)); }; img.src = fr.result; }; fr.readAsDataURL(file); }); }
+function askWrite() { try { tg.requestWriteAccess && tg.requestWriteAccess(); } catch (e) {} }
+function shareInvite() {
+  const link = S.couple.invite_link; if (!link) return;
+  const url = 'https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent('Присоединяйся ко мне в Сипсик Love: у нас будет общий котик, вишлист и календарь');
+  try { tg.openTelegramLink(url); } catch (e) { copyText(link); }
+}
+async function copyText(t) {
+  try { await navigator.clipboard.writeText(t); toast('Скопировано'); }
+  catch (e) { const s = document.querySelector('.invite .code span'); if (s) { const r = document.createRange(); r.selectNodeContents(s); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); } toast('Выдели ссылку и скопируй'); }
+}
+
+function openSettings() {
+  const c = S.couple;
+  const sc = document.createElement('div'); sc.className = 'scrim'; sc.innerHTML = `<div class="sheet" role="dialog" aria-label="Настройки пары">
+    <h2>Настройки пары</h2>
+    <label>Твоё имя<input type="text" id="sMe" value="${esc(meName())}" maxlength="30"></label>
+    <label>Имя котика<input type="text" id="sPet" value="${esc(pet())}" maxlength="30"></label>
+    <label>Начало отношений<input type="date" id="sStart" value="${c.start_date}" max="${today()}"></label>
+    <div class="form"><button class="btn navy" data-act="ssave">Сохранить</button><button class="btn" data-act="sclose">Закрыть</button></div>
+    ${c.invite_link ? `<p class="small muted">Код приглашения: <b>${esc(c.invite_code)}</b></p><button class="btn peach" data-act="share">Пригласить партнёра</button>` : `<p class="small muted">Вы в паре: ${esc(meName())} и ${esc(pName())}</p>`}
+    <button class="linkbtn" data-act="leave">${ui.leaveArm ? 'Точно выйти? Твои желания удалятся. Нажми ещё раз' : 'Выйти из пары'}</button></div>`;
+  sc.addEventListener('click', e => { if (e.target === sc) sc.remove(); });
+  document.body.appendChild(sc);
+}
+
+function petCat(btn) {
+  queueTap(); haptic('light');
+  btn.classList.remove('boop'); void btn.offsetWidth; btn.classList.add('boop');
+  const p = document.createElement('span'); p.className = 'plus'; p.textContent = '+1';
+  p.style.left = (20 + Math.random() * 60) + '%'; p.style.top = (20 + Math.random() * 25) + '%'; btn.appendChild(p); setTimeout(() => p.remove(), 700);
+  updateTapUI();
+}
+function spin() {
+  if (ui.spinning || S.places.length < 2) return;
+  ui.spinning = true; const names = S.places.map(p => p.title);
+  let final; do { final = names[Math.floor(Math.random() * names.length)]; } while (final === ui.spin);
+  ui.spin = null; render();
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let delay = 50, elapsed = 0, i = Math.floor(Math.random() * names.length);
+  const tick = () => {
+    const el = document.getElementById('slotTxt'); if (!el) { ui.spinning = false; ui.spin = final; return; }
+    i = (i + 1) % names.length; el.textContent = names[i]; elapsed += delay; delay *= 1.12; haptic('light');
+    if (elapsed < 1900 && !reduce) setTimeout(tick, delay); else { ui.spinning = false; ui.spin = final; render(); haptic('heavy'); }
+  }; tick();
+}
+
+/* ---------- events ---------- */
+document.addEventListener('change', async e => {
+  const el = e.target; if (el.type !== 'file' || !el.files || !el.files[0]) return;
+  let data; try { data = await readPhoto(el.files[0]); } catch (_) { toast('Не получилось открыть это фото'); return; }
+  if (el.id === 'wPhoto') {
+    const keep = {wT: val('wT'), wP: val('wP'), wL: val('wL'), wN: val('wN')}; ui.draftPhoto = data; render();
+    Object.keys(keep).forEach(id => { const f = document.getElementById(id); if (f) f.value = keep[id]; }); return;
+  }
+  if (el.classList.contains('photoIn')) { toast('Загружаем фото…'); await act('wish.photo', {id: el.dataset.id, photo: data}, 'Фото добавлено'); }
+});
+
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const a = b.dataset.act, id = b.dataset.id;
+  switch (a) {
+    case 'retry': ui.view = 'loading'; render(); boot(); return;
+    case 'onb': ui.onb = id; render(); return;
+    case 'onbCreate': {
+      const start = val('oStart'); if (!start) { toast('Укажи, с какого дня вы вместе'); return; }
+      if (await act('couple.create', {start_date: start, pet_name: val('oPet'), my_name: val('oName')})) { haptic('success'); askWrite(); tab = 'us'; render(); }
+      return;
+    }
+    case 'onbJoin': {
+      const code = val('oCode'); if (!code) { toast('Введи код'); return; }
+      if (await act('couple.join', {code})) { haptic('success'); askWrite(); toast('Вы теперь пара!'); }
+      return;
+    }
+    case 'share': shareInvite(); return;
+    case 'copy': copyText(S.couple.invite_link); return;
+    case 'link': e.preventDefault(); try { tg.openLink(id); } catch (_) { window.open(id, '_blank'); } return;
+    case 'tab': tab = id; ui.wishForm = false; try { history.replaceState(null, '', '#' + id); } catch (_) {} render(); scrollTo(0, 0); return;
+    case 'pet': petCat(b); return;
+    case 'wear': act('wear', {item: id, on: !S.couple.worn[id]}); return;
+    case 'mood': haptic('medium'); act('mood', {mood: id}); return;
+    case 'note': { const t = val('noteText'); if (!t) { toast('Напиши текст записки'); return; } act('note.send', {body: t}, 'Записка улетела. Придёт неожиданно'); return; }
+    case 'delnote': act('note.delete', {id}, 'Записка отменена'); return;
+    case 'who': ui.who = id; ui.wishForm = false; ui.draftPhoto = ''; render(); return;
+    case 'wishform': ui.wishForm = true; ui.draftPhoto = ''; render(); document.getElementById('wT').focus(); return;
+    case 'wishcancel': ui.wishForm = false; ui.draftPhoto = ''; render(); return;
+    case 'wishadd': {
+      const t = val('wT'); if (!t) { toast('Напиши, что хочется'); return; }
+      const draft = ui.draftPhoto;
+      if (draft) toast('Сохраняем вместе с фото…');
+      ui.wishForm = false; ui.draftPhoto = '';
+      const ok = await act('wish.add', {owner: ui.who, title: t, price: val('wP'), link: val('wL'), note: val('wN'), photo: draft || undefined}, 'Желание добавлено');
+      if (!ok) { ui.wishForm = true; ui.draftPhoto = draft; }
+      return;
+    }
+    case 'wishres': { const w = S.wishes.find(x => x.id === id); act('wish.reserve', {id}, w && w.reserved_by_me ? 'Отметка снята' : 'Отмечено: даришь ты'); return; }
+    case 'wishgot': act('wish.done', {id}, 'Ура, сбылось'); return;
+    case 'wishdelarm': ui.delArm = id; render(); return;
+    case 'wishdel': ui.delArm = null; act('wish.delete', {id}, 'Желание удалено'); return;
+    case 'homeseg': ui.home = id; render(); return;
+    case 'shopadd': { const t = val('shopIn'); if (!t) return; if (await act('shop.add', {title: t})) { const f = document.getElementById('shopIn'); f && f.focus(); } return; }
+    case 'quick': if (!S.shop.some(x => x.title === id && !x.done)) act('shop.add', {title: id}); return;
+    case 'shoptoggle': act('shop.toggle', {id}); return;
+    case 'shopdel': act('shop.delete', {id}); return;
+    case 'shopclear': act('shop.clear'); return;
+    case 'choretoggle': act('chore.toggle', {id}); return;
+    case 'choreswap': act('chore.swap', {id}); return;
+    case 'choredel': act('chore.delete', {id}); return;
+    case 'choreadd': { const t = val('chT'); if (!t) { toast('Напиши название дела'); return; } act('chore.add', {title: t, who: val('chW'), freq: val('chF')}); return; }
+    case 'choresplit': act('chore.split', {}, 'Дела поделены поровну'); return;
+    case 'mon': { const [Y, M] = ui.calM.split('-').map(Number); ui.calM = ymd(new Date(Y, M - 1 + Number(id), 1)).slice(0, 7); render(); return; }
+    case 'sel': ui.sel = id; if (id.slice(0, 7) !== ui.calM) ui.calM = id.slice(0, 7); render(); return;
+    case 'planadd': { const t = val('plT'); if (!t) { toast('Напиши, что планируете'); return; } act('plan.add', {day: ui.sel, time: val('plTime'), title: t}, 'План добавлен на ' + fmtShort(ui.sel)); return; }
+    case 'plandel': act('plan.delete', {id}); return;
+    case 'bdadd': { const n = val('bdN'), d = val('bdD'); if (!n || !d) { toast('Нужны имя и дата'); return; } act('bday.add', {name: n, bdate: d}, 'Добавлено: ' + n); return; }
+    case 'bddel': act('bday.delete', {id}); return;
+    case 'spin': spin(); return;
+    case 'goplan': if (ui.spin) act('plan.add', {day: today(), title: 'Идём: ' + ui.spin}, 'Записано в календарь на сегодня'); return;
+    case 'placeadd': { const t = val('plIn'); if (!t) return; act('place.add', {title: t}); return; }
+    case 'placedel': act('place.delete', {id}); return;
+    case 'settings': ui.leaveArm = false; openSettings(); return;
+    case 'sclose': b.closest('.scrim').remove(); return;
+    case 'ssave': {
+      const payload = {my_name: val('sMe'), pet_name: val('sPet'), start_date: val('sStart')};
+      const sc = b.closest('.scrim');
+      if (await act('couple.update', payload, 'Сохранено')) sc.remove();
+      return;
+    }
+    case 'leave':
+      if (!ui.leaveArm) { ui.leaveArm = true; b.textContent = 'Точно выйти? Твои желания удалятся. Нажми ещё раз'; return; }
+      ui.leaveArm = false; b.closest('.scrim').remove();
+      if (await act('couple.leave', {}, 'Ты вышла из пары')) { ui.onb = 'start'; render(); }
+      return;
+  }
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  const map = {shopIn:'shopadd', plIn:'placeadd', chT:'choreadd', plT:'planadd', bdN:'bdadd', wT:'wishadd', oCode:'onbJoin'}[e.target.id];
+  if (map) { e.preventDefault(); const t = document.querySelector(`[data-act="${map}"]`); t && t.click(); }
+});
+window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (TABS.includes(h) && h !== tab && S && S.couple) { tab = h; render(); } });
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') { clearTimeout(tapTimer); flushTaps(true); }
+  else refresh();
+});
+setInterval(() => { if (document.visibilityState === 'visible') refresh(); }, 60000);
+
+/* ---------- boot ---------- */
+async function boot() {
+  if (!tg || !tg.initData) { ui.view = 'notg'; render(); return; }
+  try {
+    tg.ready(); tg.expand();
+    tg.setHeaderColor && tg.setHeaderColor('#1f1d38');
+    tg.setBackgroundColor && tg.setBackgroundColor('#ffffff');
+    tg.setBottomBarColor && tg.setBottomBarColor('#ffffff');
+    tg.disableVerticalSwipes && tg.disableVerticalSwipes();
+  } catch (e) {}
+  const join = new URLSearchParams(location.search).get('join') || '';
+  try {
+    S = await api('me', {code: join});
+    ui.view = 'app';
+    if (S.joinError) toast(S.joinError);
+    else if (join && S.couple && S.partner) { toast('Вы теперь пара!'); askWrite(); }
+  } catch (e) { ui.view = 'error'; ui.err = e.message; }
+  render();
+}
+render();
+boot();
+})();
+</script>
+</body>
+</html>
