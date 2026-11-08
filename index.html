@@ -8,14 +8,14 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Montserrat+Alternates:wght@600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap">
 <style>
 /* Layout: navy header band with dripping edge on every screen, white body of outlined cards, floating navy tab bar. One deliberate light look (navy, white, peach). */
 :root{
   color-scheme:light;
   --navy:#1f1d38;--navy-2:#34315a;--paper:#ffffff;--mist:#f2f1f7;--grey:#8b89a1;
   --peach:#f8a878;--peach-soft:#fde5d4;--peach-ink:#7a3a12;--sky:#7cc7f2;
-  --brand:"Montserrat Alternates","Montserrat",system-ui,sans-serif;
+  --brand:"Montserrat",system-ui,sans-serif;
   --body:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --bw:2px;--r:20px;
 }
@@ -32,16 +32,17 @@ button:disabled{opacity:.45;cursor:default}
 :focus-visible{outline:3px solid var(--peach);outline-offset:2px}
 p{margin:0}
 h1,h2{margin:0;text-wrap:balance}
-h1{font-family:var(--brand);font-weight:700;font-size:22px;color:var(--paper);text-align:center}
+h1{font-family:var(--brand);font-weight:800;font-size:22px;color:var(--paper);text-align:center}
 h2{font-weight:800;font-size:16px}
 
 /* band */
-.band{background:var(--navy);color:var(--paper)}
+.band{color:var(--paper);background:linear-gradient(var(--navy),var(--navy)) top/100% calc(100% - 45px) no-repeat}
 .bandin{max-width:520px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px 4px;display:flex;flex-direction:column;gap:14px}
-.drip{display:block;width:100%;height:46px;margin-top:-1px}
+.drip{display:block;width:100%;height:46px;margin-top:-1px;margin-bottom:10px}
+.app{position:relative;z-index:1}
 .drip path,.drip circle{fill:var(--navy)}
 .toprow{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.brand{font-family:var(--brand);font-weight:700;font-size:19px;display:flex;align-items:center;gap:8px}
+.brand{font-family:var(--brand);font-weight:800;font-size:19px;display:flex;align-items:center;gap:8px}
 .brand .face{width:34px;height:34px;border-radius:50%;background:var(--paper);padding:2px}
 .brand em{font-style:normal;color:var(--peach)}
 .iconbtn{width:40px;height:40px;border-radius:50%;border:var(--bw) solid currentColor;background:none;display:grid;place-items:center;color:inherit;padding:0}
@@ -227,6 +228,10 @@ a.ext{color:var(--peach-ink);font-weight:700;font-size:12px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* real app additions */
+input[type=date],input[type=time]{-webkit-appearance:none;appearance:none;display:block;max-width:100%;min-height:46px;text-align:left;background:var(--paper)}
+input[type=date]::-webkit-date-and-time-value,input[type=time]::-webkit-date-and-time-value{text-align:left}
+.sheet,.sheet *{min-width:0}
+.sheet label{width:100%}
 .app.nonav{padding-bottom:calc(32px + env(safe-area-inset-bottom,0px))}
 body.busy{cursor:progress}
 body.busy [data-act]{pointer-events:none}
