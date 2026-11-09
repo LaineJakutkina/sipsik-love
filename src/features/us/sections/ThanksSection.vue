@@ -29,7 +29,9 @@ const split = computed(() => {
   <JournalSection v-if="session.solo" />
   <template v-else-if="!session.app.partner">
     <InviteCard />
-    <EmptyState>Когда партнёр присоединится, здесь можно будет благодарить друг друга.</EmptyState>
+    <EmptyState>
+      Когда {{ session.other.nom }} присоединится, здесь можно будет благодарить друг друга.
+    </EmptyState>
   </template>
   <template v-else>
     <ThanksForm

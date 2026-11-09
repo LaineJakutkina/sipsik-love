@@ -10,6 +10,7 @@ import MoodPicker from "../components/MoodPicker.vue";
 import NoteCard from "../components/NoteCard.vue";
 import QuickActions from "../components/QuickActions.vue";
 import ReceivedNotes from "../components/ReceivedNotes.vue";
+import SelfCareCard from "../components/SelfCareCard.vue";
 import SoonCard from "../components/SoonCard.vue";
 import SupportCard from "../components/SupportCard.vue";
 import TalkCard from "../components/TalkCard.vue";
@@ -26,6 +27,7 @@ import UsStats from "../components/UsStats.vue";
   <UsStats />
   <QuickActions />
   <MoodPicker />
+  <SelfCareCard />
   <SupportCard />
   <TalkCard />
   <ThanksPrompt />

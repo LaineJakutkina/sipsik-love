@@ -18,9 +18,10 @@ const { shareInvite, copyInvite } = useInvite();
 
 <template>
   <Card v-if="link" tone="dark" class="gap-2.5">
-    <CardTitle>Пригласи свою половинку</CardTitle>
+    <CardTitle>{{ session.friends ? "Пригласи друга" : "Пригласи свою половинку" }}</CardTitle>
     <p class="mt-1 text-[13px] opacity-80">
-      Отправь ссылку. Как только партнёр откроет её, у вас будет общий котик и все списки.
+      Отправь ссылку. Как только {{ session.other.nom }} откроет её, у вас будет общий котик и все
+      списки.
     </p>
     <div
       class="bg-navy-2 rounded-[14px] px-3 py-2.5 text-[13px] font-semibold wrap-anywhere select-all"

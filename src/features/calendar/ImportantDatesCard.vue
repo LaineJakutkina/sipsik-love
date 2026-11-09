@@ -17,7 +17,8 @@ const session = useSessionStore();
 
 const items = computed(() => {
   const t = today();
-  return importantDates(session.app.couple.start_date, session.app.dates ?? [], t).map((x) => ({
+  const { couple, dates } = session.app;
+  return importantDates(couple.start_date, dates ?? [], t, session.isPair).map((x) => ({
     ...x,
     days: daysBetween(t, x.next),
   }));
@@ -63,7 +64,7 @@ function remove(id: Id) {
   <Card>
     <CardTitle>Важные даты</CardTitle>
     <p class="text-muted-foreground mt-0.5 text-[13px]">
-      Бот напомнит вам обоим за 3 дня и в сам день
+      Бот напомнит {{ session.solo ? "тебе" : "вам обоим" }} за 3 дня и в сам день
     </p>
     <ul class="mt-1.5 flex flex-col">
       <ListRow v-for="x in items" :key="x.id ?? x.title">

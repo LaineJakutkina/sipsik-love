@@ -65,7 +65,7 @@ function remove(id: Id) {
   <Card>
     <CardTitle>Дни рождения</CardTitle>
     <p class="text-muted-foreground mt-0.5 text-[13px]">
-      Бот напомнит вам обоим за 3 дня и в сам день
+      Бот напомнит {{ session.solo ? "тебе" : "вам обоим" }} за 3 дня и в сам день
     </p>
     <ul class="mt-1.5 flex flex-col">
       <ListRow v-for="b in list" :key="b.id">

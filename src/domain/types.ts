@@ -19,6 +19,9 @@ export interface Partner {
   gender: Gender | null;
 }
 
+/** Space mode: a couple, two friends, or just me and the cat */
+export type SpaceMode = "pair" | "friends";
+
 export interface Couple {
   start_date: DateStr;
   pet_name: string | null;
@@ -29,6 +32,8 @@ export interface Couple {
   coat?: string;
   owned?: string[];
   solo?: boolean;
+  /** Who the two people are to each other; absent means a couple */
+  mode?: SpaceMode;
   invite_link?: string | null;
   invite_code?: string | null;
   rev?: number;

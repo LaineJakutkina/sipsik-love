@@ -5,7 +5,7 @@ import { Card, CardTitle } from "@/shared/ui/card";
 import { useSessionStore } from "@/stores/session";
 import { useInvite } from "./invite";
 
-/** Settings footer: invite a partner (solo or still waiting) or show who the couple is */
+/** Settings footer: share the cat (solo), invite the other person, or show who is in the space */
 const session = useSessionStore();
 const { shareInvite, copyInvite } = useInvite();
 const couple = computed(() => session.app.couple);
@@ -13,10 +13,11 @@ const couple = computed(() => session.app.couple);
 
 <template>
   <Card v-if="session.solo && couple.invite_link" tone="dark" class="my-1 gap-2.5">
-    <CardTitle>Появилась пара?</CardTitle>
+    <CardTitle>Поделиться котиком</CardTitle>
     <p class="mt-1 text-[13px] opacity-80">
-      Отправь ссылку. Когда твоя половинка откроет её, {{ session.petName }}, вишлист и все списки
-      станут общими. Всё, что ты уже добавил(а), сохранится.
+      Если захочешь, можно позвать близкого человека. Тогда {{ session.petName }}, вишлист и списки
+      станут общими, а всё, что ты уже
+      {{ session.gendered("добавил", "добавила", "добавил(а)") }}, сохранится.
     </p>
     <div
       class="bg-navy-2 rounded-[14px] px-3 py-2.5 text-[13px] font-semibold wrap-anywhere select-all"
@@ -32,9 +33,10 @@ const couple = computed(() => session.app.couple);
     <p class="text-muted-foreground text-[13px]">
       Код приглашения: <b>{{ couple.invite_code }}</b>
     </p>
-    <Button variant="secondary" @click="shareInvite">Пригласить партнёра</Button>
+    <Button variant="secondary" @click="shareInvite">Пригласить {{ session.other.gen }}</Button>
   </template>
   <p v-else class="text-muted-foreground text-[13px]">
-    Вы в паре: {{ session.meName }} и {{ session.partnerName }}
+    {{ session.friends ? "Вы вместе" : "Вы в паре" }}: {{ session.meName }} и
+    {{ session.partnerName }}
   </p>
 </template>

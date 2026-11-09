@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { DEFAULT_LIMITS, DEFAULT_TAP_CAP } from "@/domain/catalog";
 import { isMood, type MoodId } from "@/domain/moods";
-import type { AppState, CoupleState } from "@/domain/types";
+import type { AppState, CoupleState, SpaceMode } from "@/domain/types";
 import { call, errorMessage } from "@/services/api/client";
 import type { PayloadOf, StateAction } from "@/services/api/contract";
 import { notify } from "@/services/notify";
@@ -38,13 +38,33 @@ export const useSessionStore = defineStore("session", () => {
    */
   const app = computed(() => state.value as CoupleState);
   const solo = computed(() => !!(state.value?.couple?.solo && !state.value.partner));
+  /** pair, friends, or solo («Только я и Сипсик») */
+  const mode = computed<SpaceMode | "solo">(() =>
+    solo.value ? "solo" : state.value?.couple?.mode === "friends" ? "friends" : "pair",
+  );
+  const friends = computed(() => mode.value === "friends");
+  const isPair = computed(() => mode.value === "pair");
+  /** The other person as a word, in the cases the texts need */
+  const other = computed(() =>
+    friends.value
+      ? { nom: "друг", gen: "друга", dat: "другу" }
+      : { nom: "партнёр", gen: "партнёра", dat: "партнёру" },
+  );
+  const togetherMessage = computed(() => (friends.value ? "Вы теперь вместе!" : "Вы теперь пара!"));
   const meName = computed(() => state.value?.me.name ?? "");
-  const partnerName = computed(() => state.value?.partner?.name ?? "Партнёр");
+  const partnerName = computed(
+    () => state.value?.partner?.name ?? (friends.value ? "Друг" : "Партнёр"),
+  );
   const petName = computed(() => state.value?.couple?.pet_name || "Сипсик");
   const limits = computed(() => state.value?.limits ?? DEFAULT_LIMITS);
   const tapCap = computed(() => state.value?.couple?.tap_cap || DEFAULT_TAP_CAP);
   const tired = computed(() => (state.value?.couple?.taps_today ?? 0) >= tapCap.value);
-  const sad = computed(() => missed.value >= 2 && !cheered.value);
+  /** Came back after 2+ days and hasn't petted the cat yet */
+  const away = computed(() => missed.value >= 2 && !cheered.value);
+  /** The cat looks sad about the gap; never in solo, where it would only make you feel guilty */
+  const sad = computed(() => away.value && !solo.value);
+  /** Solo: a warm «welcome back» instead of a sad cat */
+  const welcomeBack = computed(() => away.value && solo.value);
   const myMood = computed<MoodId | null>(() => {
     const m = state.value?.moods.me;
     return isMood(m) ? m : null;
@@ -161,7 +181,7 @@ export const useSessionStore = defineStore("session", () => {
       status.value = "ready";
       if (s.joinError) notify(s.joinError);
       else if (join && s.couple && s.partner) {
-        notify("Вы теперь пара!");
+        notify(togetherMessage.value);
         telegram.requestWriteAccess();
       }
     } catch (e) {
@@ -180,6 +200,11 @@ export const useSessionStore = defineStore("session", () => {
     hasCouple,
     app,
     solo,
+    mode,
+    friends,
+    isPair,
+    other,
+    togetherMessage,
     meName,
     partnerName,
     petName,
@@ -187,6 +212,7 @@ export const useSessionStore = defineStore("session", () => {
     tapCap,
     tired,
     sad,
+    welcomeBack,
     myMood,
     catMood,
     gendered,

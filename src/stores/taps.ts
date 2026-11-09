@@ -81,6 +81,7 @@ export const useTapsStore = defineStore("taps", () => {
       notify(`${session.petName} устал. Тапы продолжатся завтра 😴`, "medium");
       return "got-tired";
     }
+    if (session.welcomeBack) session.cheered = true;
     if (session.sad) {
       session.cheered = true;
       notify(`${session.petName} снова счастлив 💜`);

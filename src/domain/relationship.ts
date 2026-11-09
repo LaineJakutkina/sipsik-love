@@ -27,8 +27,33 @@ export interface DateEntry {
   past: boolean;
 }
 
-/** Automatic milestones (every 100 days, anniversaries) plus the couple's own dates */
-export function importantDates(start: DateStr, dates: ImportantDate[], t = today()): DateEntry[] {
+/**
+ * Automatic milestones (every 100 days, anniversaries) plus the space's own dates.
+ * Milestones count a relationship, so only a couple gets them, not friends or solo.
+ */
+export function importantDates(
+  start: DateStr,
+  dates: ImportantDate[],
+  t = today(),
+  milestones = true,
+): DateEntry[] {
+  const items: DateEntry[] = [];
+  if (milestones) items.push(...relationshipMilestones(start, t));
+  for (const x of dates) {
+    const next = x.yearly ? nextOccurrence(x.day) : x.day;
+    const n = x.yearly ? Number(next.slice(0, 4)) - Number(x.day.slice(0, 4)) : 0;
+    items.push({
+      id: x.id,
+      icon: "💗",
+      title: x.title + (x.yearly && n > 0 ? ` · ${n} ${plural(n, YEAR_FORMS)}` : ""),
+      next,
+      past: !x.yearly && x.day < t,
+    });
+  }
+  return items.sort((a, b) => Number(a.past) - Number(b.past) || a.next.localeCompare(b.next));
+}
+
+function relationshipMilestones(start: DateStr, t: DateStr): DateEntry[] {
   const items: DateEntry[] = [];
   const together = daysBetween(start, t);
   const next100 = (Math.floor(together / 100) + 1) * 100;
@@ -47,19 +72,7 @@ export function importantDates(start: DateStr, dates: ImportantDate[], t = today
     years++;
   }
   if (years > 0) items.push({ icon: "🎉", title: `${years}-я годовщина`, next: ann, past: false });
-
-  for (const x of dates) {
-    const next = x.yearly ? nextOccurrence(x.day) : x.day;
-    const n = x.yearly ? Number(next.slice(0, 4)) - Number(x.day.slice(0, 4)) : 0;
-    items.push({
-      id: x.id,
-      icon: "💗",
-      title: x.title + (x.yearly && n > 0 ? ` · ${n} ${plural(n, YEAR_FORMS)}` : ""),
-      next,
-      past: !x.yearly && x.day < t,
-    });
-  }
-  return items.sort((a, b) => Number(a.past) - Number(b.past) || a.next.localeCompare(b.next));
+  return items;
 }
 
 export const isImportantOn = (x: ImportantDate, day: DateStr) =>

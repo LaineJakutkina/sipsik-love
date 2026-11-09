@@ -14,20 +14,20 @@ interface Stat {
   label: string;
 }
 
-/** Three tiles: days together, since when, next anniversary (solo: cat, wishes, memories) */
+/** Three tiles: days together, since when, next anniversary (friends/solo: days, wishes, memories) */
 const session = useSessionStore();
 
 const stats = computed((): Stat[] => {
   const s = session.app;
   const t = today();
   const days = daysBetween(s.couple.start_date, t);
-  if (session.solo) {
+  if (!session.isPair) {
     const wishes = s.wishes.filter((w) => !w.done).length;
     const memories = (s.memories ?? []).length;
     return [
       {
         value: formatNumber(Math.max(0, days) + 1),
-        label: `${plural(days + 1, DAY_FORMS)} вместе с котиком`,
+        label: `${plural(days + 1, DAY_FORMS)} ${session.solo ? "вместе с котиком" : "вместе в Сипсик Love"}`,
       },
       { value: wishes, label: `${plural(wishes, WISH_FORMS)} в вишлисте` },
       { value: memories, label: plural(memories, MEMORY_FORMS) },

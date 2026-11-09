@@ -1,5 +1,5 @@
 import type { Gender, MoodId } from "@/domain/moods";
-import type { AppState, DateStr, Id, TapResult, Who } from "@/domain/types";
+import type { AppState, DateStr, Id, SpaceMode, TapResult, Who } from "@/domain/types";
 
 type IdPayload = { id: Id };
 type Empty = Record<string, never>;
@@ -23,6 +23,7 @@ export interface ApiContract {
   "couple.create": {
     payload: {
       solo?: boolean;
+      mode?: SpaceMode;
       start_date?: DateStr;
       pet_name: string;
       my_name: string;
@@ -39,6 +40,7 @@ export interface ApiContract {
       start_date?: DateStr;
       notify?: boolean;
       gender?: Gender | null;
+      mode?: SpaceMode;
     };
     response: AppState;
   };

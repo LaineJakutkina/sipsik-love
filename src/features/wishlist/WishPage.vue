@@ -33,7 +33,9 @@ onBeforeUnmount(() => wishUi.closeForm());
 <template>
   <template v-if="!mine && !session.app.partner">
     <InviteCard />
-    <EmptyState>Когда партнёр присоединится, здесь появятся его желания.</EmptyState>
+    <EmptyState>
+      Когда {{ session.other.nom }} присоединится, здесь появятся его желания.
+    </EmptyState>
   </template>
   <template v-else>
     <p

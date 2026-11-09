@@ -35,7 +35,7 @@ const sheets = useSheetsStore();
           v-if="inApp"
           variant="inverse"
           size="icon"
-          aria-label="Настройки пары"
+          aria-label="Настройки"
           @click="sheets.open('settings')"
         >
           <SlidersHorizontalIcon class="size-[19px]" :stroke-width="2.2" />
