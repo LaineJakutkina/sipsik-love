@@ -86,6 +86,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--peach)}
 .stage{position:relative;display:block;width:100%;max-width:100%;aspect-ratio:300/215;border:0;padding:0;border-radius:36px 36px 36px 36px;background:var(--paper);overflow:hidden;touch-action:manipulation;user-select:none;-webkit-user-select:none}
 .stage svg{width:100%;height:100%;display:block}
 .stage .catbody{transform-origin:150px 208px}
+.stage .breath{transform-origin:150px 208px;animation:breathe 3.6s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.018,.984)}}
+.stage .lids ellipse{transform-box:fill-box;transform-origin:center;transform:scaleY(0);animation:blink 5.4s infinite}
+.stage .lids ellipse:last-child{animation-delay:.03s}
+@keyframes blink{0%,91%,100%{transform:scaleY(0)}94%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
 .stage.boop .catbody{animation:boop .2s ease-out}
 @keyframes boop{0%{transform:scale(1,1)}40%{transform:scale(1.05,.93)}100%{transform:scale(1,1)}}
 .plus{position:absolute;font-weight:800;color:var(--peach);pointer-events:none;animation:rise .7s ease-out forwards;font-size:17px;-webkit-text-stroke:.5px var(--navy)}
@@ -249,6 +254,38 @@ body.busy .stage,body.busy .nav button{pointer-events:auto}
 .prow.fill{color:var(--navy)}
 .prow.navyrow{background:var(--navy);border-color:var(--navy);color:var(--paper)}
 .who:disabled{opacity:1}
+.datef{position:relative;display:block;min-width:0}
+.datef .ph{position:absolute;left:16px;right:14px;top:50%;transform:translateY(-50%);color:var(--grey);pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;background:var(--paper)}
+.datef input:valid + .ph{display:none}
+.hint{font-size:12px;font-weight:500;color:var(--grey);line-height:1.4}
+label.toggle{display:flex;flex-direction:row;align-items:center;gap:12px;font-size:14px;font-weight:600;cursor:pointer}
+.streak{align-self:center;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--paper);opacity:.95}
+.streak b{color:var(--peach)}
+.missed{background:var(--peach-soft);border-color:var(--peach)}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--grey)}
+.qcard h2{margin-top:4px;font-size:17px;line-height:1.3}
+.bubble{border-radius:18px;padding:10px 14px;font-size:14px;line-height:1.4;overflow-wrap:anywhere}
+.bubble small{display:block;font-size:11px;font-weight:700;opacity:.7;margin-bottom:2px}
+.bubble.me{background:var(--navy);color:var(--paper);align-self:flex-end;border-bottom-right-radius:6px;max-width:88%}
+.bubble.p{background:var(--peach-soft);align-self:flex-start;border-bottom-left-radius:6px;max-width:88%}
+.bubble.wait{background:var(--mist);color:var(--grey);align-self:flex-start}
+.bubbles{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.task .t{font-weight:600}
+.task .bonus{flex:none;font-size:11px;font-weight:800;color:var(--peach-ink);background:var(--peach-soft);border-radius:99px;padding:3px 8px}
+.mems{display:flex;flex-direction:column;gap:12px}
+.mem{border:var(--bw) solid var(--navy);border-radius:22px;overflow:hidden;background:var(--paper)}
+.mem .mph{display:block;width:100%;max-width:100%;aspect-ratio:4/3;border:0;padding:0;border-bottom:var(--bw) solid var(--navy);background:var(--mist);cursor:zoom-in}
+.mem .mph img{width:100%;height:100%;object-fit:cover;display:block}
+.mem .mb{padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.mem .mb p{font-size:15px;line-height:1.4;overflow-wrap:anywhere}
+.mem .meta{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--grey)}
+.onthis{background:var(--peach-soft);border-color:var(--peach)}
+.onthis .mem{border-color:var(--peach)}
+.day.imp::before{content:"";position:absolute;top:-2px;left:-2px;width:9px;height:9px;border-radius:50%;background:var(--peach-ink);border:2px solid var(--paper)}
+.datelist .when{flex:none;text-align:right;font-size:12px;font-weight:700;color:var(--grey);font-variant-numeric:tabular-nums}
+.datelist .when b{display:block;font-size:16px;color:var(--navy)}
+.heartico{flex:none;width:38px;height:38px;border-radius:50%;background:var(--peach-soft);display:grid;place-items:center;font-size:17px}
+.check:disabled{cursor:default}
 .wrap{flex-wrap:wrap}
 .quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .quick button{border:var(--bw) solid var(--navy);background:var(--paper);border-radius:18px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:700;font-size:13px;min-width:0}
@@ -381,7 +418,7 @@ const EARS=`<path d="M100 74L109 34L137 56ZM200 74L191 34L163 56Z" fill="${FC}" 
 const NOSE=`<path d="M145 106h10l-5 5.5z" fill="#4a4766"/>`;
 function catInner(mood,w){
   return `${w.truck?ITEMG.truck:''}<ellipse cx="150" cy="209" rx="96" ry="6" fill="#1f1d38" opacity=".1"/>
-  <g class="catbody">
+  <g class="breath"><g class="catbody">
     ${EARS}
     <path d="${FUR}" fill="${FC}"/>
     <path d="${STRANDS}" stroke="#2a283d" stroke-width="1.6" fill="none" stroke-linecap="round"/>
@@ -389,9 +426,10 @@ function catInner(mood,w){
     <ellipse cx="128" cy="204" rx="17" ry="7" fill="${FC}"/><ellipse cx="172" cy="204" rx="17" ry="7" fill="${FC}"/>
     ${w.panama?ITEMG.panama:''}
     ${FACE[mood]||FACE.happy}${NOSE}
+    ${mood==='tired'||mood==='happy'?'':`<g class="lids"><ellipse cx="126" cy="92" rx="19" ry="19" fill="${FC}"/><ellipse cx="174" cy="92" rx="19" ry="19" fill="${FC}"/></g>`}
     <path d="M120 108L58 99M120 112L60 114M180 108L242 99M180 112L240 114" stroke="#9b98ad" stroke-width="1.3" stroke-linecap="round"/>
     ${w.chain?ITEMG.chain:''}${w.bag?ITEMG.bag:''}${w.cig?ITEMG.cig:''}
-  </g>${w.mouse?ITEMG.mouse:''}`;
+  </g></g>${w.mouse?ITEMG.mouse:''}`;
 }
 const catSVG=(mood,w)=>`<svg viewBox="0 0 300 215" role="img" aria-label="Пушистый чёрный котик Сипсик">${catInner(mood,w)}</svg>`;
 function faceSVG(mood){return `<svg viewBox="90 16 120 120" aria-hidden="true">${EARS}<path d="${FUR}" fill="${FC}"/>${FACE[mood]||FACE.neutral}${NOSE}</svg>`}
@@ -404,7 +442,8 @@ let S = null;
 const TABS = ['us','wish','home','cal','go'];
 let tab = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'us';
 const ui = { view:'loading', onb:'start', err:'', home:'shop', who:'me', calM:null, sel:today(),
-  wishForm:false, draftPhoto:null, spin:null, spinning:false, leaveArm:false, busy:false, delArm:null };
+  wishForm:false, draftPhoto:null, spin:null, spinning:false, leaveArm:false, busy:false, delArm:null,
+  us:'today', missed:0, cheered:false, memForm:false, memDraft:null, memDel:null };
 let pendingTaps = 0, tapTimer = null, tapInFlight = false;
 let queue = Promise.resolve(), pendingOps = 0;
 const TIPS_KEY = 'sipsik-tips-v1';
@@ -531,6 +570,10 @@ function vError() {
   return [`<div class="stage">${catSVG('tears', {})}</div><h1>Что-то пошло не так</h1>`,
     `<section class="card stack"><p>${esc(ui.err)}</p><button class="btn navy" data-act="retry">Попробовать снова</button></section>`];
 }
+// Поле даты или времени с подсказкой: на iPhone пустое поле иначе выглядит как пустая кнопка
+function dateField(id, ph, attrs, type) {
+  return `<span class="datef"><input type="${type || 'date'}" id="${id}" aria-label="${ph}" required ${attrs || ''}><span class="ph">${ph}</span></span>`;
+}
 function genderPills(cur, act) {
   return `<div class="pills"><button class="pill" data-act="${act}" data-id="f" aria-pressed="${cur === 'f'}">Она</button><button class="pill" data-act="${act}" data-id="m" aria-pressed="${cur === 'm'}">Он</button></div>`;
 }
@@ -541,7 +584,7 @@ function vOnboard() {
     `<section class="card form">
       <label class="lbl">Как тебя зовут<input type="text" id="oName" value="${esc(name)}" maxlength="30"></label>
       <div class="lbl">Как к тебе обращаться${genderPills(ui.onbGender, 'onbGender')}</div>
-      <label class="lbl">Когда вы вместе<input type="date" id="oStart" max="${today()}"></label>
+      <div class="lbl">Дата начала отношений${dateField('oStart', 'Выбери дату', `max="${today()}"`)}<span class="hint">С этого дня Сипсик считает, сколько дней вы вместе. Потом можно поменять в настройках</span></div>
       <label class="lbl">Имя котика<input type="text" id="oPet" value="Сипсик" maxlength="30"></label>
       <button class="btn navy" data-act="onbCreate">Создать пару</button>
       <button class="btn" data-act="onb" data-id="start">Назад</button>
@@ -600,11 +643,19 @@ function vUs() {
   const m = S.moods.me;
   const plans = S.plans.filter(p => p.day >= t).sort((a, b) => (a.day + (a.time || '')).localeCompare(b.day + (b.time || ''))).slice(0, 2);
   const bd = S.birthdays.map(b => ({b, d: nextOcc(b.bdate)})).sort((a, b) => a.d.localeCompare(b.d))[0];
+  const sad = ui.missed >= 2 && !ui.cheered;
+  const sk = S.streak || {n: 0};
+  const streakTxt = sk.n ? `🔥 <b>${sk.n}</b> ${plural(sk.n, ['день','дня','дней'])} подряд вместе` : '🔥 Заходите оба каждый день, и начнётся серия';
+  const waitTxt = S.partner && !sk.partner_today ? ` · ждём ${esc(pName())}` : '';
   const band = `
-    <button class="stage" id="cat" data-act="pet" aria-label="Погладить котика">${catSVG(m || 'happy', c.worn)}</button>
-    <div class="namepill">${esc(pet())} <b id="tapN">${c.clicks.toLocaleString('ru-RU')}</b><span id="tapW" class="small">${plural(c.clicks, ['тап','тапа','тапов'])}</span></div>`;
+    <button class="stage" id="cat" data-act="pet" aria-label="Погладить котика">${catSVG(sad ? 'tears' : (m || 'happy'), c.worn)}</button>
+    <div class="namepill">${esc(pet())} <b id="tapN">${c.clicks.toLocaleString('ru-RU')}</b><span id="tapW" class="small">${plural(c.clicks, ['тап','тапа','тапов'])}</span></div>
+    ${S.partner ? `<div class="streak">${streakTxt}${waitTxt}</div>` : ''}
+    <div class="pills" role="group" aria-label="Раздел"><button class="pill" data-act="usseg" data-id="today" aria-pressed="${ui.us !== 'mem'}">Сегодня</button><button class="pill" data-act="usseg" data-id="mem" aria-pressed="${ui.us === 'mem'}">Воспоминания</button></div>`;
+  if (ui.us === 'mem') return [band, vMemories()];
   const recv = S.notes.received.slice(0, 3);
   const body = `
+  ${sad ? `<section class="card missed"><h2>${esc(pet())} скучал ${ui.missed} ${plural(ui.missed, ['день','дня','дней'])} 🥺</h2><p class="small" style="margin-top:4px">Потапай его, и он снова улыбнётся.</p></section>` : ''}
   ${inviteCard()}
   ${genderCard()}
   ${tipsCard()}
@@ -625,6 +676,9 @@ function vUs() {
     <div class="moods">${MOODS.map(x => `<button class="mood" data-act="mood" data-id="${x.id}" aria-pressed="${m === x.id}"><span class="face">${faceSVG(x.id)}</span>${x.n}</button>`).join('')}</div>
     ${S.partner ? `<div class="partner"><span class="face">${faceSVG(S.moods.partner || 'neutral')}</span><span>${esc(pName())} сегодня: <b>${S.moods.partner ? moodLabel(S.moods.partner, S.partner.gender) : 'ещё не отметил(а)'}</b></span></div>` : ''}
   </section>
+
+  ${tasksCard()}
+  ${questionCard()}
 
   ${recv.length ? `<section class="card">
     <h2>Записки от ${esc(pName())}</h2>
@@ -649,6 +703,62 @@ function vUs() {
     }).join('')}</div>
   </section>`;
   return [band, body];
+}
+function tasksCard() {
+  if (!S.tasks) return '';
+  const left = S.tasks.filter(t => !t.done).length;
+  return `<section class="card">
+    <div class="row between"><h2>Задания дня</h2><span class="small muted">${left ? 'осталось ' + left : 'все готовы 🎉'}</span></div>
+    <ul class="list" style="margin-top:6px">${S.tasks.map(t => `
+      <li class="li task ${t.done ? 'done' : ''}"><button class="check" data-act="task" data-id="${t.idx}" aria-pressed="${!!t.done}" ${t.done ? 'disabled' : ''} aria-label="Выполнено">${CHECK}</button>
+      <div class="grow"><span class="t">${esc(t.text)}</span>${t.done ? `<div class="sub">${t.done === 'me' ? (S.me.gender === 'm' ? 'Отметил ты' : S.me.gender === 'f' ? 'Отметила ты' : 'Готово') : (S.partner && S.partner.gender === 'f' ? 'Отметила ' : S.partner && S.partner.gender === 'm' ? 'Отметил ' : 'Отметил(а) ') + esc(pName())}</div>` : ''}</div>
+      ${t.done ? '' : `<span class="bonus">+${S.task_bonus}</span>`}</li>`).join('')}</ul>
+  </section>`;
+}
+function questionCard() {
+  const q = S.question; if (!q) return '';
+  const pn = esc(pName());
+  let inner;
+  if (!q.mine) {
+    inner = `<div class="form" style="margin-top:10px">
+      <textarea id="qText" rows="2" placeholder="Твой ответ" maxlength="1000"></textarea>
+      <button class="btn navy" data-act="answer">Ответить</button>
+      ${q.partner_answered ? `<p class="small muted">${pn} уже ответил(а). Ответь, чтобы увидеть ответ</p>` : `<p class="small muted">Ответ ${pn} откроется, когда вы оба ответите</p>`}
+    </div>`;
+  } else {
+    inner = `<div class="bubbles">
+      <div class="bubble me"><small>Ты</small>${esc(q.mine)}</div>
+      ${S.partner ? (q.partner ? `<div class="bubble p"><small>${pn}</small>${esc(q.partner)}</div>` : `<div class="bubble wait">${pn} ещё не ответил(а). Ответ появится здесь</div>`) : ''}
+    </div>`;
+  }
+  return `<section class="card qcard"><div class="eyebrow">Вопрос дня</div><h2>${esc(q.text)}</h2>${inner}</section>`;
+}
+function memCard(mm, ago) {
+  const who = mm.who === 'me' ? 'ты' : mm.who === 'partner' ? esc(pName()) : '';
+  return `<article class="mem">
+    ${mm.thumb_url ? `<button class="mph" data-act="mphoto" data-id="${mm.id}" aria-label="Открыть фото"><img src="${esc(mm.thumb_url)}" alt="" loading="lazy"></button>` : ''}
+    <div class="mb">
+      <div class="meta"><span>${ago || fmt(mm.day)}${who ? ' · ' + who : ''}</span>
+      ${isTmp(mm.id) ? '' : ui.memDel === mm.id ? `<button class="mini warn" data-act="memdel" data-id="${mm.id}">Точно удалить?</button>` : `<button class="x" data-act="memdelarm" data-id="${mm.id}" aria-label="Удалить">×</button>`}</div>
+      ${mm.body ? `<p>${esc(mm.body)}</p>` : ''}
+    </div>
+  </article>`;
+}
+function vMemories() {
+  const t = today(), md = t.slice(5), y = +t.slice(0, 4);
+  const list = (S.memories || []).slice().sort((a, b) => b.day.localeCompare(a.day));
+  const onThis = list.filter(m => m.day.slice(5) === md && m.day < t);
+  const feed = list.filter(m => !onThis.includes(m));
+  const form = ui.memForm ? `<section class="card form">
+      <h2>Новое воспоминание</h2>
+      <label class="photopick"><input type="file" accept="image/*" id="mPhoto"><span class="thumb">${ui.memDraft ? `<img src="${ui.memDraft.thumb}" alt="">` : '+'}</span><span><b>${ui.memDraft ? 'Фото добавлено' : 'Добавить фото'}</b><span>${ui.memDraft ? 'Нажми, чтобы заменить' : 'Можно и без фото'}</span></span></label>
+      <textarea id="mText" rows="3" placeholder="Что запомнилось?" maxlength="1000"></textarea>
+      <label class="lbl">Когда это было<input type="date" id="mDay" value="${t}" max="${t}"></label>
+      <div class="two"><button class="btn" data-act="memcancel">Отмена</button><button class="btn navy" data-act="memadd">Сохранить</button></div>
+    </section>` : `<button class="btn peach block" data-act="memform">+ Добавить воспоминание</button>`;
+  return `${form}
+  ${onThis.length ? `<section class="card onthis stack"><h2>В этот день</h2>${onThis.map(m => { const k = y - +m.day.slice(0, 4); return memCard(m, k + ' ' + plural(k, ['год','года','лет']) + ' назад'); }).join('')}</section>` : ''}
+  ${feed.length ? `<div class="mems">${feed.map(m => memCard(m)).join('')}</div>` : (onThis.length ? '' : `<div class="empty">Здесь будут ваши моменты: фото и пара слов о дне. Через год Сипсик покажет их вам снова.</div>`)}`;
 }
 function fmtDT(iso) { const d = new Date(iso); return d.getDate() + ' ' + MON[d.getMonth()] + ', ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
 function nextBlock() {
@@ -749,7 +859,8 @@ function vCal() {
     const d = new Date(start); d.setDate(start.getDate() + i); const k = ymd(d);
     if (i >= 35 && d.getMonth() !== M - 1) break;
     const hasP = S.plans.some(p => p.day === k), hasB = S.birthdays.some(b => b.bdate.slice(5) === k.slice(5));
-    cells += `<button class="day ${d.getMonth() !== M - 1 ? 'out' : ''} ${k === t ? 'today' : ''} ${hasP ? 'plan' : ''} ${hasB ? 'bd' : ''}" data-act="sel" data-id="${k}" aria-pressed="${k === ui.sel}" aria-label="${fmt(k)}">${d.getDate()}</button>`;
+    const hasI = (S.dates || []).some(x => x.yearly ? x.day.slice(5) === k.slice(5) && x.day <= k : x.day === k);
+    cells += `<button class="day ${d.getMonth() !== M - 1 ? 'out' : ''} ${k === t ? 'today' : ''} ${hasP ? 'plan' : ''} ${hasB ? 'bd' : ''} ${hasI ? 'imp' : ''}" data-act="sel" data-id="${k}" aria-pressed="${k === ui.sel}" aria-label="${fmt(k)}">${d.getDate()}</button>`;
   }
   const sel = ui.sel, sd = pd(sel);
   const plans = S.plans.filter(p => p.day === sel).sort((a, b) => (a.time || '').localeCompare(b.time || ''));
@@ -759,7 +870,7 @@ function vCal() {
   <section class="card">
     <div class="calhead"><button class="iconbtn" data-act="mon" data-id="-1" aria-label="Предыдущий месяц">‹</button><b>${MONN[M - 1]} ${Y}</b><button class="iconbtn" data-act="mon" data-id="1" aria-label="Следующий месяц">›</button></div>
     <div class="grid7">${['пн','вт','ср','чт','пт','сб','вс'].map(w => `<div class="wd">${w}</div>`).join('')}${cells}</div>
-    <div class="legend"><span><i style="background:var(--peach)"></i>План</span><span><i style="background:var(--navy)"></i>День рождения</span></div>
+    <div class="legend"><span><i style="background:var(--peach)"></i>План</span><span><i style="background:var(--navy)"></i>День рождения</span><span><i style="background:var(--peach-ink)"></i>Наша дата</span></div>
   </section>
   <section class="card" id="dayCard">
     <h2>${WD[sd.getDay()]}, ${sd.getDate()} ${MON[sd.getMonth()]}</h2>
@@ -770,9 +881,10 @@ function vCal() {
     </div>
     <div class="form" style="margin-top:12px">
       <input type="text" id="plT" placeholder="Что планируем" maxlength="100">
-      <div class="two"><input type="time" id="plTime" aria-label="Время"><button class="btn navy" data-act="planadd">Добавить</button></div>
+      <div class="two">${dateField('plTime', 'Время', '', 'time')}<button class="btn navy" data-act="planadd">Добавить</button></div>
     </div>
   </section>
+  ${datesCard()}
   <section class="card">
     <h2>Дни рождения</h2>
     <p class="small muted" style="margin-top:2px">Бот напомнит вам обоим за 3 дня и в сам день</p>
@@ -782,10 +894,44 @@ function vCal() {
       <button class="x" data-act="bddel" data-id="${b.id}" aria-label="Удалить">×</button></li>`).join('') : '<li class="empty">Добавь близких, и бот напомнит заранее</li>'}</ul>
     <div class="form" style="margin-top:10px">
       <input type="text" id="bdN" placeholder="Имя" maxlength="60">
-      <div class="two"><input type="date" id="bdD" aria-label="Дата рождения" max="${today()}"><button class="btn navy" data-act="bdadd">Добавить</button></div>
+      <div class="two">${dateField('bdD', 'Дата рождения', `max="${today()}"`)}<button class="btn navy" data-act="bdadd">Добавить</button></div>
     </div>
   </section>`;
   return [`<h1>Календарь</h1>`, body];
+}
+
+function datesCard() {
+  const t = today(), c = S.couple, start = c.start_date;
+  const items = [];
+  const together = diff(start, t);
+  const next100 = (Math.floor(together / 100) + 1) * 100;
+  items.push({auto: true, ico: '💯', title: next100 + ' дней вместе', next: addDays(start, next100)});
+  const annY = pd(t).getFullYear() - pd(start).getFullYear();
+  let ann = (pd(t).getFullYear()) + start.slice(4); let years = annY;
+  if (ann < t) { ann = (pd(t).getFullYear() + 1) + start.slice(4); years++; }
+  if (years > 0) items.push({auto: true, ico: '🎉', title: years + '-я годовщина', next: ann});
+  for (const x of (S.dates || [])) {
+    let next = x.day, past = false;
+    if (x.yearly) next = nextOcc(x.day); else past = x.day < t;
+    const n = x.yearly ? +next.slice(0, 4) - +x.day.slice(0, 4) : 0;
+    items.push({id: x.id, ico: '💗', title: x.title + (x.yearly && n > 0 ? ` · ${n} ${plural(n, ['год','года','лет'])}` : ''), next, past});
+  }
+  items.sort((a, b) => (a.past - b.past) || a.next.localeCompare(b.next));
+  return `<section class="card">
+    <h2>Важные даты</h2>
+    <p class="small muted" style="margin-top:2px">Бот напомнит вам обоим за 3 дня и в сам день</p>
+    <ul class="list datelist" style="margin-top:6px">${items.map(x => {
+      const k = diff(t, x.next);
+      return `<li class="li"><span class="heartico">${x.ico}</span><div class="grow"><span class="t" style="font-weight:700">${esc(x.title)}</span><div class="sub">${fmt(x.next)}</div></div>
+      <span class="when">${x.past ? 'было' : k === 0 ? '<b>сегодня</b>' : `<b>${k}</b>${plural(k, DAYS)}`}</span>
+      ${x.auto ? '' : `<button class="x" data-act="datedel" data-id="${x.id}" aria-label="Удалить">×</button>`}</li>`;
+    }).join('')}</ul>
+    <div class="form" style="margin-top:10px">
+      <input type="text" id="dT" placeholder="Например, первое свидание" maxlength="80">
+      <div class="two">${dateField('dD', 'Дата')}<button class="btn navy" data-act="dateadd">Добавить</button></div>
+      <label class="toggle small"><input type="checkbox" id="dY" checked><span>Повторять каждый год</span></label>
+    </div>
+  </section>`;
 }
 
 function vGo() {
@@ -914,8 +1060,9 @@ function openPhoto(url) {
 
 function petCat(btn) {
   queueTap(); haptic('light');
+  if (ui.missed >= 2 && !ui.cheered) { ui.cheered = true; render(); toast(pet() + ' снова счастлив 💜'); return; }
   btn.classList.remove('boop'); void btn.offsetWidth; btn.classList.add('boop');
-  const p = document.createElement('span'); p.className = 'plus'; p.textContent = '+1';
+  const p = document.createElement('span'); p.className = 'plus'; p.textContent = Math.random() < .2 ? '💜' : '+1';
   p.style.left = (20 + Math.random() * 60) + '%'; p.style.top = (20 + Math.random() * 25) + '%'; btn.appendChild(p); setTimeout(() => p.remove(), 700);
   updateTapUI();
 }
@@ -947,6 +1094,10 @@ function addShop(title) {
 document.addEventListener('change', async e => {
   const el = e.target; if (el.type !== 'file' || !el.files || !el.files[0]) return;
   let data; try { data = await readPhoto(el.files[0]); } catch (_) { toast('Не получилось открыть это фото'); return; }
+  if (el.id === 'mPhoto') {
+    const keep = {mText: val('mText'), mDay: val('mDay')}; ui.memDraft = data; render();
+    Object.keys(keep).forEach(id => { const f = document.getElementById(id); if (f && keep[id]) f.value = keep[id]; }); return;
+  }
   if (el.id === 'wPhoto') {
     const keep = {wT: val('wT'), wP: val('wP'), wL: val('wL'), wN: val('wN')}; ui.draftPhoto = data; render();
     Object.keys(keep).forEach(id => { const f = document.getElementById(id); if (f) f.value = keep[id]; }); return;
@@ -984,6 +1135,36 @@ document.addEventListener('click', async e => {
     case 'photo': { const w = byId(S.wishes, id); if (w && w.photo_url) openPhoto(w.photo_url); return; }
     case 'tab': tab = id; ui.wishForm = false; try { history.replaceState(null, '', '#' + id); } catch (_) {} render(); scrollTo(0, 0); return;
     case 'pet': petCat(b); return;
+    case 'usseg': ui.us = id; ui.memForm = false; render(); return;
+    case 'task': {
+      const idx = Number(id), tk = S.tasks.find(x => x.idx === idx); if (!tk || tk.done) return;
+      haptic('success');
+      mutate('task.done', {idx}, s => { const x = s.tasks.find(y => y.idx === idx); x.done = 'me'; s.couple.clicks += s.task_bonus; }, '+' + S.task_bonus + ' тапов ' + pet() + ' ⭐');
+      return;
+    }
+    case 'answer': { const t = val('qText'); if (!t) { toast('Напиши ответ'); return; } mutate('answer', {body: t}, s => { s.question.mine = t; }, 'Ответ сохранён 💬'); return; }
+    case 'memform': ui.memForm = true; ui.memDraft = null; render(); return;
+    case 'memcancel': ui.memForm = false; ui.memDraft = null; render(); return;
+    case 'memadd': {
+      const text = val('mText'), day = val('mDay') || today(), draft = ui.memDraft;
+      if (!text && !draft) { toast('Добавь фото или пару слов'); return; }
+      ui.memForm = false; ui.memDraft = null;
+      if (draft) {
+        toast('Сохраняем вместе с фото…');
+        const ok = await act('memory.add', {body: text, day, photo: draft.full, thumb: draft.thumb}, 'Воспоминание сохранено 📸');
+        if (!ok) { ui.memForm = true; ui.memDraft = draft; render(); }
+      } else mutate('memory.add', {body: text, day}, s => { (s.memories = s.memories || []).unshift({id: tmpId(), who: 'me', day, body: text, photo_url: null, thumb_url: null}); }, 'Воспоминание сохранено 📸');
+      return;
+    }
+    case 'memdelarm': ui.memDel = id; render(); return;
+    case 'memdel': if (busyTmp(id)) return; ui.memDel = null; mutate('memory.delete', {id}, s => { s.memories = s.memories.filter(m => m.id !== id); }, 'Удалено'); return;
+    case 'mphoto': { const mm = (S.memories || []).find(x => x.id === id); if (mm && mm.photo_url) openPhoto(mm.photo_url); return; }
+    case 'dateadd': {
+      const t = val('dT'), d = val('dD'), y = document.getElementById('dY'); const yearly = !y || y.checked;
+      if (!t || !d) { toast('Нужны название и дата'); return; }
+      mutate('date.add', {title: t, day: d, yearly}, s => { (s.dates = s.dates || []).push({id: tmpId(), title: t, day: d, yearly}); }, 'Дата добавлена 💗'); return;
+    }
+    case 'datedel': if (busyTmp(id)) return; mutate('date.delete', {id}, s => { s.dates = s.dates.filter(x => x.id !== id); }); return;
     case 'qnote': openNoteSheet(); return;
     case 'qshop': openShopSheet(); return;
     case 'qplan': tab = 'cal'; ui.sel = today(); ui.calM = today().slice(0, 7); render(); scrollTo(0, 0);
@@ -1059,7 +1240,7 @@ document.addEventListener('keydown', e => {
   if (e.key !== 'Enter') return;
   const id = e.target.id;
   if (id === 'shopIn' || id === 'shopQ') { e.preventDefault(); document.querySelector(`[data-act="shopadd"][data-id="${id}"]`).click(); return; }
-  const map = {plIn:'placeadd', chT:'choreadd', plT:'planadd', bdN:'bdadd', wT:'wishadd', oCode:'onbJoin'}[id];
+  const map = {plIn:'placeadd', chT:'choreadd', plT:'planadd', bdN:'bdadd', wT:'wishadd', oCode:'onbJoin', dT:'dateadd'}[id];
   if (map) { e.preventDefault(); const t = document.querySelector(`[data-act="${map}"]`); t && t.click(); }
 });
 window.addEventListener('hashchange', () => { const h = location.hash.slice(1); if (TABS.includes(h) && h !== tab && S && S.couple) { tab = h; render(); } });
@@ -1083,6 +1264,7 @@ async function boot() {
   try {
     S = await api('me', {code: join});
     ui.view = 'app';
+    ui.missed = S.missed || 0;
     if (S.joinError) toast(S.joinError);
     else if (join && S.couple && S.partner) { toast('Вы теперь пара!'); askWrite(); }
   } catch (e) { ui.view = 'error'; ui.err = e.message; }
