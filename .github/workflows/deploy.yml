@@ -1,0 +1,82 @@
+# One Pages site, two deployable versions. Run it manually (Actions → Deploy to GitHub Pages → Run workflow)
+# from the default branch and pick which version goes live:
+#   new    – the Vue/Vite+ app from the `refactor` branch, built into dist/
+#   legacy – the original single-file app from `main`, published as is (rollback)
+# `ref` overrides the branch/tag/commit to publish, e.g. to roll back to an older build.
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Which version to publish
+        type: choice
+        options: [new, legacy]
+        default: new
+      ref:
+        description: Branch, tag or commit (empty = refactor for new, main for legacy)
+        type: string
+        required: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build-new:
+    if: inputs.version == 'new'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || 'refactor' }}
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.18.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  build-legacy:
+    if: inputs.version == 'legacy'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || 'main' }}
+          path: site
+
+      - run: rm -rf site/.git site/.github site/README.md
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: [build-new, build-legacy]
+    # exactly one build job runs; the other is skipped
+    if: ${{ !cancelled() && (needs.build-new.result == 'success' || needs.build-legacy.result == 'success') }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - id: deployment
+        uses: actions/deploy-pages@v4
