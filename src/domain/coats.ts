@@ -10,6 +10,9 @@ export const COAT_IDS = [
   "panda",
   "cow",
   "penguin",
+  "beaver",
+  "anon",
+  "vampire",
   "tuxedo",
 ] as const;
 export type CoatId = (typeof COAT_IDS)[number];
@@ -35,6 +38,9 @@ export const COAT_META: Record<CoatId, CoatMeta> = {
   panda: { name: "Панда", animal: true },
   cow: { name: "Коровка", animal: true },
   penguin: { name: "Пингвин", animal: true },
+  beaver: { name: "Бобёр", animal: true },
+  anon: { name: "Анонимус", animal: true },
+  vampire: { name: "Вампир", animal: true },
   tuxedo: { name: "Смокинг", animal: false },
 };
 

@@ -78,6 +78,25 @@ export function noseArt(p: Palette): ArtNode {
         ellipse(150, 107, 9, 6.5, { fill: "#2a1a10" }),
         ellipse(147, 105, 3, 1.8, { fill: "#6b4a3a" }),
       ]);
+    case "beaver":
+      return group([
+        ellipse(150, 106, 8, 5.5, { fill: "#2a1a10" }),
+        path("M143 121h6v10q0 2-2 2h-2q-2 0-2-2zM151 121h6v10q0 2-2 2h-2q-2 0-2-2z", {
+          fill: "#fffaf0",
+          stroke: "#b08a5a",
+          width: 1.2,
+        }),
+      ]);
+    case "vamp":
+      return group([
+        path("M145 106h10l-5 5.5z", { fill: "#9a6a8a" }),
+        path("M142.5 119l2.5 8l2.5-8zM152.5 119l2.5 8l2.5-8z", {
+          fill: "#ffffff",
+          stroke: "#3a1626",
+          width: 0.8,
+          join: "round",
+        }),
+      ]);
     default:
       return path("M145 106h10l-5 5.5z", { fill: p.nose });
   }

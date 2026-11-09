@@ -10,10 +10,20 @@ export type PatternId =
   | "panda"
   | "cow"
   | "penguin"
+  | "beaver"
+  | "anon"
+  | "vampire"
   | "tuxedo";
 
 /** Special noses; anything else is a colour for the default triangle nose */
-export type NoseStyle = "none" | "frog" | "beak" | "big" | (string & {});
+export type NoseStyle =
+  | "none"
+  | "frog"
+  | "beak"
+  | "big"
+  | "beaver"
+  | "vamp"
+  | (string & {});
 
 /** Colours and features for one coat */
 export interface Palette {
@@ -225,6 +235,59 @@ export const PALETTES: Record<CoatId, Palette> = {
     pat: "penguin",
     noBelly: true,
     paws: "#f2a33a",
+  },
+  beaver: {
+    fur: "#9a6338",
+    ear: "#5e3b20",
+    earFill: "#9a6338",
+    strand: "#7f4f2b",
+    belly: "#7f4f2b",
+    eye: "#fff8ee",
+    arc: "#2a1a10",
+    pupil: "#2a1a10",
+    mouth: "#2a1a10",
+    nose: "beaver",
+    whisk: "#3a2416",
+    lid: "#9a6338",
+    pat: "beaver",
+    noBelly: true,
+    paws: "#5a3a22",
+  },
+  anon: {
+    smooth: true,
+    fur: "#2b2d3a",
+    ear: "#2b2d3a",
+    strand: "#23252f",
+    belly: "#23252f",
+    eye: "#7dffb0",
+    arc: "#7dffb0",
+    pupil: "#0b3a20",
+    mouth: "#7dffb0",
+    nose: "none",
+    whisk: "",
+    lid: "#0e0f16",
+    pat: "anon",
+    outline: "#181922",
+    noBelly: true,
+    paws: "#181922",
+  },
+  vampire: {
+    fur: "#ddd6ea",
+    ear: "#b9a8d0",
+    earFill: "#ddd6ea",
+    strand: "#c4bcd6",
+    belly: "#c4bcd6",
+    eye: "#fff2f2",
+    arc: "#3a1626",
+    pupil: "#b3122e",
+    mouth: "#3a1626",
+    nose: "vamp",
+    whisk: "#8a7fa0",
+    lid: "#ddd6ea",
+    pat: "vampire",
+    outline: "#c4bcd6",
+    noBelly: true,
+    paws: "#2a1a2e",
   },
   tuxedo: {
     fur: "#15141f",
