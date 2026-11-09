@@ -1,0 +1,194 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design tokens. One deliberate light look: navy, white, peach.
+ * shadcn semantic tokens map onto the brand palette, so components use
+ * `bg-primary`, `bg-secondary`, `text-muted-foreground` etc. instead of raw colors.
+ */
+:root {
+  color-scheme: light;
+
+  /* brand palette */
+  --navy: #1f1d38;
+  --navy-2: #34315a;
+  --paper: #ffffff;
+  --mist: #f2f1f7;
+  --grey: #8b89a1;
+  --peach: #f8a878;
+  --peach-soft: #fde5d4;
+  --peach-ink: #7a3a12;
+  --sky: #7cc7f2;
+  --butter: #fff6d9;
+  --butter-edge: #e9c560;
+
+  /* shadcn semantic tokens */
+  --background: var(--paper);
+  --foreground: var(--navy);
+  --card: var(--paper);
+  --card-foreground: var(--navy);
+  --popover: var(--paper);
+  --popover-foreground: var(--navy);
+  --primary: var(--navy);
+  --primary-foreground: var(--paper);
+  --secondary: var(--peach);
+  --secondary-foreground: var(--navy);
+  --muted: var(--mist);
+  --muted-foreground: var(--grey);
+  --accent: var(--peach-soft);
+  --accent-foreground: var(--navy);
+  --destructive: var(--peach-ink);
+  --border: var(--navy);
+  --input: var(--navy);
+  --ring: var(--peach);
+  --radius: 20px;
+}
+
+@theme inline {
+  --font-sans: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-navy: var(--navy);
+  --color-navy-2: var(--navy-2);
+  --color-paper: var(--paper);
+  --color-mist: var(--mist);
+  --color-grey: var(--grey);
+  --color-peach: var(--peach);
+  --color-peach-soft: var(--peach-soft);
+  --color-peach-ink: var(--peach-ink);
+  --color-sky: var(--sky);
+  --color-butter: var(--butter);
+  --color-butter-edge: var(--butter-edge);
+
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 2px);
+  --radius-2xl: 28px;
+  --radius-3xl: 36px;
+
+  --animate-wiggle: wiggle 0.4s ease-in-out;
+
+  @keyframes wiggle {
+    25% {
+      transform: rotate(-3deg);
+    }
+    75% {
+      transform: rotate(3deg);
+    }
+  }
+}
+
+/* Safe-area aware layout helpers used by the app shell */
+@utility px-safe {
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+@utility pb-nav {
+  padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
+}
+@utility pb-safe {
+  padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+}
+@utility bottom-nav {
+  bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+}
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@layer components {
+  /* WebGL stage for the cat; the canvas fills it */
+  .cat-stage {
+    @apply bg-paper relative block aspect-[300/215] w-full touch-manipulation overflow-hidden rounded-3xl border-0 p-0 select-none;
+  }
+  .cat-stage > canvas {
+    @apply block size-full;
+  }
+
+  /* While a blocking request runs, freeze actions but keep the cat and nav alive */
+  [data-busy="true"] {
+    cursor: progress;
+  }
+  [data-busy="true"]
+    :is(header, main, [data-slot="sheet-content"])
+    :is(button, label, a, input, select, textarea):not(.cat-stage) {
+    pointer-events: none;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring;
+  }
+  html,
+  body {
+    @apply bg-background m-0;
+  }
+  body {
+    @apply text-foreground font-sans text-[15px] leading-[1.45] antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* navy strip behind the iOS status bar */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto;
+    height: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--navy);
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 3px solid var(--peach);
+    outline-offset: 2px;
+  }
+  h1,
+  h2 {
+    text-wrap: balance;
+  }
+  /* the only h1s live on the navy band */
+  h1 {
+    @apply text-primary-foreground text-center text-[22px] font-extrabold;
+  }
+  input[type="date"],
+  input[type="time"] {
+    -webkit-appearance: none;
+    appearance: none;
+    min-height: 46px;
+    text-align: left;
+  }
+  input[type="date"]::-webkit-date-and-time-value,
+  input[type="time"]::-webkit-date-and-time-value {
+    text-align: left;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
