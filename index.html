@@ -374,6 +374,12 @@ const MONN=['Январь','Февраль','Март','Апрель','Май','
 const WD=['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
 const QUICK=['Хлеб','Яйца','Молоко','Сахар','Кофе','Корм Сипсику'];
 const FREQ=['Каждый день','2 раза в неделю','Раз в неделю','Раз в месяц'];
+// Значения частоты, как их хранит сервер (не переводятся, поэтому записаны кодами)
+const FREQ_KEYS=["\u041a\u0430\u0436\u0434\u044b\u0439 \u0434\u0435\u043d\u044c","2 \u0440\u0430\u0437\u0430 \u0432 \u043d\u0435\u0434\u0435\u043b\u044e","\u0420\u0430\u0437 \u0432 \u043d\u0435\u0434\u0435\u043b\u044e","\u0420\u0430\u0437 \u0432 \u043c\u0435\u0441\u044f\u0446"];
+const freqLabel=f=>{const i=FREQ_KEYS.indexOf(f);return i<0?(f||''):FREQ[i]};
+// Язык этой версии приложения и формат чисел
+const LANG='ru', NUM_LOCALE='ru-RU';
+const ord=n=>String(n);
 
 /* dates */
 const pad=n=>String(n).padStart(2,'0');
@@ -410,6 +416,9 @@ const COATS={
   panda:  {n:'Панда', animal:1, fur:'#f7f5f0',ear:'#1b1b1f',strand:'#e3ded2',belly:'#e3ded2',eye:'#ffffff',arc:'#ffffff',pupil:'#111114',mouth:'#2a2a2a',nose:'#111114',whisk:'',lid:'#1b1b1f',pat:'panda',outline:'#d9d4c8',noBelly:1,paws:'#1b1b1f'},
   cow:    {n:'Коровка', animal:1, smooth:1, fur:'#fbfaf7',ear:'#f6b8c2',strand:'#e3ded2',belly:'#e3ded2',eye:'#ffffff',arc:'#2a2230',pupil:'#2a2230',mouth:'#7a3a4a',nose:'none',whisk:'',lid:'#fbfaf7',pat:'cow',outline:'#d9d4c8',noBelly:1,paws:'#3a3340'},
   penguin:{n:'Пингвин', animal:1, smooth:1, fur:'#22264a',ear:'#22264a',strand:'#2e3360',belly:'#2e3360',eye:'#ffffff',arc:'#22264a',pupil:'#14172e',mouth:'#22264a',nose:'beak',whisk:'',lid:'#ffffff',pat:'penguin',noBelly:1,paws:'#f2a33a'},
+  beaver: {n:'Бобёр', animal:1, fur:'#9a6338',ear:'#5e3b20',earFill:'#9a6338',strand:'#7f4f2b',belly:'#7f4f2b',eye:'#fff8ee',arc:'#2a1a10',pupil:'#2a1a10',mouth:'#2a1a10',nose:'beaver',whisk:'#3a2416',lid:'#9a6338',pat:'beaver',noBelly:1,paws:'#5a3a22'},
+  anon:   {n:'Анонимус', animal:1, smooth:1, fur:'#2b2d3a',ear:'#2b2d3a',strand:'#23252f',belly:'#23252f',eye:'#7dffb0',arc:'#7dffb0',pupil:'#0b3a20',mouth:'#7dffb0',nose:'none',whisk:'',lid:'#0e0f16',pat:'anon',outline:'#181922',noBelly:1,paws:'#181922'},
+  vampire:{n:'Вампир', animal:1, fur:'#ddd6ea',ear:'#b9a8d0',earFill:'#ddd6ea',strand:'#c4bcd6',belly:'#c4bcd6',eye:'#fff2f2',arc:'#3a1626',pupil:'#b3122e',mouth:'#3a1626',nose:'vamp',whisk:'#8a7fa0',lid:'#ddd6ea',pat:'vampire',outline:'#c4bcd6',noBelly:1,paws:'#2a1a2e'},
   tuxedo: {n:'Смокинг', fur:'#15141f',ear:'#2e2b44',strand:'#2a283d',belly:'#23213a',eye:'#f1e2c2',arc:'#f1e2c2',pupil:'#0b0a12',mouth:'#4a4766',nose:'#e58a8a',whisk:'#ffffff',lid:'#15141f',pat:'tuxedo',paws:'#ffffff',noBelly:1},
 };
 const curCoat=()=>{try{return (S&&S.couple&&COATS[S.couple.coat])?S.couple.coat:'black'}catch(e){return 'black'}};
@@ -628,6 +637,8 @@ const shapeOf=P=>P&&P.smooth?SMOOTH:FUR;
 function noseMarkup(P){
   if(P.nose==='none'||P.nose==='frog') return P.nose==='frog'?'<circle cx="145" cy="108" r="1.8" fill="#2d4a22"/><circle cx="155" cy="108" r="1.8" fill="#2d4a22"/>':'';
   if(P.nose==='beak') return '<path d="M138 103h24l-12 15z" fill="#f2a33a" stroke="#c97a1a" stroke-width="1.5" stroke-linejoin="round"/>';
+  if(P.nose==='beaver') return '<ellipse cx="150" cy="106" rx="8" ry="5.5" fill="#2a1a10"/><path d="M143 121h6v10q0 2-2 2h-2q-2 0-2-2zM151 121h6v10q0 2-2 2h-2q-2 0-2-2z" fill="#fffaf0" stroke="#b08a5a" stroke-width="1.2"/>';
+  if(P.nose==='vamp') return '<path d="M145 106h10l-5 5.5z" fill="#9a6a8a"/><path d="M142.5 119l2.5 8l2.5-8zM152.5 119l2.5 8l2.5-8z" fill="#ffffff" stroke="#3a1626" stroke-width=".8" stroke-linejoin="round"/>';
   if(P.nose==='big') return '<ellipse cx="150" cy="107" rx="9" ry="6.5" fill="#2a1a10"/><ellipse cx="147" cy="105" rx="3" ry="1.8" fill="#6b4a3a"/>';
   return `<path d="M145 106h10l-5 5.5z" fill="${P.nose}"/>`;
 }
@@ -645,6 +656,13 @@ function earsMarkup(P,coat){
     <path d="M96 76L98 14L140 52ZM204 76L202 14L160 52Z" fill="${of}" stroke="${of}" stroke-width="3" stroke-linejoin="round"/>
     <path d="M98 14L106 34L112 26ZM202 14L194 34L188 26Z" fill="#3a2a22"/>
     <path d="M106 62L108 34L130 54ZM194 62L192 34L170 54Z" fill="${P.ear}"/>`;
+  if(coat==='beaver') return `<g transform="rotate(-28 236 176)"><ellipse cx="236" cy="176" rx="22" ry="40" fill="#5a3a22" stroke="#45291a" stroke-width="2.5"/>
+      <path d="M220 150l32 20M218 166l36 20M220 182l32 18M216 158l38-6M216 176l40-6M218 194l36-6" stroke="#45291a" stroke-width="1.6" opacity=".7"/></g>
+    <circle cx="104" cy="60" r="15" fill="${of}"/><circle cx="196" cy="60" r="15" fill="${of}"/><circle cx="104" cy="60" r="8" fill="${P.ear}"/><circle cx="196" cy="60" r="8" fill="${P.ear}"/>`;
+  if(coat==='anon') return `<path d="M92 76Q150 -14 208 76Z" fill="${P.fur}" stroke="${P.outline}" stroke-width="2.5" stroke-linejoin="round"/>`;
+  if(coat==='vampire') return `<path d="M70 150L26 34L118 78Z" fill="#1b1424"/><path d="M76 132L44 52L110 82Z" fill="#b3122e"/>
+    <path d="M230 150L274 34L182 78Z" fill="#1b1424"/><path d="M224 132L256 52L190 82Z" fill="#b3122e"/>
+    <path d="${L}${R}" fill="${of}" stroke="${of}" stroke-width="3" stroke-linejoin="round"/><path d="${iL}${iR}" fill="${P.ear}"/>`;
   if(coat==='calico') return `<path d="${L}" fill="#d9844a" stroke="#d9844a" stroke-width="3" stroke-linejoin="round"/><path d="${R}" fill="#1d1b26" stroke="#1d1b26" stroke-width="3" stroke-linejoin="round"/><path d="${iL}${iR}" fill="${P.ear}"/>`;
   return `<path d="${L}${R}" fill="${of}" stroke="${of}" stroke-width="3" stroke-linejoin="round"/><path d="${iL}${iR}" fill="${P.ear}"/>`;
 }
@@ -678,6 +696,17 @@ function patternMarkup(P,coat,cid){
   } else if(P.pat==='penguin'){
     g+=`<ellipse cx="150" cy="160" rx="60" ry="58" fill="#ffffff"/><circle cx="126" cy="98" r="30" fill="#ffffff"/><circle cx="174" cy="98" r="30" fill="#ffffff"/>
       <ellipse cx="108" cy="114" rx="8" ry="4.5" fill="#f8a8b8"/><ellipse cx="192" cy="114" rx="8" ry="4.5" fill="#f8a8b8"/>`;
+  } else if(P.pat==='beaver'){
+    g+=`<ellipse cx="150" cy="176" rx="42" ry="34" fill="#c08a5a"/><ellipse cx="150" cy="114" rx="30" ry="18" fill="#d8b48a"/>`;
+  } else if(P.pat==='anon'){
+    g+=`<ellipse cx="150" cy="100" rx="56" ry="44" fill="#3a3d4f"/><ellipse cx="150" cy="100" rx="49" ry="38" fill="#0e0f16"/>
+      <path d="M130 140q-3 18-5 30M170 140q3 18 5 30" stroke="#c9cbd6" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <rect x="121" y="168" width="7" height="9" rx="2" fill="#c9cbd6"/><rect x="172" y="168" width="7" height="9" rx="2" fill="#c9cbd6"/>
+      <path d="M108 184q42-10 84 0v30h-84z" fill="none" stroke="#181922" stroke-width="3" stroke-linejoin="round"/>`;
+  } else if(P.pat==='vampire'){
+    g+=`<path d="M40 0H260V70Q205 44 150 80Q95 44 40 70Z" fill="#2a1a2e"/>
+      <path d="M40 230V146Q96 150 124 230Z" fill="#1b1424"/><path d="M260 230V146Q204 150 176 230Z" fill="#1b1424"/>
+      <circle cx="150" cy="150" r="7" fill="#b3122e" stroke="#e8c45a" stroke-width="2"/>`;
   } else if(P.pat==='tuxedo'){
     g+=`<ellipse cx="150" cy="170" rx="30" ry="40" fill="#ffffff"/><ellipse cx="150" cy="116" rx="24" ry="15" fill="#ffffff"/>
       <path d="M150 104l-10 14h20z" fill="#ffffff"/>`;
@@ -729,13 +758,29 @@ let pendingTaps = 0, tapTimer = null, tapInFlight = false;
 let queue = Promise.resolve(), pendingOps = 0;
 const TIPS_KEY = 'sipsik-tips-v1';
 const store = { get(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (_) {} } };
+/* ---------- язык: index.html по-русски, en.html по-английски ---------- */
+// Английская версия пока выключена. Чтобы включить: I18N = true и загрузить en.html рядом с index.html
+const I18N = false;
+const LANG_KEY = 'sipsik-lang';
+const LANG_FILE = {ru: 'index.html', en: 'en.html'};
+function goLang(l) {
+  if (!I18N || !LANG_FILE[l] || l === LANG) return false;
+  store.set(LANG_KEY, l);
+  const u = new URL(LANG_FILE[l], location.href); u.search = location.search; u.hash = location.hash;
+  location.replace(u.href); return true;
+}
+function autoLang() {
+  const c = ((tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.language_code) || navigator.language || 'ru').toLowerCase();
+  return /^(ru|uk|be|kk|ky|uz|tg|hy|az|ka)/.test(c) ? 'ru' : 'en';
+}
+const langPills = () => `<div class="pills" role="group" aria-label="Язык"><button class="pill" data-act="lang" data-id="ru" aria-pressed="${LANG === 'ru'}">Русский</button><button class="pill" data-act="lang" data-id="en" aria-pressed="${LANG === 'en'}">English</button></div>`;
 
 /* ---------- server ---------- */
 async function api(action, payload, opts) {
   const r = await fetch(API_URL, {
     method:'POST', keepalive: !!(opts && opts.keepalive),
     headers:{'content-type':'application/json','x-init-data':tg.initData},
-    body: JSON.stringify(Object.assign({action, day: today()}, payload || {}))
+    body: JSON.stringify(Object.assign({action, day: today(), lang: LANG}, payload || {}))
   });
   let data = null;
   try { data = await r.json(); } catch (_) {}
@@ -825,7 +870,7 @@ async function flushTaps(keepalive) {
 }
 function updateTapUI() {
   const t = document.getElementById('tapN'); if (!t) return;
-  t.textContent = S.couple.clicks.toLocaleString('ru-RU');
+  t.textContent = S.couple.clicks.toLocaleString(NUM_LOCALE);
   document.getElementById('tapW').textContent = plural(S.couple.clicks, ['тап','тапа','тапов']);
   const nw = document.getElementById('nextWrap'); if (nw) nw.outerHTML = nextBlock();
   const td = document.getElementById('tapToday'); if (td) td.textContent = Math.min(S.couple.taps_today || 0, tapCap()) + ' / ' + tapCap() + ' сегодня';
@@ -833,8 +878,11 @@ function updateTapUI() {
 
 /* ---------- names ---------- */
 const meName = () => S.me.name;
-const pName = () => S.partner ? S.partner.name : 'Партнёр';
 const solo = () => !!(S && S.couple && S.couple.solo && !S.partner);
+// Режим пространства: pair (пара), friends (друзья), solo (только я и Сипсик)
+const mode = () => solo() ? 'solo' : (S && S.couple && S.couple.mode === 'friends') ? 'friends' : 'pair';
+const friends = () => mode() === 'friends';
+const pName = () => S.partner ? S.partner.name : friends() ? 'Друг' : 'Партнёр';
 const gw = (m, f, n) => S.me.gender === 'm' ? m : S.me.gender === 'f' ? f : n;
 const pet = () => S.couple.pet_name || 'Сипсик';
 const moodLabel = (id, g) => ({tears:'грустно', tired: g === 'f' ? 'устала' : g === 'm' ? 'устал' : 'устал(а)', angry:'злится', neutral:'нейтрально', happy: g === 'f' ? 'счастлива' : g === 'm' ? 'счастлив' : 'счастлив(а)'})[id] || '—';
@@ -880,10 +928,21 @@ function vOnboard() {
       <button class="btn" data-act="onb" data-id="start">Назад</button>
     </section>`];
   }
+  if (ui.onb === 'friends') {
+    return [`<div class="stage">${catSVG('happy', {})}</div><h1>Мы друзья</h1>`,
+    `<section class="card form">
+      <p class="small muted">Общий котик, вишлисты с фото, календарь с днями рождения, покупки и записки-сюрпризы для двоих друзей. После создания пригласишь друга по ссылке.</p>
+      <label class="lbl">Как тебя зовут<input type="text" id="oName" value="${esc(name)}" maxlength="30"></label>
+      <div class="lbl">Как к тебе обращаться${genderPills(ui.onbGender, 'onbGender')}</div>
+      <label class="lbl">Имя котика<input type="text" id="oPet" value="Сипсик" maxlength="30"></label>
+      <button class="btn navy" data-act="onbFriends">Создать</button>
+      <button class="btn" data-act="onb" data-id="start">Назад</button>
+    </section>`];
+  }
   if (ui.onb === 'solo') {
     return [`<div class="stage">${catSVG('happy', {})}</div><h1>Ты и Сипсик</h1>`,
     `<section class="card form">
-      <p class="small muted">Котик, вишлист, покупки, дела, календарь и записки себе в будущее. Если появится пара, её можно будет пригласить в настройках, и всё станет общим.</p>
+      <p class="small muted">Твой котик, вишлист, покупки, дела, календарь, дневник благодарности и записки себе в будущее. Всё это только для тебя.</p>
       <label class="lbl">Как тебя зовут<input type="text" id="oName" value="${esc(name)}" maxlength="30"></label>
       <div class="lbl">Как к тебе обращаться${genderPills(ui.onbGender, 'onbGender')}</div>
       <label class="lbl">Имя котика<input type="text" id="oPet" value="Сипсик" maxlength="30"></label>
@@ -894,7 +953,7 @@ function vOnboard() {
   if (ui.onb === 'join') {
     return [`<div class="stage">${catSVG('neutral', {})}</div><h1>По приглашению</h1>`,
     `<section class="card form">
-      <p class="small muted">Проще всего перейти по ссылке, которую прислал партнёр. Если есть только код из шести символов, введи его здесь.</p>
+      <p class="small muted">Проще всего перейти по ссылке, которую тебе прислали. Если есть только код из шести символов, введи его здесь.</p>
       <input type="text" id="oCode" placeholder="Например, K7F2QX" maxlength="12" autocapitalize="characters" autocomplete="off">
       <button class="btn navy" data-act="onbJoin">Присоединиться</button>
       <button class="btn" data-act="onb" data-id="start">Назад</button>
@@ -902,18 +961,20 @@ function vOnboard() {
   }
   return [`<div class="stage">${catSVG('happy', {})}</div><h1>Привет, ${esc(name)}!</h1>`,
   `<section class="card stack">
-    <p>Сипсик Love — пространство для вас двоих: общий котик, который собирает вещи за тапы, вишлист с фото, календарь с днями рождения, покупки, дела и записки-сюрпризы.</p>
-    <button class="btn navy" data-act="onb" data-id="create">Создать пару</button>
+    <p>Сипсик Love — уютное пространство с котиком, который собирает вещи за тапы. Внутри вишлист с фото, календарь с днями рождения, покупки, дела и записки-сюрпризы. Для пары, для друзей или только для тебя.</p>
+    <button class="btn navy" data-act="onb" data-id="create">Мы пара</button>
+    <button class="btn navy" data-act="onb" data-id="friends">Мы друзья</button>
+    <button class="btn" data-act="onb" data-id="solo">Только я и Сипсик</button>
     <button class="btn" data-act="onb" data-id="join">У меня есть приглашение</button>
-    <button class="btn" data-act="onb" data-id="solo">У меня нет пары, буду с Сипсиком</button>
-  </section>`];
+  </section>
+  ${I18N ? `<section class="card row between wrap"><span class="small muted">Язык / Language</span>${langPills()}</section>` : ''}`];
 }
 
 function inviteCard() {
   const c = S.couple; if (S.partner || !c.invite_link || solo()) return '';
   return `<section class="card invite">
-    <h2>Пригласи свою половинку</h2>
-    <p class="small" style="opacity:.8;margin-top:4px">Отправь ссылку. Как только партнёр откроет её, у вас будет общий котик и все списки.</p>
+    <h2>${friends() ? 'Пригласи друга' : 'Пригласи свою половинку'}</h2>
+    <p class="small" style="opacity:.8;margin-top:4px">Отправь ссылку. Как только ${friends() ? 'друг' : 'партнёр'} откроет её, у вас будет общий котик и все списки.</p>
     <div class="code"><span>${esc(c.invite_link)}</span></div>
     <div class="two"><button class="btn peach" data-act="share">Отправить</button><button class="btn ghostw" data-act="copy">Скопировать</button></div>
   </section>`;
@@ -930,7 +991,7 @@ function tipsCard() {
       <li><b>Тапай котика</b>: за тапы он получает вещи. Задания дня дают бонус.</li>
       <li><b>Вишлист</b> с фото: пригодится, когда спросят, что тебе подарить.</li>
       <li><b>Записка себе в будущее</b> придёт тебе в случайный момент недели.</li>
-      <li>Появилась пара? Пригласи её в <b>настройках</b> вверху справа, и всё станет общим.</li>
+      <li><b>Тяжёлый день?</b> Отметь настроение, и ${esc(pet())} предложит подышать вместе.</li>
     </ol>
     <button class="btn navy" data-act="tipsok">Понятно</button>
   </section>`;
@@ -938,9 +999,9 @@ function tipsCard() {
     <h2>Как тут всё устроено</h2>
     <ol>
       <li><b>Тапайте котика</b> вдвоём. Тапы общие, за них котик получает вещи.</li>
-      <li><b>Вишлист:</b> кнопка «Я подарю» на желании партнёра. Он не узнает, кто дарит.</li>
-      <li><b>Записка</b> придёт партнёру в случайный момент недели.</li>
-      <li>Пригласить партнёра и выключить уведомления можно в <b>настройках</b> вверху справа.</li>
+      <li><b>Вишлист:</b> кнопка «Я подарю» на желании ${friends() ? 'друга' : 'партнёра'}. Он не узнает, кто дарит.</li>
+      <li><b>Записка</b> придёт ${friends() ? 'другу' : 'партнёру'} в случайный момент недели.</li>
+      <li>Пригласить ${friends() ? 'друга' : 'партнёра'} и выключить уведомления можно в <b>настройках</b> вверху справа.</li>
     </ol>
     <button class="btn navy" data-act="tipsok">Понятно</button>
   </section>`;
@@ -955,32 +1016,35 @@ function vUs() {
   const m = S.moods.me;
   const plans = S.plans.filter(p => p.day >= t).sort((a, b) => (a.day + (a.time || '')).localeCompare(b.day + (b.time || ''))).slice(0, 2);
   const bd = S.birthdays.map(b => ({b, d: nextOcc(b.bdate)})).sort((a, b) => a.d.localeCompare(b.d))[0];
-  const sad = ui.missed >= 2 && !ui.cheered;
+  // после перерыва: у пар котик грустит, в соло-режиме просто рад встрече (без чувства вины)
+  const sad = !solo() && ui.missed >= 2 && !ui.cheered;
+  const welcome = solo() && ui.missed >= 2 && !ui.cheered;
   const sk = S.streak || {n: 0};
-  const streakTxt = solo() ? (sk.n ? `🔥 <b>${sk.n}</b> ${plural(sk.n, ['день','дня','дней'])} подряд ты с котиком` : '🔥 Заходи каждый день, и начнётся серия')
+  const streakTxt = solo() ? `🔥 <b>${sk.n}</b> ${plural(sk.n, ['день','дня','дней'])} подряд ты с котиком`
     : sk.n ? `🔥 <b>${sk.n}</b> ${plural(sk.n, ['день','дня','дней'])} подряд вместе` : '🔥 Заходите оба каждый день, и начнётся серия';
   const waitTxt = S.partner && !sk.partner_today ? ` · ждём ${esc(pName())}` : '';
   const band = `
     <button class="stage" id="cat" data-act="pet" aria-label="Погладить котика">${catSVG(sad ? 'tears' : tiredNow() ? 'tired' : (m || 'happy'), c.worn)}${tiredNow() ? '<span class="say">Я устал, подождите до завтра 😴</span>' : ''}</button>
-    <div class="namepill">${esc(pet())} <b id="tapN">${c.clicks.toLocaleString('ru-RU')}</b><span id="tapW" class="small">${plural(c.clicks, ['тап','тапа','тапов'])}</span></div>
-    ${S.partner || solo() ? `<div class="streak">${streakTxt}${waitTxt}</div>` : ''}
+    <div class="namepill">${esc(pet())} <b id="tapN">${c.clicks.toLocaleString(NUM_LOCALE)}</b><span id="tapW" class="small">${plural(c.clicks, ['тап','тапа','тапов'])}</span></div>
+    ${S.partner || (solo() && sk.n > 1) ? `<div class="streak">${streakTxt}${waitTxt}</div>` : ''}
     <div class="pills" role="group" aria-label="Раздел"><button class="pill" data-act="usseg" data-id="today" aria-pressed="${ui.us === 'today'}">Сегодня</button><button class="pill" data-act="usseg" data-id="thanks" aria-pressed="${ui.us === 'thanks'}">Спасибо</button><button class="pill" data-act="usseg" data-id="mem" aria-pressed="${ui.us === 'mem'}">Воспоминания</button></div>`;
   if (ui.us === 'mem') return [band, vMemories()];
   if (ui.us === 'thanks') return [band, vThanks()];
   const recv = S.notes.received.slice(0, 3);
   const body = `
   ${sad ? `<section class="card missed"><h2>${esc(pet())} скучал ${ui.missed} ${plural(ui.missed, ['день','дня','дней'])} 🥺</h2><p class="small" style="margin-top:4px">Потапай его, и он снова улыбнётся.</p></section>` : ''}
+  ${welcome ? `<section class="card missed"><h2>С возвращением 💜</h2><p class="small" style="margin-top:4px">${esc(pet())} рад тебя видеть. Приходи, когда захочется: он всегда здесь.</p></section>` : ''}
   ${inviteCard()}
   ${genderCard()}
   ${tipsCard()}
-  ${solo() ? `<div class="stats">
-    <div class="stat hl"><b>${(Math.max(0, days) + 1).toLocaleString('ru-RU')}</b><span>${plural(days + 1, DAYS)} вместе с котиком</span></div>
+  ${mode() !== 'pair' ? `<div class="stats">
+    <div class="stat hl"><b>${(Math.max(0, days) + 1).toLocaleString(NUM_LOCALE)}</b><span>${plural(days + 1, DAYS)} ${solo() ? 'вместе с котиком' : 'вместе в Сипсик Love'}</span></div>
     <div class="stat"><b>${S.wishes.filter(w => !w.done).length}</b><span>${plural(S.wishes.filter(w => !w.done).length, ['желание','желания','желаний'])} в вишлисте</span></div>
     <div class="stat"><b>${(S.memories || []).length}</b><span>${plural((S.memories || []).length, ['воспоминание','воспоминания','воспоминаний'])}</span></div>
   </div>` : `<div class="stats">
-    <div class="stat hl"><b>${Math.max(0, days).toLocaleString('ru-RU')}</b><span>${plural(days, DAYS)} вместе</span></div>
+    <div class="stat hl"><b>${Math.max(0, days).toLocaleString(NUM_LOCALE)}</b><span>${plural(days, DAYS)} вместе</span></div>
     <div class="stat"><b>${st.getDate()} ${MON[st.getMonth()].slice(0, 3)}</b><span>с ${st.getFullYear()} года</span></div>
-    <div class="stat"><b>${inA === 0 ? 'Сегодня' : inA}</b><span>${inA === 0 ? n + '-я годовщина' : plural(inA, DAYS) + ' до ' + n + '-й годовщины'}</span></div>
+    <div class="stat"><b>${inA === 0 ? 'Сегодня' : inA}</b><span>${inA === 0 ? ord(n) + '-я годовщина' : plural(inA, DAYS) + ' до ' + ord(n) + '-й годовщины'}</span></div>
   </div>`}
 
   <div class="quick">
@@ -995,6 +1059,7 @@ function vUs() {
     ${S.partner ? `<div class="partner"><span class="face">${faceSVG(S.moods.partner || 'neutral')}</span><span>${esc(pName())} сегодня: <b>${S.moods.partner ? moodLabel(S.moods.partner, S.partner.gender) : 'ещё не отметил(а)'}</b></span></div>` : ''}
   </section>
 
+  ${selfCareCard()}
   ${supportCard()}
   ${talkCard()}
   ${thanksPrompt()}
@@ -1022,7 +1087,7 @@ function vUs() {
     <div style="margin-top:10px">${nextBlock()}</div>
     <div class="items">${ITEMS.filter((it, i) => ui.allItems || c.clicks >= it.at || ITEMS.findIndex(x => c.clicks < x.at) + 2 >= i).map(it => {
       if (c.clicks >= it.at) { const on = !!c.worn[it.id]; return `<button class="item ${on ? 'on' : ''}" data-act="wear" data-id="${it.id}" aria-pressed="${on}">${itemSVG(it.id)}<b>${it.n}</b><span>${on ? 'Надето' : 'Снято'}</span></button>`; }
-      return `<div class="item locked">${itemSVG(it.id)}<b>${it.n}</b><span>${it.at.toLocaleString('ru-RU')} тапов</span></div>`;
+      return `<div class="item locked">${itemSVG(it.id)}<b>${it.n}</b><span>${it.at.toLocaleString(NUM_LOCALE)} тапов</span></div>`;
     }).join('')}</div>
     <button class="linkbtn" data-act="allitems">${ui.allItems ? 'Свернуть' : 'Все ' + ITEMS.length + ' вещей: от семечек до котёнка'}</button>
   </section>`;
@@ -1035,6 +1100,17 @@ const SOS_KINDS = [
   {id: 'calm', e: '🕊', t: 'Мы поссорились, давай остынем и помиримся'},
   {id: 'care', e: '🍵', t: 'Позаботься обо мне'},
 ];
+// Соло-режим: мягкая поддержка, если сегодня отмечено тяжёлое настроение
+function selfCareCard() {
+  if (!solo() || !['tears', 'tired', 'angry'].includes(S.moods.me)) return '';
+  return `<section class="card sosask">
+    <h2>🫂 Тяжёлый день</h2>
+    <p class="small muted" style="margin-top:4px">Так бывает, и это нормально. Можно просто немного подышать вместе с котиком: пара минут, и станет чуть легче.</p>
+    <button class="btn navy" data-act="breathe" style="margin-top:10px">Подышать с котиком</button>
+    <p class="small muted" style="margin-top:10px">Если тебе очень плохо, не держи это в себе: напиши близкому человеку или обратись на линию психологической помощи, там выслушают бесплатно и анонимно.</p>
+    <a class="linkbtn" style="text-decoration:none" href="https://findahelpline.com" data-act="link" data-id="https://findahelpline.com">Найти линию помощи ›</a>
+  </section>`;
+}
 function supportCard() {
   if (!S.partner || !S.sos) return '';
   const m = S.sos.mine, pn = esc(pName());
@@ -1093,13 +1169,13 @@ function thanksPrompt() {
   const t = today();
   if (S.thanks.some(x => x.who === 'me' && ymd(new Date(x.created_at)) === t)) return '';
   return `<section class="card thankp row between wrap" style="gap:12px">
-    <div style="flex:1;min-width:170px"><h2>💛 Спасибо за мелочи</h2><p class="small muted" style="margin-top:4px">${solo() ? 'За что ты ' + gw('благодарен', 'благодарна', 'благодарен(на)') + ' сегодняшнему дню?' : `За что ты ${S.me.gender === 'm' ? 'благодарен' : S.me.gender === 'f' ? 'благодарна' : 'благодарен(на)'} ${esc(pName())} сегодня?`}</p></div>
+    <div style="flex:1;min-width:170px"><h2>💛 Спасибо за мелочи</h2><p class="small muted" style="margin-top:4px">${solo() ? 'За что ты ' + gw('благодарен', 'благодарна', 'благодарен(на)') + ' сегодняшнему дню?' : `За что сегодня хочется сказать спасибо? ${esc(pName())} увидит это сразу`}</p></div>
     <button class="btn navy" data-act="usseg" data-id="thanks">${solo() ? 'Записать' : 'Поблагодарить'}</button>
   </section>`;
 }
 function vThanks() {
   if (solo()) return vJournal();
-  if (!S.partner) return `${inviteCard()}<div class="empty">Когда партнёр присоединится, здесь можно будет благодарить друг друга.</div>`;
+  if (!S.partner) return `${inviteCard()}<div class="empty">Когда ${friends() ? 'друг' : 'партнёр'} присоединится, здесь можно будет благодарить друг друга.</div>`;
   const list = S.thanks || [], pn = esc(pName());
   const weekAgo = Date.now() - 7 * 864e5;
   const wk = list.filter(x => Date.parse(x.created_at) > weekAgo);
@@ -1209,6 +1285,7 @@ function noteCard() {
     </div>
   </section>`;
 }
+const coatName = c => (COATS[c.id] && COATS[c.id].n) || c.name;
 const isAnimal = c => c.kind ? c.kind === 'animal' : !!(COATS[c.id] && COATS[c.id].animal);
 function coatCard() {
   const list = (S.coats || []).filter(c => COATS[c.id]); if (!list.length) return '';
@@ -1216,7 +1293,7 @@ function coatCard() {
   const btn = c => {
     const has = owned.includes(c.id) || !c.price, on = cur === c.id;
     return `<button class="coat ${on ? 'on' : ''}" data-act="coat" data-id="${c.id}" aria-pressed="${on}">
-      <span class="face">${faceSVG('happy', c.id)}</span><b>${esc(c.name)}</b>
+      <span class="face">${faceSVG('happy', c.id)}</span><b>${esc(coatName(c))}</b>
       <span class="cp">${on ? 'Выбран' : has ? 'Ваш' : c.price + ' ⭐'}</span></button>`;
   };
   const cats = list.filter(c => !isAnimal(c)), animals = list.filter(isAnimal);
@@ -1231,7 +1308,7 @@ function openCoatSheet(id) {
   const c = (S.coats || []).find(x => x.id === id); if (!c) return;
   openSheet('coat', `
     <div class="coatprev">${catSVG('happy', S.couple.worn, id)}</div>
-    <h2 style="text-align:center">${isAnimal(c) ? esc(pet()) + ' теперь ' + esc(c.name.toLowerCase()) : esc(pet()) + ': ' + esc(c.name.toLowerCase()) + ' окрас'}</h2>
+    <h2 style="text-align:center">${isAnimal(c) ? esc(pet()) + ' теперь ' + esc(coatName(c).toLowerCase()) : esc(pet()) + ': ' + esc(coatName(c).toLowerCase()) + ' окрас'}</h2>
     <p class="small muted" style="text-align:center">${isAnimal(c) ? 'Зверёк' : 'Окрас'} ${solo() ? 'останется с тобой' : 'достанется вам обоим'} навсегда. Вещи и эмоции сохранятся, вернуть котика можно в любой момент.</p>
     <button class="btn peach" data-act="buy" data-id="${c.id}">Купить за ${c.price} ⭐</button>
     <button class="btn" data-act="sclose">Не сейчас</button>
@@ -1308,7 +1385,7 @@ function nextBlock() {
   const nx = ITEMS.find(i => clicks < i.at);
   const prev = [...ITEMS].reverse().find(i => clicks >= i.at);
   const base = prev ? prev.at : 0, pct = nx ? Math.min(100, (clicks - base) / (nx.at - base) * 100) : 100, left = nx ? nx.at - clicks : 0;
-  return `<div id="nextWrap"><div class="nextline"><span>${nx ? 'Следующая вещь: ' + nx.n : pet() + ' собрал всё'}</span><span class="muted">${nx ? 'ещё ' + left.toLocaleString('ru-RU') : ''}</span></div><div class="bar"><i style="width:${pct}%"></i></div></div>`;
+  return `<div id="nextWrap"><div class="nextline"><span>${nx ? 'Следующая вещь: ' + nx.n : pet() + ' собрал всё'}</span><span class="muted">${nx ? 'ещё ' + left.toLocaleString(NUM_LOCALE) : ''}</span></div><div class="bar"><i style="width:${pct}%"></i></div></div>`;
 }
 
 const LIM = () => S.limits || {wish_photos: 5, memories: 7};
@@ -1318,7 +1395,7 @@ function vWish() {
   const list = S.wishes.filter(w => w.owner === (mine ? 'me' : 'partner')).sort((a, b) => a.done - b.done);
   const band = solo() ? `<h1>Мой вишлист</h1>` : `<h1>Наш вишлист</h1>
     <div class="pills" role="group" aria-label="Чей список"><button class="pill" data-act="who" data-id="me" aria-pressed="${mine}">Хочу я</button><button class="pill" data-act="who" data-id="partner" aria-pressed="${!mine}">Хочет ${esc(pName())}</button></div>`;
-  if (!mine && !S.partner) return [band, `${inviteCard()}<div class="empty">Когда партнёр присоединится, здесь появятся его желания.</div>`];
+  if (!mine && !S.partner) return [band, `${inviteCard()}<div class="empty">Когда ${friends() ? 'друг' : 'партнёр'} присоединится, здесь появятся его желания.</div>`];
   const body = `
   ${solo() ? '' : `<div class="lockline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
     ${mine ? 'Кто готовит тебе подарок, ты не увидишь' : 'Отметь, что даришь ты. ' + esc(pName()) + ' этого не увидит'}</div>`}
@@ -1379,7 +1456,7 @@ function vHome() {
       <div class="row between"><h2>Дела</h2>${S.partner ? '<button class="linkbtn" data-act="choresplit">Поделить поровну</button>' : ''}</div>
       ${S.chores.length ? `<ul class="list">${S.chores.map(c => {const done = c.done_on === t; return `
         <li class="li ${done ? 'done' : ''}"><button class="check" data-act="choretoggle" data-id="${c.id}" aria-pressed="${done}" aria-label="Сделано сегодня">${CHECK}</button>
-        <div class="grow"><span class="t">${esc(c.title)}</span><div class="sub">${esc(c.freq || '')}</div></div>
+        <div class="grow"><span class="t">${esc(c.title)}</span><div class="sub">${esc(freqLabel(c.freq))}</div></div>
         <button class="who ${c.who === 'me' ? 'me' : 'p'}" data-act="choreswap" data-id="${c.id}" ${S.partner ? '' : 'disabled'} aria-label="Поменять, кто делает">${esc(c.who === 'me' ? meName() : pName())}</button>
         <button class="x" data-act="choredel" data-id="${c.id}" aria-label="Удалить">×</button></li>`;}).join('')}</ul>` : '<div class="empty">Дел пока нет</div>'}
       </section>
@@ -1387,7 +1464,7 @@ function vHome() {
         <h2>Новое дело</h2>
         <input type="text" id="chT" placeholder="Например, полить цветы" maxlength="80">
         <div class="two"><select id="chW" aria-label="Кто делает"><option value="me">${esc(meName())}</option>${S.partner ? `<option value="partner">${esc(pName())}</option>` : ''}</select>
-        <select id="chF" aria-label="Как часто">${FREQ.map(f => `<option>${f}</option>`).join('')}</select></div>
+        <select id="chF" aria-label="Как часто">${FREQ.map((f, i) => `<option value="${i}">${f}</option>`).join('')}</select></div>
         <button class="btn navy" data-act="choreadd">Добавить дело</button>
         <p class="muted small">Галочки сбрасываются каждый день. Нажми на имя, чтобы передать дело.</p>
       </section>`;
@@ -1450,11 +1527,12 @@ function datesCard() {
   const items = [];
   const together = diff(start, t);
   const next100 = (Math.floor(together / 100) + 1) * 100;
-  items.push({auto: true, ico: '💯', title: next100 + ' дней вместе', next: addDays(start, next100)});
+  const isPair = mode() === 'pair';
+  if (isPair) items.push({auto: true, ico: '💯', title: next100 + ' дней вместе', next: addDays(start, next100)});
   const annY = pd(t).getFullYear() - pd(start).getFullYear();
   let ann = (pd(t).getFullYear()) + start.slice(4); let years = annY;
   if (ann < t) { ann = (pd(t).getFullYear() + 1) + start.slice(4); years++; }
-  if (years > 0) items.push({auto: true, ico: '🎉', title: years + '-я годовщина', next: ann});
+  if (isPair && years > 0) items.push({auto: true, ico: '🎉', title: ord(years) + '-я годовщина', next: ann});
   for (const x of (S.dates || [])) {
     let next = x.day, past = false;
     if (x.yearly) next = nextOcc(x.day); else past = x.day < t;
@@ -1558,22 +1636,25 @@ function openSheet(kind, html) {
 }
 function closeSheet() { document.querySelectorAll('.scrim').forEach(s => s.remove()); }
 const leaveWarn = () => solo() ? 'Точно? Удалятся котик, вишлист и все списки. Нажми ещё раз' : 'Точно выйти? Твои желания удалятся. Нажми ещё раз';
+const togetherToast = () => friends() ? 'Вы теперь вместе!' : 'Вы теперь пара!';
 function openSettings() {
   const c = S.couple;
   openSheet('settings', `
-    <h2>${solo() ? 'Настройки' : 'Настройки пары'}</h2>
+    <h2>${mode() === 'pair' ? 'Настройки пары' : 'Настройки'}</h2>
     <label>Твоё имя<input type="text" id="sMe" value="${esc(meName())}" maxlength="30"></label>
     <div class="lbl">Как к тебе обращаться${genderPills(ui.sGender !== undefined ? ui.sGender : S.me.gender, 'sGender')}</div>
     <label>Имя котика<input type="text" id="sPet" value="${esc(pet())}" maxlength="30"></label>
-    ${solo() ? '' : `<label>Начало отношений<input type="date" id="sStart" value="${c.start_date}" max="${today()}"></label>`}
+    ${I18N ? `<div class="lbl">Язык / Language${langPills()}</div>` : ''}
+    ${solo() ? '' : `<div class="lbl">Кто вы друг другу<div class="pills" role="group"><button class="pill" data-act="setmode" data-id="pair" aria-pressed="${mode() === 'pair'}">Пара</button><button class="pill" data-act="setmode" data-id="friends" aria-pressed="${friends()}">Друзья</button></div></div>`}
+    ${mode() === 'pair' ? `<label>Начало отношений<input type="date" id="sStart" value="${c.start_date}" max="${today()}"></label>` : ''}
     ${solo() ? '' : `<label class="toggle"><input type="checkbox" id="sNotify" ${S.me.notify !== false ? 'checked' : ''}><span>Присылать в Telegram, что отмечает ${esc(pName())}</span></label>`}
     <div class="form"><button class="btn navy" data-act="ssave">Сохранить</button><button class="btn" data-act="sclose">Закрыть</button></div>
-    ${solo() && c.invite_link ? `<div class="card invite" style="margin:4px 0"><h2>Появилась пара?</h2><p class="small" style="opacity:.8;margin-top:4px">Отправь ссылку. Когда твоя половинка откроет её, ${esc(pet())}, вишлист и все списки станут общими. Всё, что ты уже добавил(а), сохранится.</p>
+    ${solo() && c.invite_link ? `<div class="card invite" style="margin:4px 0"><h2>Поделиться котиком</h2><p class="small" style="opacity:.8;margin-top:4px">Если захочешь, можно позвать близкого человека. Тогда ${esc(pet())}, вишлист и списки станут общими, а всё, что ты уже ${gw('добавил', 'добавила', 'добавил(а)')}, сохранится.</p>
       <div class="code"><span>${esc(c.invite_link)}</span></div>
       <div class="two"><button class="btn peach" data-act="share">Отправить</button><button class="btn ghostw" data-act="copy">Скопировать</button></div></div>`
-    : c.invite_link ? `<p class="small muted">Код приглашения: <b>${esc(c.invite_code)}</b></p><button class="btn peach" data-act="share">Пригласить партнёра</button>` : `<p class="small muted">Вы в паре: ${esc(meName())} и ${esc(pName())}</p>`}
+    : c.invite_link ? `<p class="small muted">Код приглашения: <b>${esc(c.invite_code)}</b></p><button class="btn peach" data-act="share">${friends() ? 'Пригласить друга' : 'Пригласить партнёра'}</button>` : `<p class="small muted">${friends() ? 'Вы вместе' : 'Вы в паре'}: ${esc(meName())} и ${esc(pName())}</p>`}
     <a class="linkbtn" style="text-decoration:none;color:var(--grey)" href="privacy.html" data-act="link" data-id="${esc(new URL('privacy.html', location.href).href)}">Конфиденциальность и удаление данных</a>
-    <button class="linkbtn" data-act="leave">${ui.leaveArm ? leaveWarn() : solo() ? 'Начать заново' : 'Выйти из пары'}</button>`);
+    <button class="linkbtn" data-act="leave">${ui.leaveArm ? leaveWarn() : solo() ? 'Начать заново' : friends() ? 'Выйти из пространства' : 'Выйти из пары'}</button>`);
 }
 function fillNoteSheet(sc) {
   const box = sc.querySelector('#noteList'); if (!box) return;
@@ -1587,7 +1668,7 @@ function openNoteSheet() {
   const sc = openSheet('note', `
     <h2>${solo() ? 'Записка себе в будущее' : 'Записка-сюрприз'}</h2>
     <p class="muted small">${solo() ? 'Придёт тебе в Telegram' : 'Получит ' + esc(pName()) + '. Придёт'} в случайный момент в течение недели. Точное время не узнает никто, даже ты.</p>
-    <textarea id="noteText" rows="4" placeholder="${solo() ? 'Например: не забудь, как ты справилась с этой неделей' : 'Напиши что-нибудь тёплое'}" maxlength="2000"></textarea>
+    <textarea id="noteText" rows="4" placeholder="${solo() ? 'Например: помни, что ты справляешься лучше, чем кажется' : 'Напиши что-нибудь тёплое'}" maxlength="2000"></textarea>
     <div class="two"><button class="btn" data-act="sclose">Закрыть</button><button class="btn navy" data-act="note">Отправить наугад</button></div>
     <div id="noteList"></div>`);
   fillNoteSheet(sc);
@@ -1672,20 +1753,28 @@ document.addEventListener('click', async e => {
   const a = b.dataset.act, id = b.dataset.id;
   switch (a) {
     case 'retry': ui.view = 'loading'; render(); boot(); return;
+    case 'setmode': if (id === mode()) return;
+      if (await act('couple.update', {mode: id}, id === 'friends' ? 'Теперь вы друзья 🤝' : 'Теперь вы пара 💜')) openSettings();
+      return;
+    case 'lang': if (id === LANG) return; try { await api('lang.set', {to: id}); } catch (_) {} goLang(id); return;
     case 'onb': ui.onb = id; render(); return;
     case 'onbGender': { const keep = {oName: val('oName'), oStart: val('oStart'), oPet: val('oPet')}; ui.onbGender = id; render(); Object.keys(keep).forEach(k => { const f = document.getElementById(k); if (f) f.value = keep[k]; }); return; }
     case 'onbCreate': {
       const start = val('oStart'); if (!start) { toast('Укажи, с какого дня вы вместе'); return; }
-      if (await act('couple.create', {start_date: start, pet_name: val('oPet'), my_name: val('oName'), gender: ui.onbGender})) { haptic('success'); askWrite(); tab = 'us'; render(); }
+      if (await act('couple.create', {mode: 'pair', start_date: start, pet_name: val('oPet'), my_name: val('oName'), gender: ui.onbGender})) { haptic('success'); askWrite(); tab = 'us'; render(); }
+      return;
+    }
+    case 'onbFriends': {
+      if (await act('couple.create', {mode: 'friends', pet_name: val('oPet'), my_name: val('oName'), gender: ui.onbGender})) { haptic('success'); askWrite(); tab = 'us'; render(); }
       return;
     }
     case 'onbSolo': {
-      if (await act('couple.create', {solo: true, pet_name: val('oPet'), my_name: val('oName'), gender: ui.onbGender})) { haptic('success'); askWrite(); tab = 'us'; render(); }
+      if (await act('couple.create', {mode: 'solo', solo: true, pet_name: val('oPet'), my_name: val('oName'), gender: ui.onbGender})) { haptic('success'); askWrite(); tab = 'us'; render(); }
       return;
     }
     case 'onbJoin': {
       const code = val('oCode'); if (!code) { toast('Введи код'); return; }
-      if (await act('couple.join', {code})) { haptic('success'); askWrite(); toast('Вы теперь пара!'); }
+      if (await act('couple.join', {code})) { haptic('success'); askWrite(); toast(togetherToast()); }
       return;
     }
     case 'setGender': mutate('couple.update', {gender: id}, s => { s.me.gender = id; }, 'Готово 💜'); return;
@@ -1833,7 +1922,7 @@ document.addEventListener('click', async e => {
     case 'choretoggle': if (busyTmp(id)) return; mutate('chore.toggle', {id}, s => { const c = byId(s.chores, id); c.done_on = c.done_on === today() ? null : today(); }); return;
     case 'choreswap': if (busyTmp(id)) return; mutate('chore.swap', {id}, s => { const c = byId(s.chores, id); c.who = c.who === 'me' ? 'partner' : 'me'; }); return;
     case 'choredel': if (busyTmp(id)) return; mutate('chore.delete', {id}, s => { s.chores = s.chores.filter(c => c.id !== id); }); return;
-    case 'choreadd': { const t = val('chT'), w = val('chW'), f = val('chF'); if (!t) { toast('Напиши название дела'); return; } mutate('chore.add', {title: t, who: w, freq: f}, s => s.chores.push({id: tmpId(), title: t, who: w === 'partner' ? 'partner' : 'me', freq: f, done_on: null}), 'Дело добавлено'); return; }
+    case 'choreadd': { const t = val('chT'), w = val('chW'), f = val('chF'); if (!t) { toast('Напиши название дела'); return; } mutate('chore.add', {title: t, who: w, freq: FREQ_KEYS[+f] || FREQ_KEYS[0]}, s => s.chores.push({id: tmpId(), title: t, who: w === 'partner' ? 'partner' : 'me', freq: FREQ_KEYS[+f] || FREQ_KEYS[0], done_on: null}), 'Дело добавлено'); return; }
     case 'choresplit': act('chore.split', {}, 'Дела поделены поровну'); return;
     case 'mon': { const [Y, M] = ui.calM.split('-').map(Number); ui.calM = ymd(new Date(Y, M - 1 + Number(id), 1)).slice(0, 7); render(); return; }
     case 'sel': ui.sel = id; if (id.slice(0, 7) !== ui.calM) ui.calM = id.slice(0, 7); render(); return;
@@ -1859,7 +1948,7 @@ document.addEventListener('click', async e => {
     case 'leave':
       if (!ui.leaveArm) { ui.leaveArm = true; b.textContent = leaveWarn(); return; }
       ui.leaveArm = false; closeSheet();
-      if (await act('couple.leave', {}, solo() ? 'Всё удалено, можно начать заново' : gw('Ты вышел из пары', 'Ты вышла из пары', 'Ты вышел(а) из пары'))) { ui.onb = 'start'; render(); }
+      if (await act('couple.leave', {}, solo() ? 'Всё удалено, можно начать заново' : friends() ? gw('Ты вышел', 'Ты вышла', 'Ты вышел(а)') : gw('Ты вышел из пары', 'Ты вышла из пары', 'Ты вышел(а) из пары'))) { ui.onb = 'start'; render(); }
       return;
   }
 });
@@ -1885,6 +1974,7 @@ setInterval(ping, 15000);
 
 /* ---------- boot ---------- */
 async function boot() {
+  if (goLang(store.get(LANG_KEY) || autoLang())) return;
   if (!tg || !tg.initData) { ui.view = 'notg'; render(); return; }
   try {
     tg.ready(); tg.expand();
@@ -1896,10 +1986,13 @@ async function boot() {
   const join = new URLSearchParams(location.search).get('join') || '';
   try {
     S = await api('me', {code: join});
+    // язык, выбранный раньше на другом устройстве
+    if (S.me && S.me.lang && S.me.lang !== LANG && !store.get(LANG_KEY) && goLang(S.me.lang)) return;
+    store.set(LANG_KEY, LANG);
     ui.view = 'app';
     ui.missed = S.missed || 0;
     if (S.joinError) toast(S.joinError);
-    else if (join && S.couple && S.partner) { toast('Вы теперь пара!'); askWrite(); }
+    else if (join && S.couple && S.partner) { toast(togetherToast()); askWrite(); }
   } catch (e) { ui.view = 'error'; ui.err = e.message; }
   render();
 }
