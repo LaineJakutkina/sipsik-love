@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sipsik Love: privacy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap">
+<style>
+:root{--navy:#1f1d38;--paper:#fff;--peach:#f8a878;--peach-soft:#fde5d4;--grey:#6f6d85;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper)}
+body{color:var(--navy);font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.6}
+header{background:var(--navy);color:var(--paper);padding:max(28px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 30px max(16px,env(safe-area-inset-left,0px))}
+header .in,main{max-width:680px;margin:0 auto}
+h1{font-size:26px;font-weight:800;margin:0;line-height:1.2}
+header p{margin:8px 0 0;opacity:.8;font-size:14px}
+main{padding:28px max(16px,env(safe-area-inset-right,0px)) 56px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:24px}
+h2{font-size:18px;font-weight:800;margin:0 0 6px}
+p,ul{margin:0}
+ul{padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.box{background:var(--peach-soft);border-radius:18px;padding:14px 16px}
+code{background:var(--peach-soft);border-radius:6px;padding:1px 6px;font-weight:700}
+.muted{color:var(--grey);font-size:13px}
+</style>
+</head>
+<body>
+<header><div class="in">
+<h1>Sipsik Love Privacy</h1>
+<p>Short and human: what we store and how to delete it. Updated November 9, 2026.</p>
+</div></header>
+<main>
+<div class="box">Only the two of you see your data. We don’t sell it, don’t show it to advertisers and don’t use it for anything except running the app.</div>
+
+<section>
+<h2>What we store</h2>
+<ul>
+<li>From Telegram: your ID, name and username. Telegram passes them when you open the app.</li>
+<li>What you add yourself: your relationship start date, moods, notes, wishes with photos, shopping, chores, plans, loved ones’ birthdays, important dates, places, answers to daily questions and memories with photos.</li>
+<li>Service data: when you last opened the app and how many times you tapped the cat. This is needed for streaks, reminders and weekly summaries.</li>
+<li>Purchases with Telegram Stars: what was bought and the payment ID. This is needed for support and refunds. We never see card details.</li>
+<li>The language you chose in the app.</li>
+</ul>
+</section>
+
+<section>
+<h2>Who sees it</h2>
+<p>Only you and your partner. Other couples see nothing. Two exceptions inside a couple: the owner of a wish doesn’t see who is preparing the gift, and the sender of a note doesn’t know when it will arrive.</p>
+</section>
+
+<section>
+<h2>Where it’s stored</h2>
+<p>In a Supabase database in Europe (London). Photos are kept in private storage and open only through temporary links inside the app.</p>
+</section>
+
+<section>
+<h2>Messages from the bot</h2>
+<p>The bot writes when your partner marks something, when a note arrives, about birthdays, important dates, weekly summaries and occasional notes from Sipsik. Notifications about your partner’s actions can be turned off in the app settings.</p>
+</section>
+
+<section>
+<h2>How to delete your data</h2>
+<ul>
+<li><b>Leave the couple:</b> app settings → “Leave the couple”. Your wishes are deleted. If you were alone in the couple, the whole couple is deleted.</li>
+<li><b>Delete your whole account:</b> send <code>/deleteme</code> to the bot. Your name, moods, notes, your wishes with photos and everything linked only to you will be deleted. The couple’s shared lists and memories stay with your partner.</li>
+</ul>
+</section>
+
+<section>
+<h2>Questions</h2>
+<p>Write to the bot <b>@SipsikLoveBot</b> or to the app’s creator on Telegram.</p>
+</section>
+<p class="muted">Sipsik Love is an independent project. Telegram is not responsible for how it works.</p>
+</main>
+</body>
+</html>

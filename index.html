@@ -760,7 +760,7 @@ const TIPS_KEY = 'sipsik-tips-v1';
 const store = { get(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (_) {} } };
 /* ---------- язык: index.html по-русски, en.html по-английски ---------- */
 // Английская версия пока выключена. Чтобы включить: I18N = true и загрузить en.html рядом с index.html
-const I18N = false;
+const I18N = true;
 const LANG_KEY = 'sipsik-lang';
 const LANG_FILE = {ru: 'index.html', en: 'en.html'};
 function goLang(l) {
