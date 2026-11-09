@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sipsik Love</title>
+<script>
+  // The legacy single-file app had a separate English page. The new app is one page,
+  // so keep old links (bot buttons, saved language) working by redirecting to it.
+  var u = new URL("index.html", location.href);
+  u.search = location.search;
+  u.hash = location.hash;
+  location.replace(u.href);
+</script>
+</head>
+<body></body>
+</html>
