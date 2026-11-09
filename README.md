@@ -2,6 +2,9 @@
 
 Telegram Mini App для пары: общий котик, вишлист, дом, календарь и места.
 
+📖 **Полная и подробная спецификация** — что и как работает, структура папок, подходы и куда что добавлять:
+[Description.md](Description.md).
+
 ## Стек
 
 - **Vue 3** (Composition API, `<script setup lang="ts">`), **Pinia**, **vue-router** (hash history)
