@@ -254,6 +254,48 @@ body.busy .stage,body.busy .nav button{pointer-events:auto}
 .prow.fill{color:var(--navy)}
 .prow.navyrow{background:var(--navy);border-color:var(--navy);color:var(--paper)}
 .who:disabled{opacity:1}
+.say{position:absolute;left:50%;top:10px;transform:translateX(-50%);background:var(--paper);color:var(--navy);border:var(--bw) solid var(--navy);border-radius:16px;padding:7px 12px;font-size:13px;font-weight:800;white-space:nowrap;box-shadow:0 4px 0 rgba(31,29,56,.12);pointer-events:none}
+.say::after{content:"";position:absolute;left:50%;bottom:-8px;width:12px;height:12px;background:var(--paper);border-right:var(--bw) solid var(--navy);border-bottom:var(--bw) solid var(--navy);transform:translateX(-50%) rotate(45deg)}
+.say.wiggle{animation:wiggle .4s ease-in-out}
+@keyframes wiggle{25%{transform:translateX(-52%) rotate(-3deg)}75%{transform:translateX(-48%) rotate(3deg)}}
+.coats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.coat{border:var(--bw) solid var(--navy);background:var(--paper);border-radius:18px;padding:8px 4px 9px;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0}
+.coat .face{width:58px;height:58px}
+.coat b{font-size:12px;line-height:1.2}
+.coat .cp{font-size:11px;font-weight:700;color:var(--grey)}
+.coat.on{background:var(--peach);border-color:var(--peach)}
+.coat.on .cp{color:var(--navy)}
+.coatprev{background:var(--peach-soft);border-radius:24px;padding:10px}
+.coatprev svg{width:100%;height:auto;display:block}
+.thankp{background:#fff6d9;border-color:#e9c560}
+.thanks{display:flex;flex-direction:column;gap:8px}
+.dayhead{font-size:12px;font-weight:800;color:var(--grey);text-transform:uppercase;letter-spacing:.06em;margin-top:6px}
+.thank{display:flex;align-items:center;gap:8px}
+.thank.me{flex-direction:row-reverse}
+.thank .tb{border-radius:18px;padding:10px 14px;font-size:14px;line-height:1.4;max-width:84%;overflow-wrap:anywhere}
+.thank .tb small{display:block;font-size:11px;font-weight:700;opacity:.7;margin-bottom:2px}
+.thank.me .tb{background:var(--navy);color:var(--paper);border-bottom-right-radius:6px}
+.thank.p .tb{background:#fff6d9;border-bottom-left-radius:6px}
+.hrt{flex:none;border:0;background:none;font-size:20px;padding:4px;line-height:1}
+.talkmine{background:var(--mist)}
+.chip[aria-pressed="true"]{background:var(--navy);color:var(--paper)}
+.hint.warn{color:var(--peach-ink);font-weight:700}
+.sheet .lbl{gap:6px}
+.sheet .lbl .chips{margin:2px 0 0}
+.sosask{border-style:dashed}
+.sosmine{background:var(--mist)}
+.sosp{background:var(--navy);color:var(--paper);border-color:var(--navy)}
+.sosp .tip{margin-top:10px;background:var(--navy-2);border-radius:14px;padding:10px 12px;font-size:14px;line-height:1.45}
+.chip.onnavy{background:none;color:var(--paper);border-color:var(--paper)}
+.sosp input{background:var(--paper);color:var(--navy)}
+.soskinds{display:flex;flex-direction:column;gap:8px}
+.soskind{display:flex;align-items:center;gap:12px;text-align:left;border:var(--bw) solid var(--navy);background:var(--paper);border-radius:16px;padding:12px 14px;font-weight:700;font-size:14px}
+.soskind span{font-size:22px;flex:none}
+.soskind[aria-pressed="true"]{background:var(--peach);border-color:var(--peach)}
+.breathe{display:flex;flex-direction:column;align-items:center;gap:10px;padding:26px 0 14px}
+.bcircle{width:150px;height:150px;border-radius:50%;background:var(--peach-soft);display:grid;place-items:center;transition:transform 4s ease-in-out;margin-bottom:18px}
+.bcircle .face{width:90px;height:90px}
+.breathe b{font-size:20px}
 .notecard{background:var(--peach-soft);border-color:var(--peach)}
 .notecard .btn{flex:none}
 .datef{position:relative;display:block;min-width:0}
@@ -326,9 +368,6 @@ const API_URL = 'https://mkjjqvywkwzwdscihibm.supabase.co/functions/v1/api';
 const BOT_USERNAME = 'SipsikLoveBot';
 /* =========================================== */
 const tg = window.Telegram && window.Telegram.WebApp;
-const ITEMS=[
-  {id:'panama',n:'Панама',at:10},{id:'chain',n:'Золотая цепь',at:100},{id:'cig',n:'Сигарета',at:1000},
-  {id:'bag',n:'Барсетка',at:2000},{id:'mouse',n:'Мышь',at:5000},{id:'truck',n:'Фура',at:10000}];
 const MOODS=[{id:'tears',n:'Слёзы'},{id:'tired',n:'Устал'},{id:'angry',n:'Злюсь'},{id:'neutral',n:'Нейтрально'},{id:'happy',n:'Счастлив'}];
 const MON=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
 const MONN=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
@@ -357,10 +396,22 @@ function rng(seed){return()=>{seed=(seed*16807)%2147483647;return seed/214748364
 function fur(cx,cy,rx,ry,n,amp,seed){const r=rng(seed);const P=a=>[cx+Math.cos(a)*rx,cy+Math.sin(a)*ry];let d='';for(let i=0;i<n;i++){const a0=i/n*Math.PI*2,a1=(i+1)/n*Math.PI*2,am=(a0+a1)/2+(r()-.5)*0.04,k=1+amp*(0.5+r()*0.9);const[x0,y0]=P(a0),[x1,y1]=P(a1);if(!i)d+='M'+x0.toFixed(1)+' '+y0.toFixed(1);d+='Q'+(cx+Math.cos(am)*rx*k).toFixed(1)+' '+(cy+Math.sin(am)*ry*k).toFixed(1)+' '+x1.toFixed(1)+' '+y1.toFixed(1)}return d+'Z'}
 const FUR=fur(150,126,92,82,64,0.075,7);
 const STRANDS=(()=>{const r=rng(11);let d='';for(let i=0;i<30;i++){const a=r()*Math.PI*2,rr=0.3+r()*0.62;const x=150+Math.cos(a)*86*rr,y=152+Math.sin(a)*50*rr;const dx=Math.cos(a)*9,dy=Math.sin(a)*6+5;d+=`M${x.toFixed(1)} ${y.toFixed(1)}q${(dx/2).toFixed(1)} ${(dy/2+2).toFixed(1)} ${dx.toFixed(1)} ${dy.toFixed(1)}`}return d})();
-const FC='#15141f',CR='#f1e2c2',PU='#0b0a12',MO='#8e8aa8',W='#ffffff';
-const FACE={
+const W='#ffffff';
+// Окрасы Сипсика: цвета шерсти, глаз, носа и узор
+const COATS={
+  black:  {n:'Чёрный', fur:'#15141f',ear:'#2e2b44',strand:'#2a283d',belly:'#23213a',eye:'#f1e2c2',arc:'#f1e2c2',pupil:'#0b0a12',mouth:'#8e8aa8',nose:'#4a4766',whisk:'#9b98ad',lid:'#15141f'},
+  ginger: {n:'Рыжий', fur:'#d9844a',ear:'#f2c9a0',strand:'#b8652e',belly:'#b8652e',eye:'#fff6e8',arc:'#3a2416',pupil:'#2a1a10',mouth:'#6b3a1f',nose:'#e58a8a',whisk:'#fff1e0',lid:'#d9844a',pat:'tabby',stripe:'#b25a24',chest:'#f6e2c4',paws:'#f6e2c4',noBelly:1},
+  grey:   {n:'Серый', fur:'#8796ab',ear:'#c9d1dc',strand:'#6b7a90',belly:'#5f6f86',eye:'#f4f6f9',arc:'#26303d',pupil:'#1d2530',mouth:'#2f3a48',nose:'#e5a3a8',whisk:'#eef2f6',lid:'#8796ab',pat:'tabby',stripe:'#5f6f86'},
+  calico: {n:'Трёхцветный', fur:'#fbf7f0',ear:'#f6c6b8',strand:'#e3d8c8',belly:'#e3d8c8',eye:'#ffffff',arc:'#2a2230',pupil:'#2a2230',mouth:'#5a4a5a',nose:'#e58a8a',whisk:'#4a4458',lid:'#fbf7f0',pat:'calico',outline:'#d9cdb9',noBelly:1},
+  siamese:{n:'Сиамский', fur:'#efe3cc',ear:'#7a5a48',earFill:'#4a3328',strand:'#dccbab',belly:'#d8c49f',eye:'#bfe2f5',arc:'#f1e2c2',pupil:'#1d2530',mouth:'#e9d9c0',nose:'#1f140f',whisk:'#4a3328',lid:'#4a3328',pat:'siamese',paws:'#4a3328',outline:'#dccbab',noBelly:1},
+  tuxedo: {n:'Смокинг', fur:'#15141f',ear:'#2e2b44',strand:'#2a283d',belly:'#23213a',eye:'#f1e2c2',arc:'#f1e2c2',pupil:'#0b0a12',mouth:'#4a4766',nose:'#e58a8a',whisk:'#ffffff',lid:'#15141f',pat:'tuxedo',paws:'#ffffff',noBelly:1},
+};
+const curCoat=()=>{try{return (S&&S.couple&&COATS[S.couple.coat])?S.couple.coat:'black'}catch(e){return 'black'}};
+function faceMarkup(mood,P){
+  const CR=P.eye,PU=P.pupil,MO=P.mouth,ARC=P.arc;
+  return ({
   happy:`<ellipse cx="110" cy="108" rx="9" ry="5" fill="#f8a878" opacity=".75"/><ellipse cx="190" cy="108" rx="9" ry="5" fill="#f8a878" opacity=".75"/>
-    <path d="M112 96q14-16 28 0M160 96q14-16 28 0" stroke="${CR}" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+    <path d="M112 96q14-16 28 0M160 96q14-16 28 0" stroke="${ARC}" stroke-width="5.5" fill="none" stroke-linecap="round"/>
     <path d="M143 116q3.5 5 7 0q3.5 5 7 0" stroke="${MO}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`,
   neutral:`<circle cx="126" cy="92" r="16" fill="${CR}"/><circle cx="174" cy="92" r="16" fill="${CR}"/>
     <circle cx="126" cy="93" r="10" fill="${PU}"/><circle cx="174" cy="93" r="10" fill="${PU}"/>
@@ -368,19 +419,20 @@ const FACE={
     <path d="M144 116q3 3 6 0q3 3 6 0" stroke="${MO}" stroke-width="2" fill="none" stroke-linecap="round"/>`,
   tired:`<path d="M110 91a16 16 0 0 0 32 0zM158 91a16 16 0 0 0 32 0z" fill="${CR}"/>
     <circle cx="126" cy="96" r="5" fill="${PU}"/><circle cx="174" cy="96" r="5" fill="${PU}"/>
-    <path d="M107 91h38M155 91h38" stroke="#3e3b58" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M107 91h38M155 91h38" stroke="${PU}" stroke-width="3.5" stroke-linecap="round" opacity=".8"/>
     <ellipse cx="150" cy="119" rx="3.5" ry="2.8" fill="none" stroke="${MO}" stroke-width="2"/>
     <text x="210" y="40" font-family="Montserrat,system-ui" font-weight="800" font-size="15" fill="#8b89a1">z</text><text x="222" y="26" font-family="Montserrat,system-ui" font-weight="800" font-size="11" fill="#8b89a1">z</text>`,
   angry:`<circle cx="126" cy="94" r="14" fill="${CR}"/><circle cx="174" cy="94" r="14" fill="${CR}"/>
     <circle cx="128" cy="95" r="8" fill="${PU}"/><circle cx="172" cy="95" r="8" fill="${PU}"/>
-    <path d="M106 70l28 10M194 70l-28 10" stroke="${CR}" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M106 70l28 10M194 70l-28 10" stroke="${ARC}" stroke-width="4.5" stroke-linecap="round"/>
     <path d="M141 121q9-8 18 0" stroke="${MO}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`,
   tears:`<circle cx="126" cy="91" r="17" fill="${CR}"/><circle cx="174" cy="91" r="17" fill="${CR}"/>
     <circle cx="126" cy="92" r="12" fill="${PU}"/><circle cx="174" cy="92" r="12" fill="${PU}"/>
     <circle cx="130" cy="87" r="3.4" fill="${W}"/><circle cx="178" cy="87" r="3.4" fill="${W}"/>
     <path d="M113 106q-6 10 0 13q6-3 0-13zM187 106q-6 10 0 13q6-3 0-13z" fill="#7cc7f2"/>
     <path d="M141 121q9-7 18 0" stroke="${MO}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`
-};
+  })[mood];
+}
 const TRUCK=`<g stroke="#1f1d38" stroke-width="2.5" stroke-linejoin="round"><rect x="150" y="92" width="102" height="64" rx="8" fill="#fff"/>
     <path d="M150 134h102v9H150z" fill="#f8a878"/>
     <path d="M252 106h24q13 0 16 15v35h-40z" fill="#f8a878"/>
@@ -414,28 +466,213 @@ const ITEMG={
     <path d="M186 126l5 1.3" stroke="#e5662f" stroke-width="6" stroke-linecap="round"/>
     <path d="M195 119q6-8 0-14q-6-6 2-14" stroke="#8b89a1" stroke-width="2.2" fill="none" stroke-linecap="round"/></g>`
 };
-const ITEMVB={panama:'82 8 136 60',chain:'96 116 108 36',cig:'152 90 52 42',bag:'182 168 48 38',mouse:'20 178 64 32',truck:'0 40 300 166'};
-const EARS=`<path d="M100 74L109 34L137 56ZM200 74L191 34L163 56Z" fill="${FC}" stroke="${FC}" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M110 62L113 44L128 56ZM190 62L187 44L172 56Z" fill="#2e2b44"/>`;
-const NOSE=`<path d="M145 106h10l-5 5.5z" fill="#4a4766"/>`;
-function catInner(mood,w){
-  return `${w.truck?ITEMG.truck:''}<ellipse cx="150" cy="209" rx="96" ry="6" fill="#1f1d38" opacity=".1"/>
-  <g class="breath"><g class="catbody">
-    ${EARS}
-    <path d="${FUR}" fill="${FC}"/>
-    <path d="${STRANDS}" stroke="#2a283d" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-    <path d="M116 128Q150 146 184 128" stroke="#23213a" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <ellipse cx="128" cy="204" rx="17" ry="7" fill="${FC}"/><ellipse cx="172" cy="204" rx="17" ry="7" fill="${FC}"/>
-    ${w.panama?ITEMG.panama:''}
-    ${FACE[mood]||FACE.happy}${NOSE}
-    ${mood==='tired'||mood==='happy'?'':`<g class="lids"><ellipse cx="126" cy="92" rx="19" ry="19" fill="${FC}"/><ellipse cx="174" cy="92" rx="19" ry="19" fill="${FC}"/></g>`}
-    <path d="M120 108L58 99M120 112L60 114M180 108L242 99M180 112L240 114" stroke="#9b98ad" stroke-width="1.3" stroke-linecap="round"/>
-    ${w.chain?ITEMG.chain:''}${w.bag?ITEMG.bag:''}${w.cig?ITEMG.cig:''}
-  </g></g>${w.mouse?ITEMG.mouse:''}`;
+/* ---------- вещи Сипсика ---------- */
+// Лестница от обычного к самому крутому. slot: на одном месте носится одна вещь.
+const ITEMS=[
+  {id:'panama',  n:'Панама abibas',      at:10,    slot:'head'},
+  {id:'seeds',   n:'Семечки',            at:25,    slot:'paw'},
+  {id:'coffee',  n:'Кофе с собой',       at:50,    slot:'paw'},
+  {id:'chain',   n:'Золотая цепь',       at:100,   slot:'neck'},
+  {id:'bandana', n:'Бандана',            at:150,   slot:'head'},
+  {id:'cap',     n:'Кепка назад',        at:250,   slot:'head'},
+  {id:'lemonade',n:'Лимонад «Буратино»', at:400,   slot:'paw'},
+  {id:'stripes', n:'Тельняшка',          at:600,   slot:'body'},
+  {id:'glasses', n:'Очки «Матрица»',     at:800,   slot:'eyes'},
+  {id:'cig',     n:'Сигарета',           at:1000,  slot:'mouth'},
+  {id:'tracksuit',n:'Спортивка abibas',  at:1300,  slot:'body'},
+  {id:'mic',     n:'Микрофон',           at:1600,  slot:'paw'},
+  {id:'bag',     n:'Барсетка',           at:2000,  slot:'bag'},
+  {id:'ushanka', n:'Ушанка',             at:2500,  slot:'head'},
+  {id:'hawaii',  n:'Гавайская рубашка',  at:3000,  slot:'body'},
+  {id:'helmet',  n:'Строительная каска', at:3500,  slot:'head'},
+  {id:'tablet',  n:'Планшет',            at:4200,  slot:'paw'},
+  {id:'mouse',   n:'Мышь',               at:5000,  slot:'pet'},
+  {id:'skate',   n:'Скейтборд',          at:6000,  slot:'ride'},
+  {id:'puffer',  n:'Пуховик-дутик',      at:7000,  slot:'body'},
+  {id:'bike',    n:'Велосипед «Урал»',   at:8000,  slot:'ride'},
+  {id:'truck',   n:'Фура',               at:10000, slot:'ride'},
+  {id:'suit',    n:'Костюм с бабочкой',  at:12500, slot:'body'},
+  {id:'kitten',  n:'Котёнок для Сипсика',at:15000, slot:'pet'},
+];
+const ITEM_BY={};ITEMS.forEach(i=>ITEM_BY[i.id]=i);
+const NAVY='#1f1d38';
+// Одежда: рисуется поверх шерсти и обрезается по силуэту котика
+const CLOTHES={
+  stripes:()=>`<rect x="40" y="132" width="220" height="90" fill="#ffffff"/>
+    ${[140,154,168,182,196,210].map(y=>`<rect x="40" y="${y}" width="220" height="7" fill="#2b4a8a"/>`).join('')}
+    <path d="M118 132q32 14 64 0" stroke="#ffffff" stroke-width="6" fill="none"/>`,
+  tracksuit:()=>`<rect x="40" y="130" width="220" height="92" fill="#22264a"/>
+    <path d="M150 134v80" stroke="#c9c7d6" stroke-width="2.5"/><circle cx="150" cy="140" r="3" fill="#c9c7d6"/>
+    <path d="M70 136l-6 74M80 136l-6 74M90 136l-6 74M230 136l6 74M220 136l6 74M210 136l6 74" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+    <path d="M118 131q32 12 64 0" stroke="#3a3f72" stroke-width="7" fill="none"/>
+    <text x="172" y="160" font-family="Montserrat,system-ui" font-weight="800" font-size="8" fill="#ffffff">abibas</text>`,
+  hawaii:()=>`<rect x="40" y="130" width="220" height="92" fill="#1ea7a0"/>
+    ${[[80,150],[120,178],[178,150],[214,182],[150,204],[96,200],[200,140]].map(([x,y])=>`<g transform="translate(${x} ${y})"><circle r="9" fill="#f8a878"/><circle r="9" cx="8" cy="-5" fill="#f2c94c" opacity=".9"/><circle r="3.5" fill="#ffffff"/></g>`).join('')}
+    <path d="M114 130l36 22 36-22" stroke="#ffffff" stroke-width="5" fill="none" stroke-linejoin="round"/>
+    <path d="M150 152v62" stroke="#14857f" stroke-width="2"/><circle cx="150" cy="166" r="2.5" fill="#ffffff"/><circle cx="150" cy="186" r="2.5" fill="#ffffff"/>`,
+  suit:()=>`<rect x="40" y="130" width="220" height="92" fill="#2e3140"/>
+    <path d="M124 130l26 56 26-56z" fill="#ffffff"/>
+    <path d="M124 130l14 40 12 -24zM176 130l-14 40 -12 -24z" fill="#3c4054"/>
+    <circle cx="150" cy="176" r="2.6" fill="#ffffff"/><circle cx="150" cy="192" r="2.6" fill="#ffffff"/>
+    <path d="M136 138l14 7 14-7v14l-14-7-14 7z" fill="#c0392b"/><circle cx="150" cy="145" r="3" fill="#962d22"/>
+    <path d="M200 156h18" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>`,
+};
+// Пуховик раздувается за пределы котика, поэтому без обрезки
+const PUFFER=`<g stroke="#a33a2a" stroke-width="2.5" transform="translate(0 7)">
+  <path d="M52 140Q50 214 150 214Q250 214 248 140Q246 124 230 128L70 128Q54 124 52 140Z" fill="#e5533d"/>
+  <path d="M54 160Q150 172 246 160M56 182Q150 196 244 182" fill="none"/>
+  <path d="M150 130V212" fill="none" stroke="#7a2a1e"/>
+  <path d="M102 124Q150 140 198 124Q200 112 186 112Q150 122 114 112Q100 112 102 124Z" fill="#f06a52"/></g>`;
+const ITEM_ART={
+  // голова
+  panama:()=>ITEMG.panama,
+  cap:()=>`<g stroke="${NAVY}" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M182 44l34-14 6 12-34 12z" fill="#b8352a"/>
+    <path d="M106 64Q106 24 150 22Q194 24 194 64Q150 54 106 64Z" fill="#d94f3d"/>
+    <path d="M150 22v40" stroke="#b8352a" fill="none"/><circle cx="150" cy="22" r="4" fill="#b8352a"/></g>`,
+  bandana:()=>`<g stroke="${NAVY}" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M102 68Q104 28 150 26Q196 28 198 68Q150 58 102 68Z" fill="#c0392b"/>
+    <path d="M196 60l22-10-6 18zM196 62l18 14-20-2z" fill="#c0392b"/></g>
+    ${[[124,44],[150,38],[176,44],[136,58],[164,58],[112,58],[188,58]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.6" fill="#fff"/>`).join('')}`,
+  ushanka:()=>`<g stroke="${NAVY}" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M94 66L92 104Q104 110 114 100L116 66Z" fill="#b9946a"/><path d="M206 66L208 104Q196 110 186 100L184 66Z" fill="#b9946a"/>
+    <path d="M104 62Q104 18 150 16Q196 18 196 62Z" fill="#5a3d28"/>
+    <path d="M96 58Q150 44 204 58L204 74Q150 62 96 74Z" fill="#c9a27c"/></g>
+    <path d="M150 50l3 7h7l-5.5 4.5 2 7-6.5-4-6.5 4 2-7-5.5-4.5h7z" fill="#e0322b" stroke="#f2c94c" stroke-width="1.5"/>`,
+  helmet:()=>`<g stroke="${NAVY}" stroke-width="2.5" stroke-linejoin="round">
+    <ellipse cx="150" cy="62" rx="66" ry="10" fill="#e6b422"/>
+    <path d="M106 62Q106 18 150 16Q194 18 194 62Z" fill="#f2c230"/>
+    <path d="M142 18h16v42h-16z" fill="#e6b422"/></g>
+    <path d="M114 44q8-14 20-20" stroke="#fff6c2" stroke-width="4" fill="none" stroke-linecap="round"/>`,
+  // глаза
+  glasses:()=>`<g><path d="M102 86Q104 82 110 82H140Q146 82 146 88L144 98Q142 104 134 104H112Q104 104 102 96Z" fill="#111018"/>
+    <path d="M198 86Q196 82 190 82H160Q154 82 154 88L156 98Q158 104 166 104H188Q196 104 198 96Z" fill="#111018"/>
+    <path d="M146 88Q150 85 154 88" stroke="#111018" stroke-width="3" fill="none"/>
+    <path d="M102 86L82 80M198 86L218 80" stroke="#111018" stroke-width="3" stroke-linecap="round"/>
+    <path d="M112 87l10 0M166 87l10 0" stroke="#7cf0a8" stroke-width="2.5" stroke-linecap="round" opacity=".85"/></g>`,
+  // шея, сумка, рот
+  chain:()=>ITEMG.chain, bag:()=>ITEMG.bag, cig:()=>ITEMG.cig,
+  // в лапе (справа)
+  seeds:()=>`<g stroke="${NAVY}" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M196 148L230 140L236 184Q218 192 202 186Z" fill="#d8b27a"/>
+    <path d="M196 148L230 140" stroke-width="3"/></g>
+    <text x="203" y="168" font-family="Montserrat,system-ui" font-weight="800" font-size="7.5" fill="#7a4d1a" transform="rotate(-12 214 166)">СЕМКИ</text>
+    ${[[210,150],[220,147],[214,153]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="2.4" ry="3.6" fill="#2a2230"/>`).join('')}`,
+  coffee:()=>`<g stroke="${NAVY}" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M202 136h28l-4 46h-20z" fill="#ffffff"/>
+    <path d="M203 152h26l-1.5 16h-23z" fill="#a0673a"/>
+    <path d="M199 130h34v7h-34z" fill="#3a2a22"/></g>
+    <path d="M210 124q4-6 0-12M222 124q4-6 0-12" stroke="#8b89a1" stroke-width="2" fill="none" stroke-linecap="round"/>`,
+  lemonade:()=>`<g stroke="${NAVY}" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M208 112h12v10q8 6 8 20v38q0 4-4 4h-20q-4 0-4-4v-38q0-14 8-20z" fill="#e8a33a" fill-opacity=".85"/>
+    <rect x="206" y="106" width="16" height="7" rx="1.5" fill="#b9b7c4"/>
+    <rect x="202" y="148" width="24" height="20" rx="3" fill="#f6e2c4"/></g>
+    <text x="214" y="161" text-anchor="middle" font-family="Montserrat,system-ui" font-weight="800" font-size="5.6" fill="#c0392b">БУРАТИНО</text>`,
+  mic:()=>`<g stroke="${NAVY}" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M214 182L196 134" stroke="#2a2230" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="192" cy="124" r="13" fill="#b9b7c4"/></g>
+    <path d="M184 118h16M182 124h20M184 130h16M192 112v24" stroke="#7d7a90" stroke-width="1.5"/>`,
+  tablet:()=>`<g transform="rotate(-10 218 156)"><rect x="196" y="126" width="44" height="60" rx="6" fill="#2a2230" stroke="${NAVY}" stroke-width="2.5"/>
+    <rect x="200" y="131" width="36" height="50" rx="2" fill="#bfe2f5"/>
+    <path d="M204 129l38 6-2 48-38-6z" fill="#ffffff" opacity=".35" stroke="#ffffff" stroke-width="1"/>
+    <path d="M206 140h14M206 148h22M206 156h10" stroke="${NAVY}" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M226 166l4 -6 4 6" stroke="#e5533d" stroke-width="2.5" fill="none"/></g>`,
+  // питомцы рядом
+  mouse:()=>ITEMG.mouse,
+  // транспорт
+  truck:()=>ITEMG.truck,
+  skate:()=>`<g stroke="${NAVY}" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M78 204h144q10 0 10 6t-10 6H78q-10 0-10-6t10-6z" fill="#f8a878"/>
+    <circle cx="100" cy="216" r="5" fill="#ffffff"/><circle cx="200" cy="216" r="5" fill="#ffffff"/></g>`,
+  bike:()=>`<g stroke="#6b2f1e" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="48" cy="172" r="36" stroke="#2a2230" stroke-width="5"/><circle cx="252" cy="172" r="36" stroke="#2a2230" stroke-width="5"/>
+    <circle cx="48" cy="172" r="4" fill="#9b4a2a"/><circle cx="252" cy="172" r="4" fill="#9b4a2a"/>
+    <path d="M48 172L120 120L230 120L252 172M120 120L150 176L230 120M150 176L48 172" stroke="#9b4a2a"/>
+    <path d="M230 120L236 92L258 86M236 92L218 88" stroke="#5a5866"/></g>`,
+};
+// Где «держит» лапа для предметов в лапе
+const HOLD={seeds:[214,182],coffee:[214,170],lemonade:[214,176],mic:[212,170],tablet:[204,176]};
+const ITEMVB={panama:'82 8 136 60',cap:'100 14 126 56',bandana:'96 22 128 60',ushanka:'88 10 124 104',helmet:'80 10 140 64',glasses:'78 76 144 34',
+  chain:'96 116 108 36',bag:'182 168 48 38',cig:'152 90 52 42',seeds:'190 134 52 62',coffee:'194 106 44 84',lemonade:'196 102 36 88',mic:'176 106 50 84',tablet:'190 118 58 74',
+  mouse:'20 178 64 32',truck:'0 40 300 166',skate:'64 198 172 26',bike:'6 80 290 132',
+  stripes:'50 110 200 110',tracksuit:'50 110 200 110',hawaii:'50 110 200 110',suit:'50 110 200 110',puffer:'46 106 208 112',kitten:'0 0 300 215'};
+function clothesMarkup(id,cid){
+  if(id==='puffer') return PUFFER;
+  if(!CLOTHES[id]) return '';
+  return `<clipPath id="${cid}"><path d="${FUR}"/></clipPath><g clip-path="url(#${cid})">${CLOTHES[id]()}</g>`;
 }
-const catSVG=(mood,w)=>`<svg viewBox="0 0 300 215" role="img" aria-label="Пушистый чёрный котик Сипсик">${catInner(mood,w)}</svg>`;
-function faceSVG(mood){return `<svg viewBox="90 16 120 120" aria-hidden="true">${EARS}<path d="${FUR}" fill="${FC}"/>${FACE[mood]||FACE.neutral}${NOSE}</svg>`}
-const itemSVG=id=>`<svg viewBox="${ITEMVB[id]}" aria-hidden="true">${ITEMG[id]}</svg>`;
+function kittenMarkup(coat){
+  coat=COATS[coat]?coat:curCoat(); const P=COATS[coat];
+  return `<g transform="translate(26 168) scale(.27)">${catBody(P,coat)}<ellipse cx="128" cy="204" rx="17" ry="7" fill="${P.paws||P.fur}"/><ellipse cx="172" cy="204" rx="17" ry="7" fill="${P.paws||P.fur}"/>${faceMarkup('neutral',P)}<path d="M145 106h10l-5 5.5z" fill="${P.nose}"/></g>`;
+}
+function wornIn(w,slot){return ITEMS.filter(i=>i.slot===slot&&w[i.id]).map(i=>i.id)}
+function itemSVG(id){
+  const vb=ITEMVB[id]||'0 0 300 215';
+  let inner;
+  if(id==='kitten') inner=kittenMarkup();
+  else if(CLOTHES[id]||id==='puffer') inner=`<path d="${FUR}" fill="#e9e6f0"/>${clothesMarkup(id,'ic'+(++clipN))}`;
+  else inner=ITEM_ART[id]?ITEM_ART[id]():'';
+  if(id==='kitten') return `<svg viewBox="20 160 80 60" aria-hidden="true">${inner}</svg>`;
+  return `<svg viewBox="${vb}" aria-hidden="true">${inner}</svg>`;
+}
+let clipN=0;
+function earsMarkup(P,coat){
+  const L='M100 74L109 34L137 56Z',R='M200 74L191 34L163 56Z',iL='M110 62L113 44L128 56Z',iR='M190 62L187 44L172 56Z';
+  const of=P.earFill||P.fur;
+  if(coat==='calico') return `<path d="${L}" fill="#d9844a" stroke="#d9844a" stroke-width="3" stroke-linejoin="round"/><path d="${R}" fill="#1d1b26" stroke="#1d1b26" stroke-width="3" stroke-linejoin="round"/><path d="${iL}${iR}" fill="${P.ear}"/>`;
+  return `<path d="${L}${R}" fill="${of}" stroke="${of}" stroke-width="3" stroke-linejoin="round"/><path d="${iL}${iR}" fill="${P.ear}"/>`;
+}
+// Узор поверх шерсти, обрезанный по силуэту
+function patternMarkup(P,coat,cid){
+  let g='';
+  if(P.pat==='tabby'){
+    const s=P.stripe;
+    g+=`<path d="M138 50v15M150 47v18M162 50v15" stroke="${s}" stroke-width="5" stroke-linecap="round"/>`;
+    const side='M58 112q16 5 26 0M56 132q18 5 30 0M58 152q16 5 28 0M64 172q14 4 24 0';
+    g+=`<path d="${side}" stroke="${s}" stroke-width="6" fill="none" stroke-linecap="round"/><g transform="translate(300 0) scale(-1 1)"><path d="${side}" stroke="${s}" stroke-width="6" fill="none" stroke-linecap="round"/></g>`;
+    if(P.chest) g+=`<ellipse cx="150" cy="166" rx="34" ry="36" fill="${P.chest}"/><ellipse cx="150" cy="118" rx="22" ry="13" fill="${P.chest}"/>`;
+  } else if(P.pat==='calico'){
+    g+=`<ellipse cx="96" cy="80" rx="44" ry="36" fill="#d9844a"/><ellipse cx="208" cy="76" rx="40" ry="32" fill="#1d1b26"/>
+      <ellipse cx="204" cy="178" rx="38" ry="30" fill="#d9844a"/><ellipse cx="80" cy="168" rx="28" ry="26" fill="#1d1b26"/>`;
+  } else if(P.pat==='siamese'){
+    g+=`<ellipse cx="150" cy="100" rx="56" ry="42" fill="#4a3328" opacity=".35"/><ellipse cx="150" cy="101" rx="48" ry="35" fill="#4a3328"/>`;
+  } else if(P.pat==='tuxedo'){
+    g+=`<ellipse cx="150" cy="170" rx="30" ry="40" fill="#ffffff"/><ellipse cx="150" cy="116" rx="24" ry="15" fill="#ffffff"/>
+      <path d="M150 104l-10 14h20z" fill="#ffffff"/>`;
+  }
+  return g?`<clipPath id="${cid}"><path d="${FUR}"/></clipPath><g clip-path="url(#${cid})">${g}</g>`:'';
+}
+function catBody(P,coat){
+  const cid='cc'+(++clipN);
+  return `${earsMarkup(P,coat)}
+    <path d="${FUR}" fill="${P.fur}" ${P.outline?`stroke="${P.outline}" stroke-width="2.5"`:''}/>
+    <path d="${STRANDS}" stroke="${P.strand}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    ${patternMarkup(P,coat,cid)}
+    ${P.noBelly?'':`<path d="M116 128Q150 146 184 128" stroke="${P.belly}" stroke-width="3" fill="none" stroke-linecap="round"/>`}`;
+}
+function catInner(mood,w,coat){
+  coat=COATS[coat]?coat:curCoat(); const P=COATS[coat];
+  const paw=P.paws||P.fur, has=id=>!!w[id];
+  const ride=wornIn(w,'ride')[0], head=wornIn(w,'head')[0], body=wornIn(w,'body')[0], hold=wornIn(w,'paw')[0], pet=wornIn(w,'pet')[0];
+  const feet=`<ellipse cx="128" cy="204" rx="17" ry="7" fill="${paw}" ${P.outline||P.paws?`stroke="${P.outline||P.fur}" stroke-width="2"`:''}/><ellipse cx="172" cy="204" rx="17" ry="7" fill="${paw}" ${P.outline||P.paws?`stroke="${P.outline||P.fur}" stroke-width="2"`:''}/>`;
+  return `${ride==='truck'||ride==='bike'?ITEM_ART[ride]():''}<ellipse cx="150" cy="209" rx="96" ry="6" fill="#1f1d38" opacity=".1"/>
+  ${ride==='skate'?ITEM_ART.skate():''}
+  <g class="breath"><g class="catbody">
+    ${catBody(P,coat)}
+    ${body&&body!=='puffer'?clothesMarkup(body,'cl'+(++clipN)):''}
+    ${feet}
+    ${body==='puffer'?PUFFER:''}
+    ${head?ITEM_ART[head]():''}
+    ${faceMarkup(mood,P)||faceMarkup('happy',P)}<path d="M145 106h10l-5 5.5z" fill="${P.nose}"/>
+    ${mood==='tired'||mood==='happy'?'':`<g class="lids"><ellipse cx="126" cy="92" rx="19" ry="19" fill="${P.lid}"/><ellipse cx="174" cy="92" rx="19" ry="19" fill="${P.lid}"/></g>`}
+    <path d="M120 108L58 99M120 112L60 114M180 108L242 99M180 112L240 114" stroke="${P.whisk}" stroke-width="1.3" stroke-linecap="round"/>
+    ${has('glasses')?ITEM_ART.glasses():''}
+    ${has('chain')?ITEMG.chain:''}${has('bag')?ITEMG.bag:''}${has('cig')?ITEMG.cig:''}
+    ${hold?ITEM_ART[hold]()+`<ellipse cx="${HOLD[hold][0]}" cy="${HOLD[hold][1]}" rx="12" ry="9" fill="${paw}" ${P.outline||P.paws?`stroke="${P.outline||P.fur}" stroke-width="2"`:''}/>`:''}
+  </g></g>${pet==='mouse'?ITEMG.mouse:''}${pet==='kitten'?kittenMarkup(coat):''}`;
+}
+const catSVG=(mood,w,coat)=>`<svg viewBox="0 0 300 215" role="img" aria-label="Пушистый котик Сипсик">${catInner(mood,w,coat)}</svg>`;
+function faceSVG(mood,coat){coat=COATS[coat]?coat:curCoat();const P=COATS[coat];return `<svg viewBox="90 16 120 120" aria-hidden="true">${catBody(P,coat)}${faceMarkup(mood,P)||faceMarkup('neutral',P)}<path d="M145 106h10l-5 5.5z" fill="${P.nose}"/></svg>`}
 const moodName=id=>(MOODS.find(m=>m.id===id)||{n:'—'}).n.toLowerCase();
 const CHECK=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>`;
 
@@ -515,8 +752,10 @@ async function ping() {
 }
 
 /* ---------- taps ---------- */
+const tapCap = () => S.couple.tap_cap || 1000;
+const tiredNow = () => (S.couple.taps_today || 0) >= tapCap();
 function queueTap() {
-  pendingTaps++; S.couple.clicks++;
+  pendingTaps++; S.couple.clicks++; S.couple.taps_today = (S.couple.taps_today || 0) + 1;
   clearTimeout(tapTimer);
   tapTimer = setTimeout(flushTaps, pendingTaps >= 250 ? 0 : 900);
 }
@@ -525,15 +764,18 @@ async function flushTaps(keepalive) {
   const n = Math.min(pendingTaps, 300); pendingTaps -= n; tapInFlight = true;
   try {
     const res = await api('tap', {n}, {keepalive});
-    S.couple.clicks = res.clicks + pendingTaps;
+    const wasTired = tiredNow();
+    if (res.capped) { pendingTaps = 0; S.couple.clicks = res.clicks; S.couple.taps_today = res.today; }
+    else { S.couple.clicks = res.clicks + pendingTaps; S.couple.taps_today = (res.today || 0) + pendingTaps; }
     S.couple.worn = res.worn;
+    if (tiredNow() !== wasTired && tab === 'us') render();
     if (res.unlocked && res.unlocked.length) {
       haptic('heavy');
       if (tab === 'us') render();
       toast(pet() + ' получил: ' + res.unlocked.map(id => ITEMS.find(i => i.id === id).n).join(', ') + '!');
     } else updateTapUI();
   } catch (e) {
-    S.couple.clicks -= n; updateTapUI(); toast(e.message);
+    S.couple.clicks -= n; S.couple.taps_today = Math.max(0, (S.couple.taps_today || 0) - n); updateTapUI(); toast(e.message);
   } finally {
     tapInFlight = false;
     if (pendingTaps) tapTimer = setTimeout(flushTaps, 300);
@@ -544,6 +786,7 @@ function updateTapUI() {
   t.textContent = S.couple.clicks.toLocaleString('ru-RU');
   document.getElementById('tapW').textContent = plural(S.couple.clicks, ['тап','тапа','тапов']);
   const nw = document.getElementById('nextWrap'); if (nw) nw.outerHTML = nextBlock();
+  const td = document.getElementById('tapToday'); if (td) td.textContent = Math.min(S.couple.taps_today || 0, tapCap()) + ' / ' + tapCap() + ' сегодня';
 }
 
 /* ---------- names ---------- */
@@ -651,11 +894,12 @@ function vUs() {
   const streakTxt = sk.n ? `🔥 <b>${sk.n}</b> ${plural(sk.n, ['день','дня','дней'])} подряд вместе` : '🔥 Заходите оба каждый день, и начнётся серия';
   const waitTxt = S.partner && !sk.partner_today ? ` · ждём ${esc(pName())}` : '';
   const band = `
-    <button class="stage" id="cat" data-act="pet" aria-label="Погладить котика">${catSVG(sad ? 'tears' : (m || 'happy'), c.worn)}</button>
+    <button class="stage" id="cat" data-act="pet" aria-label="Погладить котика">${catSVG(sad ? 'tears' : tiredNow() ? 'tired' : (m || 'happy'), c.worn)}${tiredNow() ? '<span class="say">Я устал, подождите до завтра 😴</span>' : ''}</button>
     <div class="namepill">${esc(pet())} <b id="tapN">${c.clicks.toLocaleString('ru-RU')}</b><span id="tapW" class="small">${plural(c.clicks, ['тап','тапа','тапов'])}</span></div>
     ${S.partner ? `<div class="streak">${streakTxt}${waitTxt}</div>` : ''}
-    <div class="pills" role="group" aria-label="Раздел"><button class="pill" data-act="usseg" data-id="today" aria-pressed="${ui.us !== 'mem'}">Сегодня</button><button class="pill" data-act="usseg" data-id="mem" aria-pressed="${ui.us === 'mem'}">Воспоминания</button></div>`;
+    <div class="pills" role="group" aria-label="Раздел"><button class="pill" data-act="usseg" data-id="today" aria-pressed="${ui.us === 'today'}">Сегодня</button><button class="pill" data-act="usseg" data-id="thanks" aria-pressed="${ui.us === 'thanks'}">Спасибо</button><button class="pill" data-act="usseg" data-id="mem" aria-pressed="${ui.us === 'mem'}">Воспоминания</button></div>`;
   if (ui.us === 'mem') return [band, vMemories()];
+  if (ui.us === 'thanks') return [band, vThanks()];
   const recv = S.notes.received.slice(0, 3);
   const body = `
   ${sad ? `<section class="card missed"><h2>${esc(pet())} скучал ${ui.missed} ${plural(ui.missed, ['день','дня','дней'])} 🥺</h2><p class="small" style="margin-top:4px">Потапай его, и он снова улыбнётся.</p></section>` : ''}
@@ -680,6 +924,9 @@ function vUs() {
     ${S.partner ? `<div class="partner"><span class="face">${faceSVG(S.moods.partner || 'neutral')}</span><span>${esc(pName())} сегодня: <b>${S.moods.partner ? moodLabel(S.moods.partner, S.partner.gender) : 'ещё не отметил(а)'}</b></span></div>` : ''}
   </section>
 
+  ${supportCard()}
+  ${talkCard()}
+  ${thanksPrompt()}
   ${noteCard()}
   ${tasksCard()}
   ${questionCard()}
@@ -698,15 +945,167 @@ function vUs() {
     </div>
   </section>
 
+  ${coatCard()}
   <section class="card">
-    <div class="row between"><h2>Вещи ${esc(pet())}</h2><span class="small muted">тапы общие</span></div>
+    <div class="row between"><h2>Вещи котика</h2><span class="small muted" id="tapToday">${Math.min(c.taps_today || 0, tapCap())} / ${tapCap()} сегодня</span></div>
     <div style="margin-top:10px">${nextBlock()}</div>
-    <div class="items">${ITEMS.map(it => {
+    <div class="items">${ITEMS.filter((it, i) => ui.allItems || c.clicks >= it.at || ITEMS.findIndex(x => c.clicks < x.at) + 2 >= i).map(it => {
       if (c.clicks >= it.at) { const on = !!c.worn[it.id]; return `<button class="item ${on ? 'on' : ''}" data-act="wear" data-id="${it.id}" aria-pressed="${on}">${itemSVG(it.id)}<b>${it.n}</b><span>${on ? 'Надето' : 'Снято'}</span></button>`; }
       return `<div class="item locked">${itemSVG(it.id)}<b>${it.n}</b><span>${it.at.toLocaleString('ru-RU')} тапов</span></div>`;
     }).join('')}</div>
+    <button class="linkbtn" data-act="allitems">${ui.allItems ? 'Свернуть' : 'Все ' + ITEMS.length + ' вещей: от семечек до котёнка'}</button>
   </section>`;
   return [band, body];
+}
+const SOS_KINDS = [
+  {id: 'hug', e: '🫂', t: 'Обними без лишних вопросов'},
+  {id: 'listen', e: '👂', t: 'Выслушай меня'},
+  {id: 'space', e: '🌙', t: 'Мне нужно немного побыть одному', tf: 'Мне нужно немного побыть одной'},
+  {id: 'calm', e: '🕊', t: 'Мы поссорились, давай остынем и помиримся'},
+  {id: 'care', e: '🍵', t: 'Позаботься обо мне'},
+];
+function supportCard() {
+  if (!S.partner || !S.sos) return '';
+  const m = S.sos.mine, pn = esc(pName());
+  if (m) return `<section class="card sosmine">
+    <div class="eyebrow">Сигнал отправлен</div>
+    <h2>${m.emoji} ${esc(m.ask)}</h2>
+    <div class="bubbles">${m.reply ? `<div class="bubble p"><small>${pn}</small>${esc(m.reply)}</div>` : `<div class="bubble wait">${pn} получил(а) сигнал в Telegram. Ответ появится здесь</div>`}</div>
+    <div class="two" style="margin-top:12px"><button class="btn" data-act="breathe">Подышать с котиком</button><button class="btn navy" data-act="sosok" data-id="${m.id}">Мне уже лучше</button></div>
+  </section>`;
+  return `<section class="card sosask row between wrap" style="gap:12px">
+    <div style="flex:1;min-width:170px"><h2>🫂 Тяжело?</h2><p class="small muted" style="margin-top:4px">Нажми, и ${pn} получит подсказку, как тебя поддержать</p></div>
+    <button class="btn navy" data-act="sosopen">Нужна поддержка</button>
+  </section>`;
+}
+function sosBanner() {
+  const p = S && S.partner && S.sos && S.sos.partner; if (!p) return '';
+  const pn = esc(pName());
+  return `<section class="card sosp">
+    <div class="eyebrow" style="color:var(--peach)">${pn} просит поддержки</div>
+    <h2>${p.emoji} «${esc(p.ask)}»</h2>
+    ${p.body ? `<p style="margin-top:6px">${esc(p.body)}</p>` : ''}
+    <p class="tip">💡 ${esc(p.tip)}</p>
+    ${p.reply ? `<p class="small" style="opacity:.8;margin-top:10px">Ты ответил(а): <b>${esc(p.reply)}</b></p>` : `
+    <div class="chips" style="margin-top:12px">${S.sos.replies.map(r => `<button class="chip onnavy" data-act="sosreply" data-id="${esc(r)}">${esc(r)}</button>`).join('')}</div>
+    <div class="addrow" style="margin-top:8px"><input type="text" id="sosText" placeholder="Или напиши своё" maxlength="200"><button class="btn peach" data-act="sosreply">Ответить</button></div>`}
+  </section>`;
+}
+function openSosSheet() {
+  ui.sosKind = null;
+  openSheet('sos', `
+    <h2>Что тебе сейчас нужно?</h2>
+    <p class="small muted">${esc(pName())} сразу получит сообщение в Telegram с подсказкой, как тебя поддержать.</p>
+    <div class="soskinds">${SOS_KINDS.map(k => `<button class="soskind" data-act="soskind" data-id="${k.id}" aria-pressed="false"><span>${k.e}</span>${esc(S.me.gender === 'f' && k.tf ? k.tf : k.t)}</button>`).join('')}</div>
+    <textarea id="sosBody" rows="2" maxlength="300" placeholder="Пара слов, если хочется (необязательно)"></textarea>
+    <div class="two"><button class="btn" data-act="sclose">Отмена</button><button class="btn navy" data-act="sossend">Отправить сигнал</button></div>`);
+}
+let breathTimer = null;
+function openBreath() {
+  const sc = openSheet('breath', `
+    <h2>Подыши вместе с котиком</h2>
+    <div class="breathe"><div class="bcircle" id="bCircle"><span class="face">${faceSVG('neutral')}</span></div><b id="bText">Вдох</b><span class="small muted" id="bCount"></span></div>
+    <button class="btn" data-act="sclose">Закрыть</button>`);
+  const phases = [['Вдох', 4, 1.35], ['Задержи дыхание', 4, 1.35], ['Выдох', 6, 0.85]];
+  let i = 0, left = 0;
+  const circle = sc.querySelector('#bCircle'), txt = sc.querySelector('#bText'), cnt = sc.querySelector('#bCount');
+  const step = () => {
+    if (!document.body.contains(sc)) { clearInterval(breathTimer); return; }
+    if (left <= 0) { const [t, s, k] = phases[i % 3]; txt.textContent = t; left = s; circle.style.transitionDuration = s + 's'; circle.style.transform = 'scale(' + k + ')'; i++; }
+    cnt.textContent = left + ' с'; left--;
+  };
+  clearInterval(breathTimer); step(); breathTimer = setInterval(step, 1000);
+}
+/* ----- дневник благодарности ----- */
+function thanksPrompt() {
+  if (!S.partner || !S.thanks) return '';
+  const t = today();
+  if (S.thanks.some(x => x.who === 'me' && ymd(new Date(x.created_at)) === t)) return '';
+  return `<section class="card thankp row between wrap" style="gap:12px">
+    <div style="flex:1;min-width:170px"><h2>💛 Спасибо за мелочи</h2><p class="small muted" style="margin-top:4px">За что ты ${S.me.gender === 'm' ? 'благодарен' : S.me.gender === 'f' ? 'благодарна' : 'благодарен(на)'} ${esc(pName())} сегодня?</p></div>
+    <button class="btn navy" data-act="usseg" data-id="thanks">Поблагодарить</button>
+  </section>`;
+}
+function vThanks() {
+  if (!S.partner) return `${inviteCard()}<div class="empty">Когда партнёр присоединится, здесь можно будет благодарить друг друга.</div>`;
+  const list = S.thanks || [], pn = esc(pName());
+  const weekAgo = Date.now() - 7 * 864e5;
+  const wk = list.filter(x => Date.parse(x.created_at) > weekAgo);
+  const mineW = wk.filter(x => x.who === 'me').length, theirW = wk.length - mineW;
+  let lastDay = '';
+  const feed = list.map(x => {
+    const d = ymd(new Date(x.created_at)); let head = '';
+    if (d !== lastDay) { lastDay = d; const k = diff(d, today()); head = `<div class="dayhead">${k === 0 ? 'Сегодня' : k === 1 ? 'Вчера' : fmtShort(d)}</div>`; }
+    const mine = x.who === 'me';
+    return `${head}<div class="thank ${mine ? 'me' : 'p'}">
+      <div class="tb"><small>${mine ? 'Ты → ' + pn : pn + ' → тебе'}</small>${esc(x.body)}</div>
+      ${mine ? (x.hearted ? '<span class="hrt on" title="Понравилось">💛</span>' : (ui.thDel === x.id ? `<button class="mini warn" data-act="thdel" data-id="${x.id}">Удалить?</button>` : (isTmp(x.id) ? '' : `<button class="x" data-act="thdelarm" data-id="${x.id}" aria-label="Удалить">×</button>`)))
+        : `<button class="hrt ${x.hearted ? 'on' : ''}" data-act="thheart" data-id="${x.id}" aria-pressed="${x.hearted}" aria-label="Нравится">${x.hearted ? '💛' : '🤍'}</button>`}
+    </div>`;
+  }).join('');
+  return `<section class="card form">
+      <h2>Спасибо, ${pn}, за…</h2>
+      <textarea id="thText" rows="2" maxlength="500" placeholder="Например: что заварил мне чай вечером"></textarea>
+      <div class="chips">${['что был рядом', 'за вкусный ужин', 'что помог по дому', 'за поддержку', 'что рассмешил'].map(c => `<button class="chip" data-act="thchip" data-id="${c}">${c}</button>`).join('')}</div>
+      <button class="btn navy" data-act="thadd">Поблагодарить 💛</button>
+    </section>
+    <div class="split"><div><span>Ты за неделю</span><b>${mineW}</b><span>${plural(mineW, ['спасибо','спасибо','спасибо'])}</span></div><div><span>${pn} за неделю</span><b>${theirW}</b><span>спасибо</span></div></div>
+    ${list.length ? `<div class="thanks">${feed}</div>` : `<div class="empty">Здесь будут ваши «спасибо» за мелочи, которые легко не заметить. Напиши первое «спасибо» 💛</div>`}`;
+}
+/* ----- сказать бережно ----- */
+const FEELINGS = ['обиду', 'тревогу', 'грусть', 'усталость', 'раздражение', 'одиночество', 'растерянность', 'разочарование', 'ревность', 'бессилие'];
+const NEEDS = ['внимание', 'поддержка', 'уважение', 'предсказуемость', 'отдых', 'близость', 'честность', 'помощь', 'свобода', 'забота'];
+const BLAME = /(всегда|никогда|опять|вечно|специально|как обычно|постоянно)/i;
+function talkCard() {
+  if (!S.partner || !S.talk) return '';
+  const m = S.talk.mine, pn = esc(pName());
+  if (m) return `<section class="card talkmine">
+    <div class="eyebrow">Твоё сообщение для ${pn}</div>
+    <div class="bubbles"><div class="bubble me">${esc(m.body)}</div>
+    ${m.reply ? `<div class="bubble p"><small>${pn}</small>${esc(m.reply)}</div>` : `<div class="bubble wait">${pn} получил(а) сообщение. Ответ появится здесь</div>`}</div>
+    <button class="btn" style="margin-top:12px;width:100%" data-act="talkclose" data-id="${m.id}">Мы поговорили ✓</button>
+  </section>`;
+  return `<section class="card sosask row between wrap" style="gap:12px">
+    <div style="flex:1;min-width:170px"><h2>🕊 Что-то задело?</h2><p class="small muted" style="margin-top:4px">Помогу сказать это бережно, без обвинений, чтобы ${pn} услышал(а)</p></div>
+    <button class="btn navy" data-act="talkopen">Сказать бережно</button>
+  </section>`;
+}
+function talkBanner() {
+  const p = S && S.partner && S.talk && S.talk.partner; if (!p || p.reply) return '';
+  const pn = esc(pName());
+  return `<section class="card sosp">
+    <div class="eyebrow" style="color:var(--peach)">${pn} хочет бережно поговорить</div>
+    <p style="margin-top:8px;font-size:16px;line-height:1.45">«${esc(p.body)}»</p>
+    <p class="tip">💡 Сначала просто постарайся услышать чувства, а не обвинение. Не оправдывайся сразу.</p>
+    <div class="chips" style="margin-top:12px">${S.talk.replies.map(r => `<button class="chip onnavy" data-act="talkreply" data-id="${esc(r)}">${esc(r)}</button>`).join('')}</div>
+    <div class="addrow" style="margin-top:8px"><input type="text" id="talkText" placeholder="Или напиши своё" maxlength="500"><button class="btn peach" data-act="talkreply">Ответить</button></div>
+  </section>`;
+}
+function openTalkSheet() {
+  ui.feel = []; ui.need = [];
+  const chips = (list, kind) => list.map(x => `<button class="chip" data-act="talkchip" data-kind="${kind}" data-id="${x}" aria-pressed="false">${x}</button>`).join('');
+  openSheet('talk', `
+    <h2>Сказать бережно</h2>
+    <p class="small muted">Четыре шага ненасильственного общения. Так ${esc(pName())} услышит тебя, а не начнёт защищаться.</p>
+    <div class="lbl">1. Что произошло? Только факт, без оценок<textarea id="tFact" rows="2" maxlength="400" placeholder="Например: вчера ты пришёл на час позже и не написал"></textarea><span class="hint warn" id="tWarn" hidden>Попробуй без «всегда» и «никогда»: опиши один конкретный случай</span></div>
+    <div class="lbl">2. Что я чувствую<div class="chips">${chips(FEELINGS, 'feel')}</div></div>
+    <div class="lbl">3. Что мне важно<div class="chips">${chips(NEEDS, 'need')}</div></div>
+    <div class="lbl">4. О чём я прошу? Конкретно и выполнимо<textarea id="tAsk" rows="2" maxlength="300" placeholder="Например: если задерживаешься, напиши мне пару слов"></textarea></div>
+    <button class="btn" data-act="talkbuild">Собрать сообщение</button>
+    <div class="lbl" id="tResWrap" hidden>Готовое сообщение, можно поправить<textarea id="tRes" rows="5" maxlength="1500"></textarea>
+      ${S.talk && S.talk.ai ? '<button class="btn" data-act="talkai">✨ Сделать мягче с ИИ</button>' : ''}</div>
+    <div class="two"><button class="btn" data-act="sclose">Отмена</button><button class="btn navy" data-act="talksend">Отправить</button></div>`);
+}
+function buildTalk() {
+  const low = s => s ? s.charAt(0).toLowerCase() + s.slice(1) : s;
+  const join = a => a.length > 1 ? a.slice(0, -1).join(', ') + ' и ' + a[a.length - 1] : a[0];
+  const fact = val('tFact').replace(/[.!]+$/, ''), ask = val('tAsk').replace(/[.!]+$/, '');
+  const parts = [];
+  if (fact) parts.push('Когда ' + low(fact) + (ui.feel.length ? ', я чувствую ' + join(ui.feel) : '') + '.');
+  else if (ui.feel.length) parts.push('Я чувствую ' + join(ui.feel) + '.');
+  if (ui.need.length) parts.push('Для меня важно: ' + join(ui.need) + '.');
+  if (ask) parts.push('Моя просьба: ' + low(ask) + '.');
+  return parts.join(' ');
 }
 function noteCard() {
   const way = S.notes.sent.filter(n => !n.delivered_at).length;
@@ -717,6 +1116,36 @@ function noteCard() {
       <button class="btn peach" data-act="qnote">Написать</button>
     </div>
   </section>`;
+}
+function coatCard() {
+  const list = S.coats || []; if (!list.length) return '';
+  const owned = S.couple.owned || ['black'], cur = S.couple.coat || 'black';
+  return `<section class="card">
+    <div class="row between"><h2>Окрас котика</h2><span class="small muted">общий на двоих</span></div>
+    <div class="coats">${list.map(c => {
+      const has = owned.includes(c.id) || !c.price, on = cur === c.id;
+      return `<button class="coat ${on ? 'on' : ''}" data-act="coat" data-id="${c.id}" aria-pressed="${on}">
+        <span class="face">${faceSVG('happy', c.id)}</span><b>${esc(c.name)}</b>
+        <span class="cp">${on ? 'Выбран' : has ? 'Ваш' : c.price + ' ⭐'}</span></button>`;
+    }).join('')}</div>
+  </section>`;
+}
+function openCoatSheet(id) {
+  const c = (S.coats || []).find(x => x.id === id); if (!c) return;
+  openSheet('coat', `
+    <div class="coatprev">${catSVG('happy', S.couple.worn, id)}</div>
+    <h2 style="text-align:center">${esc(pet())}: ${esc(c.name.toLowerCase())} окрас</h2>
+    <p class="small muted" style="text-align:center">Окрас достанется вам обоим навсегда. Вещи и эмоции сохранятся, переключать можно в любой момент.</p>
+    <button class="btn peach" data-act="buy" data-id="${c.id}">Купить за ${c.price} ⭐</button>
+    <button class="btn" data-act="sclose">Не сейчас</button>
+    <p class="small muted" style="text-align:center">Оплата звёздами Telegram. Вопрос о покупке: /paysupport в боте</p>`);
+}
+async function waitCoat(id) {
+  for (let i = 0; i < 12; i++) {
+    await new Promise(r => setTimeout(r, 1500));
+    try { const st = await api('state'); if ((st.couple.owned || []).includes(id)) { S = st; render(); haptic('success'); toast('Готово! ' + pet() + ' в новом окрасе 🎉'); return; } } catch (_) {}
+  }
+  toast('Оплата прошла. Окрас появится через минуту, обнови экран');
 }
 function tasksCard() {
   if (!S.tasks) return '';
@@ -769,7 +1198,9 @@ function vMemories() {
       <textarea id="mText" rows="3" placeholder="Что запомнилось?" maxlength="1000"></textarea>
       <label class="lbl">Когда это было<input type="date" id="mDay" value="${t}" max="${t}"></label>
       <div class="two"><button class="btn" data-act="memcancel">Отмена</button><button class="btn navy" data-act="memadd">Сохранить</button></div>
-    </section>` : `<button class="btn peach block" data-act="memform">+ Добавить воспоминание</button>`;
+    </section>` : (S.memories || []).length >= LIM().memories
+      ? `<div class="lockline">Воспоминаний ${LIM().memories} из ${LIM().memories}. Чтобы добавить новое, удали одно из старых</div>`
+      : `<button class="btn peach block" data-act="memform">+ Добавить воспоминание · ${(S.memories || []).length} из ${LIM().memories}</button>`;
   return `${form}
   ${onThis.length ? `<section class="card onthis stack"><h2>В этот день</h2>${onThis.map(m => { const k = y - +m.day.slice(0, 4); return memCard(m, k + ' ' + plural(k, ['год','года','лет']) + ' назад'); }).join('')}</section>` : ''}
   ${feed.length ? `<div class="mems">${feed.map(m => memCard(m)).join('')}</div>` : (onThis.length ? '' : `<div class="empty">Здесь будут ваши моменты: фото и пара слов о дне. Через год Сипсик покажет их вам снова.</div>`)}`;
@@ -783,6 +1214,8 @@ function nextBlock() {
   return `<div id="nextWrap"><div class="nextline"><span>${nx ? 'Следующая вещь: ' + nx.n : pet() + ' собрал всё'}</span><span class="muted">${nx ? 'ещё ' + left.toLocaleString('ru-RU') : ''}</span></div><div class="bar"><i style="width:${pct}%"></i></div></div>`;
 }
 
+const LIM = () => S.limits || {wish_photos: 5, memories: 7};
+const wishPhotos = owner => S.wishes.filter(w => w.owner === owner && w.photo_url).length;
 function vWish() {
   const mine = ui.who === 'me';
   const list = S.wishes.filter(w => w.owner === (mine ? 'me' : 'partner')).sort((a, b) => a.done - b.done);
@@ -794,7 +1227,8 @@ function vWish() {
     ${mine ? 'Кто готовит тебе подарок, ты не увидишь' : 'Отметь, что даришь ты. ' + esc(pName()) + ' этого не увидит'}</div>
   ${ui.wishForm ? `<section class="card form">
       <h2>Новое желание ${mine ? 'для меня' : 'для ' + esc(pName())}</h2>
-      <label class="photopick"><input type="file" accept="image/*" id="wPhoto"><span class="thumb">${ui.draftPhoto ? `<img src="${ui.draftPhoto.thumb}" alt="">` : '+'}</span><span><b>${ui.draftPhoto ? 'Фото добавлено' : 'Добавить фото'}</b><span>${ui.draftPhoto ? 'Нажми, чтобы заменить' : 'Скриншот из магазина или фото вещи'}</span></span></label>
+      ${wishPhotos(mine ? 'me' : 'partner') >= LIM().wish_photos ? `<p class="small muted">Фото: ${LIM().wish_photos} из ${LIM().wish_photos}. Чтобы добавить новое, удали одно из желаний с фото</p>` :
+      `<label class="photopick"><input type="file" accept="image/*" id="wPhoto"><span class="thumb">${ui.draftPhoto ? `<img src="${ui.draftPhoto.thumb}" alt="">` : '+'}</span><span><b>${ui.draftPhoto ? 'Фото добавлено' : 'Добавить фото'}</b><span>${ui.draftPhoto ? 'Нажми, чтобы заменить' : `Скриншот или фото вещи · ${wishPhotos(mine ? 'me' : 'partner')} из ${LIM().wish_photos}`}</span></span></label>`}
       <input type="text" id="wT" placeholder="Что хочется" maxlength="120">
       <div class="two"><input type="text" id="wP" placeholder="Цена" maxlength="40"><input type="url" id="wL" placeholder="Ссылка" maxlength="500"></div>
       <input type="text" id="wN" placeholder="Размер, цвет, где купить" maxlength="300">
@@ -804,7 +1238,7 @@ function vWish() {
     <article class="wish ${w.done ? 'got' : ''} ${!mine && w.reserved_by_me && !w.done ? 'res' : ''}">
       ${w.thumb_url ? `<button class="photo" data-act="photo" data-id="${w.id}" aria-label="Открыть фото"><img src="${esc(w.thumb_url)}" alt="${esc(w.title)}" loading="lazy">
           ${w.done ? '<span class="badge">Сбылось</span>' : !mine && w.reserved_by_me ? '<span class="badge">Дарю я</span>' : ''}</button>`
-        : `<label class="photo" aria-label="Добавить фото"><span class="ph"><span class="face">${faceSVG('neutral')}</span>+ фото</span>
+        : wishPhotos(w.owner) >= LIM().wish_photos ? `<div class="photo"><span class="ph"><span class="face">${faceSVG('neutral')}</span>без фото</span>${w.done ? '<span class="badge">Сбылось</span>' : !mine && w.reserved_by_me ? '<span class="badge">Дарю я</span>' : ''}</div>` : `<label class="photo" aria-label="Добавить фото"><span class="ph"><span class="face">${faceSVG('neutral')}</span>+ фото</span>
           <input type="file" accept="image/*" class="photoIn" data-id="${w.id}">
           ${w.done ? '<span class="badge">Сбылось</span>' : !mine && w.reserved_by_me ? '<span class="badge">Дарю я</span>' : ''}</label>`}
       <div class="wbody">
@@ -980,7 +1414,7 @@ function render() {
   else if (!S.couple) parts = vOnboard();
   else { inApp = true; parts = {us:vUs, wish:vWish, home:vHome, cal:vCal, go:vGo}[tab](); }
   document.getElementById('bandSlot').innerHTML = parts[0];
-  document.getElementById('view').innerHTML = parts[1];
+  document.getElementById('view').innerHTML = (inApp ? sosBanner() + talkBanner() : '') + parts[1];
   document.getElementById('brandFace').innerHTML = faceSVG((S && S.moods && S.moods.me) || 'happy');
   document.querySelector('[data-act="settings"]').hidden = !inApp;
   const nav = document.querySelector('.nav'); nav.hidden = !inApp;
@@ -1037,6 +1471,7 @@ function openSettings() {
     <label class="toggle"><input type="checkbox" id="sNotify" ${S.me.notify !== false ? 'checked' : ''}><span>Присылать в Telegram, что отмечает ${esc(pName())}</span></label>
     <div class="form"><button class="btn navy" data-act="ssave">Сохранить</button><button class="btn" data-act="sclose">Закрыть</button></div>
     ${c.invite_link ? `<p class="small muted">Код приглашения: <b>${esc(c.invite_code)}</b></p><button class="btn peach" data-act="share">Пригласить партнёра</button>` : `<p class="small muted">Вы в паре: ${esc(meName())} и ${esc(pName())}</p>`}
+    <a class="linkbtn" style="text-decoration:none;color:var(--grey)" href="privacy.html" data-act="link" data-id="${esc(new URL('privacy.html', location.href).href)}">Конфиденциальность и удаление данных</a>
     <button class="linkbtn" data-act="leave">${ui.leaveArm ? 'Точно выйти? Твои желания удалятся. Нажми ещё раз' : 'Выйти из пары'}</button>`);
 }
 function fillNoteSheet(sc) {
@@ -1073,7 +1508,15 @@ function openPhoto(url) {
 }
 
 function petCat(btn) {
+  if (tiredNow()) {
+    haptic('error');
+    let say = btn.querySelector('.say');
+    if (!say) { render(); say = document.querySelector('#cat .say'); }
+    if (say) { say.classList.remove('wiggle'); void say.offsetWidth; say.classList.add('wiggle'); }
+    return;
+  }
   queueTap(); haptic('light');
+  if (tiredNow()) { render(); haptic('medium'); toast(pet() + ' устал. Тапы продолжатся завтра 😴'); return; }
   if (ui.missed >= 2 && !ui.cheered) { ui.cheered = true; render(); toast(pet() + ' снова счастлив 💜'); return; }
   btn.classList.remove('boop'); void btn.offsetWidth; btn.classList.add('boop');
   const p = document.createElement('span'); p.className = 'plus'; p.textContent = Math.random() < .2 ? '💜' : '+1';
@@ -1180,11 +1623,74 @@ document.addEventListener('click', async e => {
     }
     case 'datedel': if (busyTmp(id)) return; mutate('date.delete', {id}, s => { s.dates = s.dates.filter(x => x.id !== id); }); return;
     case 'qnote': openNoteSheet(); return;
+    case 'sosopen': openSosSheet(); return;
+    case 'soskind': ui.sosKind = id; b.parentElement.querySelectorAll('.soskind').forEach(x => x.setAttribute('aria-pressed', String(x === b))); return;
+    case 'sossend': {
+      if (!ui.sosKind) { toast('Выбери, что тебе сейчас нужно'); return; }
+      const body = val('sosBody'); closeSheet(); haptic('success');
+      if (await act('sos.send', {kind: ui.sosKind, body}, 'Сигнал отправлен ' + pName() + ' 💜')) openBreath();
+      return;
+    }
+    case 'sosreply': {
+      const p = S.sos && S.sos.partner; if (!p) return;
+      const r = id || val('sosText'); if (!r) { toast('Выбери ответ или напиши своё'); return; }
+      haptic('success'); mutate('sos.reply', {id: p.id, reply: r}, s => { s.sos.partner.reply = r; }, 'Ответ отправлен 💜'); return;
+    }
+    case 'sosok': mutate('sos.resolve', {id}, s => { s.sos.mine = null; }, 'Рады, что тебе лучше 🌤'); return;
+    case 'breathe': openBreath(); return;
+    case 'coat': {
+      const c = (S.coats || []).find(x => x.id === id); if (!c) return;
+      const has = (S.couple.owned || []).includes(id) || !c.price;
+      if (has) { if (S.couple.coat !== id) { haptic('medium'); mutate('coat.set', {coat: id}, s => { s.couple.coat = id; }); } return; }
+      openCoatSheet(id); return;
+    }
+    case 'buy': {
+      if (!tg.openInvoice) { toast('Обнови Telegram, чтобы покупать за звёзды'); return; }
+      b.disabled = true; b.textContent = 'Открываем оплату…';
+      try {
+        const r = await api('buy', {coat: id});
+        closeSheet();
+        tg.openInvoice(r.link, status => {
+          if (status === 'paid') { toast('Оплата прошла! Красим ' + pet() + '…'); waitCoat(id); }
+          else if (status === 'failed') toast('Оплата не прошла. Попробуй ещё раз');
+        });
+      } catch (err) { toast(err.message); b.disabled = false; b.textContent = 'Попробовать ещё раз'; }
+      return;
+    }
+    case 'thchip': { const f = document.getElementById('thText'); if (f) { f.value = (f.value ? f.value.trim() + ' ' : '') + id; f.focus(); } return; }
+    case 'thadd': { const t = val('thText'); if (!t) { toast('Напиши, за что спасибо'); return; } haptic('success');
+      mutate('thanks.add', {body: t}, s => { (s.thanks = s.thanks || []).unshift({id: tmpId(), who: 'me', body: t, hearted: false, created_at: new Date().toISOString()}); }, 'Спасибо отправлено 💛'); return; }
+    case 'thheart': if (busyTmp(id)) return; haptic('light'); mutate('thanks.heart', {id}, s => { const x = s.thanks.find(y => y.id === id); x.hearted = !x.hearted; }); return;
+    case 'thdelarm': ui.thDel = id; render(); return;
+    case 'thdel': if (busyTmp(id)) return; ui.thDel = null; mutate('thanks.delete', {id}, s => { s.thanks = s.thanks.filter(x => x.id !== id); }); return;
+    case 'talkopen': openTalkSheet(); return;
+    case 'talkchip': { const k = b.dataset.kind, arr = ui[k]; const on = arr.includes(id); if (on) arr.splice(arr.indexOf(id), 1); else arr.push(id); b.setAttribute('aria-pressed', String(!on)); return; }
+    case 'talkbuild': { const txt = buildTalk(); if (!txt) { toast('Заполни хотя бы один шаг'); return; } document.getElementById('tResWrap').hidden = false; const r = document.getElementById('tRes'); r.value = txt; r.scrollIntoView({behavior: 'smooth', block: 'center'}); return; }
+    case 'talkai': {
+      const r = document.getElementById('tRes'); const src = (r && r.value.trim()) || buildTalk(); if (!src) { toast('Сначала заполни шаги'); return; }
+      b.disabled = true; const old = b.textContent; b.textContent = 'ИИ думает…';
+      try { const res = await api('nvc.rewrite', {text: src}); r.value = res.text; toast('Готово ✨ Проверь и поправь, если нужно'); }
+      catch (err) { toast(err.message); } finally { b.disabled = false; b.textContent = old; }
+      return;
+    }
+    case 'talksend': {
+      let txt = (document.getElementById('tRes') || {}).value; txt = (txt || '').trim() || buildTalk();
+      if (!txt) { toast('Заполни хотя бы один шаг'); return; }
+      closeSheet(); haptic('success'); act('talk.send', {body: txt}, 'Сообщение отправлено бережно 🕊'); return;
+    }
+    case 'talkreply': { const p = S.talk && S.talk.partner; if (!p) return; const r = id || val('talkText'); if (!r) { toast('Выбери ответ или напиши своё'); return; }
+      mutate('talk.reply', {id: p.id, reply: r}, s => { s.talk.partner.reply = r; }, 'Ответ отправлен 🕊'); return; }
+    case 'talkclose': mutate('talk.close', {id}, s => { s.talk.mine = null; }, 'Рады, что вы поговорили 💜'); return;
     case 'qwish': tab = 'wish'; ui.who = 'me'; ui.wishForm = true; ui.draftPhoto = null; render(); scrollTo(0, 0); setTimeout(() => { const f = document.getElementById('wT'); f && f.focus(); }, 60); return;
     case 'qshop': openShopSheet(); return;
     case 'qplan': tab = 'cal'; ui.sel = today(); ui.calM = today().slice(0, 7); render(); scrollTo(0, 0);
       setTimeout(() => { const c = document.getElementById('dayCard'); c && c.scrollIntoView({behavior: 'smooth', block: 'center'}); const f = document.getElementById('plT'); f && f.focus({preventScroll: true}); }, 60); return;
-    case 'wear': mutate('wear', {item: id, on: !S.couple.worn[id]}, s => { s.couple.worn[id] = !s.couple.worn[id]; }); return;
+    case 'wear': {
+      const on = !S.couple.worn[id], it = ITEM_BY[id];
+      mutate('wear', {item: id, on}, s => { if (on && it) ITEMS.forEach(x => { if (x.slot === it.slot) s.couple.worn[x.id] = false; }); s.couple.worn[id] = on; });
+      return;
+    }
+    case 'allitems': ui.allItems = !ui.allItems; render(); return;
     case 'mood': haptic('medium'); mutate('mood', {mood: id}, s => { s.moods.me = id; }); return;
     case 'note': {
       const t = val('noteText'); if (!t) { toast('Напиши текст записки'); return; }
@@ -1251,10 +1757,16 @@ document.addEventListener('click', async e => {
       return;
   }
 });
+document.addEventListener('input', e => {
+  if (e.target.id === 'tFact') { const w = document.getElementById('tWarn'); if (w) w.hidden = !BLAME.test(e.target.value); }
+});
 document.addEventListener('keydown', e => {
   if (e.key !== 'Enter') return;
   const id = e.target.id;
   if (id === 'shopIn' || id === 'shopQ') { e.preventDefault(); document.querySelector(`[data-act="shopadd"][data-id="${id}"]`).click(); return; }
+  if (id === 'talkText') { e.preventDefault(); const t = document.querySelectorAll('.sosp .btn.peach'); t.length && t[t.length - 1].click(); return; }
+  if (id === 'sosText') { e.preventDefault(); const t = document.querySelector('.sosp .btn.peach'); t && t.click(); return; }
+  if (id === 'thText') return;
   const map = {plIn:'placeadd', chT:'choreadd', plT:'planadd', bdN:'bdadd', wT:'wishadd', oCode:'onbJoin', dT:'dateadd'}[id];
   if (map) { e.preventDefault(); const t = document.querySelector(`[data-act="${map}"]`); t && t.click(); }
 });

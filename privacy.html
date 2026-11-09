@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Сипсик Love: конфиденциальность</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap">
+<style>
+:root{--navy:#1f1d38;--paper:#fff;--peach:#f8a878;--peach-soft:#fde5d4;--grey:#6f6d85;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper)}
+body{color:var(--navy);font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.6}
+header{background:var(--navy);color:var(--paper);padding:max(28px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 30px max(16px,env(safe-area-inset-left,0px))}
+header .in,main{max-width:680px;margin:0 auto}
+h1{font-size:26px;font-weight:800;margin:0;line-height:1.2}
+header p{margin:8px 0 0;opacity:.8;font-size:14px}
+main{padding:28px max(16px,env(safe-area-inset-right,0px)) 56px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:24px}
+h2{font-size:18px;font-weight:800;margin:0 0 6px}
+p,ul{margin:0}
+ul{padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.box{background:var(--peach-soft);border-radius:18px;padding:14px 16px}
+code{background:var(--peach-soft);border-radius:6px;padding:1px 6px;font-weight:700}
+.muted{color:var(--grey);font-size:13px}
+</style>
+</head>
+<body>
+<header><div class="in">
+<h1>Конфиденциальность Сипсик Love</h1>
+<p>Коротко и по-человечески: что мы храним и как это удалить. Обновлено 9 ноября 2026.</p>
+</div></header>
+<main>
+<div class="box">Ваши данные видите только вы двое. Мы их не продаём, не показываем рекламодателям и не используем ни для чего, кроме работы приложения.</div>
+
+<section>
+<h2>Что мы храним</h2>
+<ul>
+<li>Из Telegram: ваш ID, имя и username. Telegram передаёт их, когда вы открываете приложение.</li>
+<li>То, что вы добавляете сами: дату начала отношений, настроения, записки, желания с фото, покупки, дела, планы, дни рождения близких, важные даты, места, ответы на вопросы дня и воспоминания с фото.</li>
+<li>Служебное: когда вы последний раз открывали приложение и сколько раз тапнули котика. Это нужно для серии дней, напоминаний и итогов недели.</li>
+</ul>
+</section>
+
+<section>
+<h2>Кто это видит</h2>
+<p>Только вы и ваш партнёр по паре. Другие пары не видят ничего. Два исключения внутри пары: владелец желания не видит, кто готовит ему подарок, а отправитель записки не знает, когда она придёт.</p>
+</section>
+
+<section>
+<h2>Где хранится</h2>
+<p>В базе данных Supabase в Европе (Лондон). Фото лежат в закрытом хранилище и открываются только по временным ссылкам внутри приложения.</p>
+</section>
+
+<section>
+<h2>Сообщения от бота</h2>
+<p>Бот пишет, когда партнёр что-то отмечает, когда приходит записка, о днях рождения, важных датах и итоги недели. Уведомления о действиях партнёра можно выключить в настройках приложения.</p>
+</section>
+
+<section>
+<h2>Как удалить данные</h2>
+<ul>
+<li><b>Выйти из пары:</b> настройки в приложении → «Выйти из пары». Удаляются ваши желания. Если вы были в паре одни, удаляется вся пара.</li>
+<li><b>Удалить аккаунт целиком:</b> отправьте боту <code>/deleteme</code>. Удалятся ваше имя, настроения, записки, ваши желания с фото и всё, что связано только с вами. Общие списки и воспоминания пары останутся у партнёра.</li>
+</ul>
+</section>
+
+<section>
+<h2>Вопросы</h2>
+<p>Напишите в бота <b>@SipsikLoveBot</b> или создателю приложения в Telegram.</p>
+</section>
+<p class="muted">Сипсик Love — независимый проект. Telegram не отвечает за его работу.</p>
+</main>
+</body>
+</html>
