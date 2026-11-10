@@ -49,6 +49,13 @@ jobs:
       - run: pnpm lint
       - run: pnpm build
 
+      # Browser demo at /demo/: no Telegram, no server, data stays in the browser.
+      # It never blocks the real deploy.
+      - run: pnpm exec vp build --outDir dist/demo
+        continue-on-error: true
+        env:
+          VITE_DEMO: "1"
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

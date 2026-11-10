@@ -3,4 +3,6 @@ export const config = {
   apiUrl:
     import.meta.env.VITE_API_URL ?? "https://mkjjqvywkwzwdscihibm.supabase.co/functions/v1/api",
   botUsername: import.meta.env.VITE_BOT_USERNAME ?? "SipsikLoveBot",
+  /** Browser demo build: a pretend server in localStorage instead of Supabase and Telegram */
+  demo: import.meta.env.VITE_DEMO === "1",
 } as const;

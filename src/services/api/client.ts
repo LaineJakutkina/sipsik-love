@@ -17,6 +17,10 @@ export async function call<A extends Action>(
     ? [payload?: PayloadOf<A>, opts?: CallOptions]
     : [payload: PayloadOf<A>, opts?: CallOptions]
 ): Promise<ResponseOf<A>> {
+  if (config.demo) {
+    const { demoCall } = await import("./demo/server");
+    return demoCall(action, payload, today());
+  }
   const res = await fetch(config.apiUrl, {
     method: "POST",
     keepalive: !!opts?.keepalive,

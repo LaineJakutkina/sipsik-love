@@ -1,4 +1,5 @@
 import type { WebApp } from "telegram-web-app";
+import { config } from "@/shared/config";
 /** Thin, failure-tolerant wrapper over the Telegram Mini App SDK */
 
 const BRAND_NAVY = "#1f1d38";
@@ -26,10 +27,10 @@ export const telegram = {
     return webApp()?.initData ?? "";
   },
   get available() {
-    return !!webApp()?.initData;
+    return config.demo || !!webApp()?.initData;
   },
   get canPay() {
-    return typeof webApp()?.openInvoice === "function";
+    return config.demo || typeof webApp()?.openInvoice === "function";
   },
 
   /** Signal readiness, go fullscreen and paint the chrome in brand colours */
@@ -80,6 +81,7 @@ export const telegram = {
 
   /** Open a Telegram Stars invoice; resolves with its final status */
   openInvoice(link: string): Promise<string> {
+    if (config.demo) return import("./api/demo/server").then((m) => m.payDemoInvoice(link));
     return new Promise((resolve) => {
       const tg = webApp();
       if (!tg) return resolve("failed");
