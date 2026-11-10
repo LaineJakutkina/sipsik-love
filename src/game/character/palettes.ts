@@ -15,9 +15,6 @@ export type PatternId =
   | "anon"
   | "vampire"
   | "tuxedo"
-  | "cream"
-  | "choco"
-  | "lavender"
   | "joker"
   | "carer"
   | "scholar";
