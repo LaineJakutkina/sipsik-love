@@ -81,7 +81,7 @@ export function noseArt(p: Palette): ArtNode {
     case "beaver":
       return group([
         ellipse(150, 106, 8, 5.5, { fill: "#2a1a10" }),
-        path("M143 121h6v10q0 2-2 2h-2q-2 0-2-2zM151 121h6v10q0 2-2 2h-2q-2 0-2-2z", {
+        path("M143 117h6v10q0 2-2 2h-2q-2 0-2-2zM151 117h6v10q0 2-2 2h-2q-2 0-2-2z", {
           fill: "#fffaf0",
           stroke: "#b08a5a",
           width: 1.2,

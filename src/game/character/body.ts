@@ -219,11 +219,25 @@ const PATTERNS: Record<PatternId, (p: Palette) => ArtNode[]> = {
   joker: () => [
     path("M82 70Q150 30 218 70L214 84Q150 48 86 84Z", { fill: "#7b4fc4" }),
     path("M150 46Q186 52 218 70L214 84Q184 64 150 60Z", { fill: "#2fa39a" }),
-    path(
-      "M92 138l12 16l12-14l12 16l11-15l11 15l11-15l11 15l12-16l12 14l12-16q-58 20-116 0z",
-      { fill: "#7b4fc4", stroke: "#4e2f86", width: 2, join: "round" },
-    ),
-    circle(150, 150, 6, { fill: "#f6d24a", stroke: "#b8911c", width: 1.5 }),
+    // jester ruff: points in two colours with a bell on each tip
+    path("M96 136L114 140L105 157ZM132 142.5L150 143L141 161ZM168 142.5L186 140L177 160Z", {
+      fill: "#7b4fc4",
+      stroke: "#4e2f86",
+      width: 2,
+      join: "round",
+    }),
+    path("M114 140L132 142.5L123 160ZM150 143L168 142.5L159 161ZM186 140L204 136L195 157Z", {
+      fill: "#2fa39a",
+      stroke: "#1d6f69",
+      width: 2,
+      join: "round",
+    }),
+    circle(105, 157, 3.5, { fill: "#f6d24a", stroke: "#b8911c", width: 1.2 }),
+    circle(123, 160, 3.5, { fill: "#f6d24a", stroke: "#b8911c", width: 1.2 }),
+    circle(141, 161, 3.5, { fill: "#f6d24a", stroke: "#b8911c", width: 1.2 }),
+    circle(159, 161, 3.5, { fill: "#f6d24a", stroke: "#b8911c", width: 1.2 }),
+    circle(177, 160, 3.5, { fill: "#f6d24a", stroke: "#b8911c", width: 1.2 }),
+    circle(195, 157, 3.5, { fill: "#f6d24a", stroke: "#b8911c", width: 1.2 }),
   ],
   carer: () => [
     path("M88 132Q150 156 212 132L214 152Q150 176 86 152Z", { fill: "#8fbf9f" }),
@@ -239,9 +253,11 @@ const PATTERNS: Record<PatternId, (p: Palette) => ArtNode[]> = {
     }),
   ],
   scholar: () => [
-    path("M40 230V136Q104 146 132 230Z", { fill: "#fbfcff", stroke: "#d4dae3", width: 2 }),
-    path("M260 230V136Q196 146 168 230Z", { fill: "#fbfcff", stroke: "#d4dae3", width: 2 }),
-    rect(192, 168, 30, 24, { fill: "#eef1f6", stroke: "#c3cad6", width: 1.5, r: 3 }),
+    // lab coat: pale blue so it stands out on the white stage
+    path("M40 230V136Q104 146 132 230Z", { fill: "#e4ecf8", stroke: "#6f84a8", width: 3, join: "round" }),
+    path("M260 230V136Q196 146 168 230Z", { fill: "#e4ecf8", stroke: "#6f84a8", width: 3, join: "round" }),
+    path("M112 150L126 186M188 150L174 186", { stroke: "#6f84a8", width: 2.5, cap: "round" }),
+    rect(192, 168, 30, 24, { fill: "#d6e1f2", stroke: "#6f84a8", width: 2, r: 3 }),
     path("M200 172v-16M210 172v-12", { stroke: "#3c6fd8", width: 4, cap: "round" }),
     circle(126, 92, 22, { stroke: "#2a3140", width: 4 }),
     circle(174, 92, 22, { stroke: "#2a3140", width: 4 }),
