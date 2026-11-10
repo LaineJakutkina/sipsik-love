@@ -1,16 +1,19 @@
 <script setup lang="ts">
+import { CameraIcon } from "@lucide/vue";
 import { computed } from "vue";
 import type { Wish } from "@/domain/types";
 import CharacterThumb from "@/game/vue/CharacterThumb.vue";
 import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/shared/ui/button";
 import { useSessionStore } from "@/stores/session";
 import { useSheetsStore } from "@/stores/sheets";
 import { useWishes } from "./useWishes";
 
 /**
- * Fixed 4:3 media area of a wish card: the photo, an “add photo” picker or a placeholder.
- * The image is absolutely positioned so its natural size can never stretch the card.
- * The `actions` slot renders over the top-right corner.
+ * Full-bleed media of a wish card: the photo (tap to open, camera to replace),
+ * an “add photo” picker or a placeholder. Fixed height, not `aspect-ratio`: iOS Safari
+ * sizes grid rows from aspect-ratio boxes at the wrong width and leaves cards half empty.
+ * The image is absolutely positioned, so its natural size never affects the card.
  */
 const props = defineProps<{ wish: Wish; mine: boolean }>();
 const session = useSessionStore();
@@ -34,21 +37,32 @@ function onFile(e: Event) {
 </script>
 
 <template>
-  <div class="bg-muted border-primary relative aspect-[4/3] w-full overflow-hidden border-b-2">
-    <button
-      v-if="wish.thumb_url"
-      type="button"
-      class="absolute inset-0 cursor-zoom-in"
-      aria-label="Открыть фото"
-      @click="open"
-    >
-      <img
-        :src="wish.thumb_url"
-        :alt="wish.title"
-        loading="lazy"
-        class="absolute inset-0 size-full object-cover"
-      />
-    </button>
+  <div class="bg-muted border-primary relative h-36 w-full shrink-0 border-b-2">
+    <template v-if="wish.thumb_url">
+      <button
+        type="button"
+        class="absolute inset-0 cursor-zoom-in"
+        aria-label="Открыть фото"
+        @click="open"
+      >
+        <img
+          :src="wish.thumb_url"
+          :alt="wish.title"
+          loading="lazy"
+          class="absolute inset-0 size-full object-cover"
+        />
+      </button>
+      <Button
+        as="label"
+        variant="outline"
+        size="icon-sm"
+        class="absolute right-2 bottom-2"
+        aria-label="Заменить фото"
+      >
+        <CameraIcon class="size-4" :stroke-width="2.2" />
+        <input type="file" accept="image/*" class="sr-only" @change="onFile" />
+      </Button>
+    </template>
     <component
       :is="canAdd ? 'label' : 'div'"
       v-else
@@ -68,8 +82,5 @@ function onFile(e: Event) {
     <Badge v-if="badge" variant="secondary" size="sm" class="absolute top-2 left-2">
       {{ badge }}
     </Badge>
-    <div class="absolute top-2 right-2 flex gap-1.5">
-      <slot name="actions" />
-    </div>
   </div>
 </template>

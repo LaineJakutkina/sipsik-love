@@ -1,12 +1,21 @@
 <script setup lang="ts">
+import type { PrimitiveProps } from "reka-ui";
 import type { HTMLAttributes } from "vue";
+import { Primitive } from "reka-ui";
 import { cn } from "@/shared/lib/utils";
 
-const props = defineProps<{ class?: HTMLAttributes["class"] }>();
+const props = withDefaults(defineProps<PrimitiveProps & { class?: HTMLAttributes["class"] }>(), {
+  as: "h2",
+});
 </script>
 
 <template>
-  <h2 data-slot="card-title" :class="cn('m-0 text-base font-extrabold', props.class)">
+  <Primitive
+    data-slot="card-title"
+    :as="as"
+    :as-child="asChild"
+    :class="cn('m-0 text-base font-extrabold', props.class)"
+  >
     <slot />
-  </h2>
+  </Primitive>
 </template>

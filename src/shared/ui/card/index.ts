@@ -4,9 +4,23 @@ import { cva } from "class-variance-authority";
 export { default as Card } from "./Card.vue";
 export { default as CardTitle } from "./CardTitle.vue";
 export { default as CardEyebrow } from "./CardEyebrow.vue";
+export { default as CardHeader } from "./CardHeader.vue";
+export { default as CardDescription } from "./CardDescription.vue";
+export { default as CardAction } from "./CardAction.vue";
+export { default as CardContent } from "./CardContent.vue";
+export { default as CardFooter } from "./CardFooter.vue";
 
-export const cardVariants = cva("flex min-w-0 flex-col rounded-lg border-2 p-4", {
+export const cardVariants = cva("flex min-w-0 flex-col rounded-lg border-2", {
   variants: {
+    padding: {
+      /** Free-form content padded by the card itself */
+      default: "p-4",
+      /**
+       * shadcn layout: `CardHeader` / `CardContent` / `CardFooter` pad themselves.
+       * Add `pt-0` when the card starts with full-bleed media.
+       */
+      sections: "gap-3 overflow-hidden py-3",
+    },
     tone: {
       /** White card with navy outline — the default surface */
       default: "border-primary bg-card text-card-foreground",
@@ -22,6 +36,6 @@ export const cardVariants = cva("flex min-w-0 flex-col rounded-lg border-2 p-4",
       dashed: "border-dashed border-primary bg-card text-card-foreground",
     },
   },
-  defaultVariants: { tone: "default" },
+  defaultVariants: { tone: "default", padding: "default" },
 });
 export type CardVariants = VariantProps<typeof cardVariants>;

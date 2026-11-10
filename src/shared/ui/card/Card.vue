@@ -7,7 +7,13 @@ import { cn } from "@/shared/lib/utils";
 import { cardVariants } from ".";
 
 const props = withDefaults(
-  defineProps<PrimitiveProps & { tone?: CardVariants["tone"]; class?: HTMLAttributes["class"] }>(),
+  defineProps<
+    PrimitiveProps & {
+      tone?: CardVariants["tone"];
+      padding?: CardVariants["padding"];
+      class?: HTMLAttributes["class"];
+    }
+  >(),
   { as: "section" },
 );
 </script>
@@ -17,7 +23,7 @@ const props = withDefaults(
     data-slot="card"
     :as="as"
     :as-child="asChild"
-    :class="cn(cardVariants({ tone }), props.class)"
+    :class="cn(cardVariants({ tone, padding }), props.class)"
   >
     <slot />
   </Primitive>
