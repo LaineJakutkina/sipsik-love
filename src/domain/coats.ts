@@ -14,16 +14,24 @@ export const COAT_IDS = [
   "anon",
   "vampire",
   "tuxedo",
+  "joker",
+  "carer",
+  "scholar",
 ] as const;
 export type CoatId = (typeof COAT_IDS)[number];
 
 export const DEFAULT_COAT: CoatId = "black";
+
+/** What a talking cat says when tapped: jokes, support or facts */
+export type TalkKind = "jokes" | "care" | "facts";
 
 /** Local knowledge about a coat (the server sends price/name, we know the art) */
 export interface CoatMeta {
   name: string;
   /** Not a cat at all: frog, dog, fox… */
   animal: boolean;
+  /** A talking cat: pops up a phrase on the 1st tap and every 50th after */
+  talks?: TalkKind;
 }
 
 export const COAT_META: Record<CoatId, CoatMeta> = {
@@ -42,6 +50,9 @@ export const COAT_META: Record<CoatId, CoatMeta> = {
   anon: { name: "Анонимус", animal: true },
   vampire: { name: "Вампир", animal: true },
   tuxedo: { name: "Смокинг", animal: false },
+  joker: { name: "Кот-анекдот", animal: false, talks: "jokes" },
+  carer: { name: "Кот-поддержка", animal: false, talks: "care" },
+  scholar: { name: "Кот-учёный", animal: false, talks: "facts" },
 };
 
 export const isCoatId = (v: unknown): v is CoatId => COAT_IDS.includes(v as CoatId);
@@ -55,5 +66,11 @@ export interface CoatOffer {
   kind?: "cat" | "animal";
 }
 
+/** The talking cats are sold as their own group */
+export const talkOf = (id: unknown): TalkKind | undefined =>
+  isCoatId(id) ? COAT_META[id].talks : undefined;
+
+export const isTalkingOffer = (c: CoatOffer): boolean => !!talkOf(c.id);
+
 export const isAnimalOffer = (c: CoatOffer): boolean =>
-  c.kind ? c.kind === "animal" : isCoatId(c.id) && COAT_META[c.id].animal;
+  !isTalkingOffer(c) && (c.kind ? c.kind === "animal" : isCoatId(c.id) && COAT_META[c.id].animal);

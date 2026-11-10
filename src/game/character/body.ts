@@ -102,6 +102,23 @@ function earsArt(p: Palette, coat: CoatId): ArtNode[] {
         path(CAT_EAR_L + CAT_EAR_R, solid(outer)),
         path(INNER_EARS, { fill: p.ear }),
       ];
+    case "joker":
+      return [
+        path("M112 66Q86 40 62 22Q92 22 128 52Z", { fill: "#7b4fc4", stroke: "#4e2f86", width: 2.5, join: "round" }),
+        path("M188 66Q214 40 238 22Q208 22 172 52Z", { fill: "#2fa39a", stroke: "#1d6f69", width: 2.5, join: "round" }),
+        circle(60, 22, 9, { fill: "#f6d24a", stroke: "#b8911c", width: 2 }),
+        circle(240, 22, 9, { fill: "#f6d24a", stroke: "#b8911c", width: 2 }),
+      ];
+    case "scholar":
+      return [
+        path(CAT_EAR_L + CAT_EAR_R, solid(outer)),
+        path(INNER_EARS, { fill: p.ear }),
+        circle(118, 50, 15, { fill: "#f4f5f8" }),
+        circle(136, 40, 16, { fill: "#f4f5f8" }),
+        circle(156, 36, 17, { fill: "#f4f5f8" }),
+        circle(176, 42, 15, { fill: "#f4f5f8" }),
+        circle(190, 54, 12, { fill: "#f4f5f8" }),
+      ];
     case "calico":
       return [
         path(CAT_EAR_L, solid("#d9844a")),
@@ -194,6 +211,37 @@ const PATTERNS: Record<PatternId, (p: Palette) => ArtNode[]> = {
     path("M40 0H260V70Q205 44 150 80Q95 44 40 70Z", { fill: "#2a1a2e" }),
     path("M40 230V146Q96 150 124 230ZM260 230V146Q204 150 176 230Z", { fill: "#1b1424" }),
     circle(150, 150, 7, { fill: "#b3122e", stroke: "#e8c45a", width: 2 }),
+  ],
+  joker: () => [
+    path("M82 70Q150 30 218 70L214 84Q150 48 86 84Z", { fill: "#7b4fc4" }),
+    path("M150 46Q186 52 218 70L214 84Q184 64 150 60Z", { fill: "#2fa39a" }),
+    path(
+      "M92 138l12 16l12-14l12 16l11-15l11 15l11-15l11 15l12-16l12 14l12-16q-58 20-116 0z",
+      { fill: "#7b4fc4", stroke: "#4e2f86", width: 2, join: "round" },
+    ),
+    circle(150, 150, 6, { fill: "#f6d24a", stroke: "#b8911c", width: 1.5 }),
+  ],
+  carer: () => [
+    path("M88 132Q150 156 212 132L214 152Q150 176 86 152Z", { fill: "#8fbf9f" }),
+    path("M98 138v16M118 143v17M138 146v17M162 146v17M182 143v17M202 138v16", {
+      stroke: "#cfe6d6",
+      width: 3,
+      cap: "round",
+    }),
+    path("M176 150l14 4l-6 40l-16-2z", { fill: "#8fbf9f" }),
+    path("M172 172h14M170 182h14", { stroke: "#cfe6d6", width: 3, cap: "round" }),
+    path("M150 196c-14-10-24-18-24-28c0-7 6-12 12-12c5 0 9 3 12 7c3-4 7-7 12-7c6 0 12 5 12 12c0 10-10 18-24 28z", {
+      fill: "#e86a7a",
+    }),
+  ],
+  scholar: () => [
+    path("M40 230V136Q104 146 132 230Z", { fill: "#fbfcff", stroke: "#d4dae3", width: 2 }),
+    path("M260 230V136Q196 146 168 230Z", { fill: "#fbfcff", stroke: "#d4dae3", width: 2 }),
+    rect(192, 168, 30, 24, { fill: "#eef1f6", stroke: "#c3cad6", width: 1.5, r: 3 }),
+    path("M200 172v-16M210 172v-12", { stroke: "#3c6fd8", width: 4, cap: "round" }),
+    circle(126, 92, 22, { stroke: "#2a3140", width: 4 }),
+    circle(174, 92, 22, { stroke: "#2a3140", width: 4 }),
+    path("M148 90q2-4 4 0M104 88l-14-4M196 88l14-4", { stroke: "#2a3140", width: 4, cap: "round" }),
   ],
   tuxedo: () => [
     ellipse(150, 170, 30, 40, { fill: "#ffffff" }),

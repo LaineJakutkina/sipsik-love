@@ -13,7 +13,10 @@ export type PatternId =
   | "beaver"
   | "anon"
   | "vampire"
-  | "tuxedo";
+  | "tuxedo"
+  | "joker"
+  | "carer"
+  | "scholar";
 
 /** Special noses; anything else is a colour for the default triangle nose */
 export type NoseStyle =
@@ -303,6 +306,54 @@ export const PALETTES: Record<CoatId, Palette> = {
     lid: "#15141f",
     pat: "tuxedo",
     paws: "#ffffff",
+    noBelly: true,
+  },
+  joker: {
+    fur: "#f2c14e",
+    ear: "#f7dc95",
+    strand: "#d9a32e",
+    belly: "#d9a32e",
+    eye: "#fffaf0",
+    arc: "#3a2a10",
+    pupil: "#2a1d08",
+    mouth: "#6b4a12",
+    nose: "#e58a8a",
+    whisk: "#fff6dd",
+    lid: "#f2c14e",
+    pat: "joker",
+    paws: "#f7dc95",
+    noBelly: true,
+  },
+  carer: {
+    fur: "#f4c6c0",
+    ear: "#e8939a",
+    strand: "#e3a8a2",
+    belly: "#e3a8a2",
+    eye: "#fffafa",
+    arc: "#5a2e34",
+    pupil: "#3a1c22",
+    mouth: "#8a4a52",
+    nose: "#e06c7c",
+    whisk: "#fff4f2",
+    lid: "#f4c6c0",
+    pat: "carer",
+    paws: "#fbe3df",
+    noBelly: true,
+  },
+  scholar: {
+    fur: "#9aa7b8",
+    ear: "#c9d2de",
+    strand: "#7f8c9e",
+    belly: "#7f8c9e",
+    eye: "#fbfcff",
+    arc: "#222a36",
+    pupil: "#151b24",
+    mouth: "#3b4656",
+    nose: "#d98a92",
+    whisk: "#eef2f7",
+    lid: "#9aa7b8",
+    pat: "scholar",
+    paws: "#c9d2de",
     noBelly: true,
   },
 };

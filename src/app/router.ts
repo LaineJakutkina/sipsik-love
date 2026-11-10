@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from "vue-router";
 
-export const TABS = ["us", "wish", "home", "cal", "go"] as const;
+export const TABS = ["us", "wish", "home", "cal", "go", "shop"] as const;
 export type TabId = (typeof TABS)[number];
 export const isTab = (v: unknown): v is TabId => TABS.includes(v as TabId);
 
@@ -47,6 +47,14 @@ const routes: RouteRecordRaw[] = [
     components: {
       band: () => import("@/features/places/PlacesBand.vue"),
       default: () => import("@/features/places/PlacesPage.vue"),
+    },
+  },
+  {
+    path: "/shop",
+    name: "shop",
+    components: {
+      band: () => import("@/features/coats/ShopBand.vue"),
+      default: () => import("@/features/coats/ShopPage.vue"),
     },
   },
   { path: "/:pathMatch(.*)*", redirect: "/us" },

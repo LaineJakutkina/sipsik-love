@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import CoatCard from "@/features/coats/CoatCard.vue";
 import DailyQuestion from "../components/DailyQuestion.vue";
 import DailyTasks from "../components/DailyTasks.vue";
 import GenderCard from "../components/GenderCard.vue";
@@ -36,6 +35,5 @@ import UsStats from "../components/UsStats.vue";
   <DailyQuestion />
   <ReceivedNotes />
   <SoonCard />
-  <CoatCard />
   <ItemsCard />
 </template>

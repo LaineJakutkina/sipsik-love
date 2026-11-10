@@ -5,7 +5,9 @@ import { SegmentedPills, type PillOption } from "@/shared/components";
 import { formatNumber, plural, TAP_FORMS } from "@/shared/lib/plural";
 import { useSessionStore } from "@/stores/session";
 import { useTapsStore } from "@/stores/taps";
+import CatPhrase from "./components/CatPhrase.vue";
 import { useCatSpeech } from "./useCatSpeech";
+import { useTalkingCat } from "./useTalkingCat";
 import { useUsUiStore, type UsSegment } from "./usUi";
 
 const SEGMENTS: readonly PillOption<UsSegment>[] = [
@@ -18,6 +20,7 @@ const session = useSessionStore();
 const taps = useTapsStore();
 const ui = useUsUiStore();
 const { say, streak } = useCatSpeech();
+const { kind: talkKind, phrase, onTap: talkOnTap } = useTalkingCat();
 const stage = useTemplateRef("stage");
 
 const couple = computed(() => session.app.couple);
@@ -34,13 +37,22 @@ const segment = computed({
 
 function pet() {
   const result = taps.pet();
-  if (result === "tired") stage.value?.shakeBubble();
-  else if (result === "boop") stage.value?.boop();
+  if (result === "tired") {
+    stage.value?.shakeBubble();
+    return;
+  }
+  if (result === "boop") stage.value?.boop();
+  talkOnTap();
 }
 </script>
 
 <template>
-  <CatStage ref="stage" :look="look" :say="say" label="Погладить котика" @pet="pet" />
+  <div class="relative">
+    <CatStage ref="stage" :look="look" :say="say" label="Погладить котика" @pet="pet" />
+    <Transition leave-active-class="animate-out fade-out">
+      <CatPhrase v-if="talkKind && phrase" :kind="talkKind" :text="phrase" />
+    </Transition>
+  </div>
   <div
     class="bg-primary border-primary-foreground relative -mt-[34px] flex items-baseline gap-2.5 self-center rounded-full border-3 px-5 py-2 font-bold"
   >

@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { isAnimalOffer, isCoatId } from "@/domain/coats";
+import { isAnimalOffer, isCoatId, isTalkingOffer } from "@/domain/coats";
 import { Card, CardTitle } from "@/shared/ui/card";
 import { useSessionStore } from "@/stores/session";
 import CoatButton from "./CoatButton.vue";
 import { useCoatActions } from "./coatActions";
 
-/** Coat picker on «Мы»: owned coats switch instantly, others open the purchase sheet */
+/** Coat picker in the shop: owned coats switch instantly, others open the purchase sheet */
 const session = useSessionStore();
 const { chooseCoat } = useCoatActions();
 
 const list = computed(() => (session.app.coats ?? []).filter((c) => isCoatId(c.id)));
-const cats = computed(() => list.value.filter((c) => !isAnimalOffer(c)));
+const cats = computed(() => list.value.filter((c) => !isAnimalOffer(c) && !isTalkingOffer(c)));
 const animals = computed(() => list.value.filter(isAnimalOffer));
 const owned = computed(() => session.app.couple.owned ?? ["black"]);
 const current = computed(() => session.app.couple.coat || "black");
