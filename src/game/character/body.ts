@@ -144,6 +144,10 @@ const PATTERNS: Record<PatternId, (p: Palette) => ArtNode[]> = {
       p.chest && ellipse(150, 118, 22, 13, { fill: p.chest }),
     ];
   },
+  bib: (p) => [
+    p.chest && ellipse(150, 166, 34, 36, { fill: p.chest }),
+    p.chest && ellipse(150, 118, 22, 13, { fill: p.chest }),
+  ],
   calico: () => [
     ellipse(96, 80, 44, 36, { fill: "#d9844a" }),
     ellipse(208, 76, 40, 32, { fill: "#1d1b26" }),

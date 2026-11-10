@@ -2,6 +2,7 @@ import type { CoatId } from "@/domain/coats";
 
 export type PatternId =
   | "tabby"
+  | "bib"
   | "calico"
   | "siamese"
   | "frog"
@@ -14,6 +15,9 @@ export type PatternId =
   | "anon"
   | "vampire"
   | "tuxedo"
+  | "cream"
+  | "choco"
+  | "lavender"
   | "joker"
   | "carer"
   | "scholar";
@@ -306,6 +310,58 @@ export const PALETTES: Record<CoatId, Palette> = {
     lid: "#15141f",
     pat: "tuxedo",
     paws: "#ffffff",
+    noBelly: true,
+  },
+  cream: {
+    fur: "#f3e2c7",
+    ear: "#f6c4b4",
+    strand: "#e2c7a0",
+    belly: "#e2c7a0",
+    eye: "#fffaf2",
+    arc: "#4a3420",
+    pupil: "#2a1d12",
+    mouth: "#8a6646",
+    nose: "#ee9a9a",
+    whisk: "#fffaf2",
+    lid: "#f3e2c7",
+    pat: "bib",
+    chest: "#fff8ec",
+    paws: "#fff8ec",
+    noBelly: true,
+  },
+  choco: {
+    fur: "#5b3a29",
+    ear: "#8a5d47",
+    strand: "#4a2e20",
+    belly: "#4a2e20",
+    eye: "#f6dca0",
+    arc: "#f6dca0",
+    pupil: "#1a0f08",
+    mouth: "#c9a58c",
+    nose: "#c98b7a",
+    whisk: "#d9c2b0",
+    lid: "#5b3a29",
+    pat: "bib",
+    chest: "#e9d3bd",
+    paws: "#e9d3bd",
+    noBelly: true,
+  },
+  lavender: {
+    fur: "#b9a7d6",
+    ear: "#e9c8ea",
+    strand: "#9e8bc2",
+    belly: "#9e8bc2",
+    eye: "#fbf8ff",
+    arc: "#3a2d52",
+    pupil: "#241a36",
+    mouth: "#5c4a7a",
+    nose: "#e79ab8",
+    whisk: "#f6f1ff",
+    lid: "#b9a7d6",
+    pat: "tabby",
+    stripe: "#9580bd",
+    chest: "#f1e9fb",
+    paws: "#f1e9fb",
     noBelly: true,
   },
   joker: {
