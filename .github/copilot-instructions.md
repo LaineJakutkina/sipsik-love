@@ -36,11 +36,11 @@ Telegram Mini App. Подробное описание приложения, с�
 src/
   domain/    чистый TS: типы, правила, даты, каталоги. Без Vue, Pixi, DOM, сети.
   services/  границы с внешним миром: api (Supabase), telegram, storage, notify, photo.
-  stores/    Pinia: session, taps, sheets — общее состояние и синхронизация.
+  stores/    Pinia: session, taps, sheets, plans — общее состояние и синхронизация.
   game/      Pixi.js: engine (GameStage, SceneManager, Scene, tweens), scenes, character, art, ui, thumbnails,
              vue/ (CatStage, CharacterThumb — единственный мост Vue ↔ Pixi).
   shared/    ui (shadcn), components (общие), composables, lib, config.
-  features/  экраны по фичам (us, wishlist, home, calendar, places, care, notes, coats, settings, onboarding, status).
+  features/  экраны по фичам (us, wishlist, home, calendar, places, games, care, notes, coats, settings, onboarding, status).
   app/       оболочка: App.vue, router, AppShell, BottomNav, SheetHost, useLiveSync.
 ```
 

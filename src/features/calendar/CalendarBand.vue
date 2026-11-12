@@ -1,3 +1,3 @@
 <template>
-  <h1>Календарь</h1>
+  <h1 class="sr-only">Календарь</h1>
 </template>

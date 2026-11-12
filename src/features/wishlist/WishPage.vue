@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { LockIcon } from "@lucide/vue";
 import { computed, onBeforeUnmount, ref } from "vue";
-import type { Id } from "@/domain/types";
+import type { Id, Who } from "@/domain/types";
 import InviteCard from "@/features/settings/InviteCard.vue";
-import { EmptyState } from "@/shared/components";
+import { EmptyState, SegmentedPills } from "@/shared/components";
 import { Button } from "@/shared/ui/button";
 import { useSessionStore } from "@/stores/session";
 import { useWishes } from "./useWishes";
@@ -15,6 +15,14 @@ const session = useSessionStore();
 const wishUi = useWishUiStore();
 const wishes = useWishes();
 
+const options = computed(() => [
+  { value: "me" as const, label: "Хочу я" },
+  { value: "partner" as const, label: `Хочет ${session.partnerName}` },
+]);
+const who = computed({
+  get: () => wishUi.who,
+  set: (v: Who | "") => v && wishUi.showList(v),
+});
 const mine = computed(() => wishUi.who === "me");
 const list = computed(() =>
   session.app.wishes
@@ -31,6 +39,7 @@ onBeforeUnmount(() => wishUi.closeForm());
 </script>
 
 <template>
+  <SegmentedPills v-if="!session.solo" v-model="who" :options center label="Чей список" />
   <template v-if="!mine && !session.app.partner">
     <InviteCard />
     <EmptyState>
