@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory, RouterView, type RouteRecordRaw } from "vue-router";
+import { storage } from "@/services/storage";
 import { PLAN_SECTIONS } from "@/stores/plans";
 
 export const TABS = ["us", "plans", "home", "games", "shop"] as const;
@@ -101,11 +102,31 @@ function migrateLegacyHash() {
   if (known.includes(h)) history.replaceState(null, "", `#/${h}`);
 }
 
+const RELOAD_KEY = "sipsik.chunkReload";
+const RELOAD_GAP_MS = 30_000;
+const CHUNK_ERROR = /dynamically imported module|module script failed|error loading/i;
+
+/**
+ * After a new deploy the page still open in Telegram asks for page chunks that no
+ * longer exist, so tabs stop opening. Reload once into the tab that was asked for;
+ * the timestamp stops a reload loop when the network itself is down.
+ */
+function reloadOnStaleChunk(error: unknown, target: string) {
+  if (!(error instanceof Error) || !CHUNK_ERROR.test(error.message)) return;
+  const last = Number(storage.get(RELOAD_KEY) ?? 0);
+  if (Date.now() - last < RELOAD_GAP_MS) return;
+  storage.set(RELOAD_KEY, String(Date.now()));
+  history.replaceState(null, "", `#${target}`);
+  location.reload();
+}
+
 export function createAppRouter() {
   migrateLegacyHash();
-  return createRouter({
+  const router = createRouter({
     history: createWebHashHistory(),
     routes,
     scrollBehavior: () => ({ top: 0 }),
   });
+  router.onError((error, to) => reloadOnStaleChunk(error, to.fullPath));
+  return router;
 }
