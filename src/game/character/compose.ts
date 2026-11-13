@@ -117,13 +117,16 @@ export interface ArtFrame {
   viewBox: string;
 }
 
-/** Head-and-shoulders portrait for mood pickers and the coat list */
+/**
+ * Head-and-shoulders portrait for mood pickers and the coat list. The crop is a
+ * square shown as a circle (`CharacterThumb` rounds it), wide enough to keep the ears in.
+ */
 export function faceThumb(mood: MoodId, coat: CoatId | string | undefined): ArtFrame {
   const coatId = coatOrDefault(coat);
   const p = PALETTES[coatId];
   return {
     art: group([catBodyArt(p, coatId), faceArt(mood, p), noseArt(p)]),
-    viewBox: "90 16 120 120",
+    viewBox: "80 6 140 140",
   };
 }
 

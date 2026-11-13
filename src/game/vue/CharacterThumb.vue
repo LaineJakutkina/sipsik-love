@@ -49,6 +49,13 @@ watchEffect((onCleanup) => {
 </script>
 
 <template>
-  <img v-if="src" :src="src" alt="" aria-hidden="true" draggable="false" />
+  <img
+    v-if="src"
+    :src="src"
+    :class="kind === 'face' && 'rounded-full'"
+    alt=""
+    aria-hidden="true"
+    draggable="false"
+  />
   <span v-else aria-hidden="true" />
 </template>
