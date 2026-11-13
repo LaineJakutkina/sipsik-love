@@ -18,8 +18,8 @@ import { useUsUiStore, type UsSegment } from "./usUi";
 
 const SEGMENTS: readonly PillOption<UsSegment>[] = [
   { value: "today", label: "Сегодня" },
-  { value: "thanks", label: "Спасибо" },
   { value: "mem", label: "Воспоминания" },
+  { value: "thanks", label: "Спасибо" },
 ];
 /** Every N-th tap gets a burst of hearts */
 const ROUND_TAPS = 100;
