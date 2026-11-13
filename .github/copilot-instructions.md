@@ -24,7 +24,7 @@ Telegram Mini App. Подробное описание приложения, с�
 - Цвета — **только через токены**, никаких хексов/`rgb()`/`[#...]` в классах:
   семантические `bg-primary` (navy), `text-primary-foreground`, `bg-secondary` (peach), `bg-accent` (peach-soft),
   `bg-muted` (mist), `text-muted-foreground`, `text-destructive`, `border-primary`, и брендовые `navy navy-2 paper
-  mist grey peach peach-soft peach-ink sky butter butter-edge`. Новый цвет → сначала токен в `main.css`.
+  mist grey peach peach-soft peach-ink sky lilac`. Новый цвет → сначала токен в `main.css`.
 - **Без «каши» из классов.** Если длинный набор классов повторяется — вынеси в маленький компонент или в `cva`-вариант
   (как в `src/shared/ui/*/index.ts`). Сначала ищи готовый вариант (`Button`, `Card` tone, `Badge`, `Toggle`…).
 - Сливать классы через `cn()` из `src/shared/lib/utils.ts`.

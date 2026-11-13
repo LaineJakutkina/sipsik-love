@@ -7,7 +7,7 @@ const bubble = cva("rounded-[18px] px-3.5 py-2.5 text-sm leading-[1.4] wrap-anyw
       me: "bg-primary text-primary-foreground max-w-[88%] self-end rounded-br-md",
       partner: "bg-accent max-w-[88%] self-start rounded-bl-md",
       wait: "bg-muted text-muted-foreground self-start",
-      thanks: "bg-butter max-w-[84%] rounded-bl-md",
+      thanks: "bg-lilac max-w-[84%] rounded-bl-md",
       "thanks-me": "bg-primary text-primary-foreground max-w-[84%] rounded-br-md",
     },
   },

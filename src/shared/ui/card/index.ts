@@ -30,8 +30,8 @@ export const cardVariants = cva("flex min-w-0 flex-col rounded-lg border", {
       soft: "border-transparent bg-accent text-accent-foreground",
       /** Quiet grey surface: own pending messages */
       muted: "border-transparent bg-muted text-foreground",
-      /** Warm yellow: gratitude */
-      butter: "border-butter-edge/50 bg-butter text-foreground",
+      /** Soft lilac: gratitude */
+      lilac: "border-transparent bg-lilac text-foreground",
       /** Dashed outline: soft invitations to act */
       dashed: "border-[1.5px] border-dashed border-primary/35 bg-card text-card-foreground",
     },

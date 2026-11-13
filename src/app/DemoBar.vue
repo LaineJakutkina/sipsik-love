@@ -33,7 +33,7 @@ useEventListener(window, "storage", (e) => {
 </script>
 
 <template>
-  <div class="bg-butter border-butter-edge text-foreground border-b-2 px-3 py-1.5 text-[12px]">
+  <div class="bg-lilac border-navy-2 text-foreground border-b-2 px-3 py-1.5 text-[12px]">
     <div class="mx-auto flex max-w-[520px] items-center gap-2">
       <b class="grow">🧪 Демо · ты — {{ names.me }}</b>
       <Button as="a" size="sm" variant="outline" :href="otherUrl">Стать: {{ names.other }}</Button>

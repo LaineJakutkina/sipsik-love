@@ -21,8 +21,7 @@
   --peach-soft: #fde5d4;
   --peach-ink: #7a3a12;
   --sky: #7cc7f2;
-  --butter: #fff6d9;
-  --butter-edge: #e9c560;
+  --lilac: #e7e3f5;
 
   /* shadcn semantic tokens */
   --background: var(--paper);
@@ -77,8 +76,7 @@
   --color-peach-soft: var(--peach-soft);
   --color-peach-ink: var(--peach-ink);
   --color-sky: var(--sky);
-  --color-butter: var(--butter);
-  --color-butter-edge: var(--butter-edge);
+  --color-lilac: var(--lilac);
 
   --radius-sm: calc(var(--radius) - 8px);
   --radius-md: calc(var(--radius) - 4px);

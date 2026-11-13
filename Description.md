@@ -460,7 +460,7 @@ TypeScript не даст вызвать несуществующее дейст�
 | `mist`                                   | `#f2f1f7` | `muted`                                    |
 | `grey`                                   | `#8b89a1` | `muted-foreground`                         |
 | `peach-ink`                              | `#7a3a12` | `destructive`                              |
-| `navy-2`, `sky`, `butter`, `butter-edge` | —         | дополнительные                             |
+| `navy-2`, `sky`, `lilac`                 | —         | дополнительные (`lilac` — благодарности)   |
 
 Правила:
 
@@ -470,7 +470,7 @@ TypeScript не даст вызвать несуществующее дейст�
 - Поверхности мягкие: карточка — тонкая линия и лёгкая тень, плитки — заливка `bg-muted`, выбранное — персик.
   Толстые navy-рамки оставлены только у элементов управления (кнопки, чекбоксы, поля ввода).
 - Варианты UI-кита: `Button` (`default`, `outline`, `secondary`, `inverse`, `warn`, `ghost`, `link`),
-  `Card` (`tone`: `default`, `dark`, `soft`, `muted`, `butter`, `dashed`), `Badge`, `Toggle` и др. — смотрите
+  `Card` (`tone`: `default`, `dark`, `soft`, `muted`, `lilac`, `dashed`), `Badge`, `Toggle` и др. — смотрите
   `index.ts` в папке компонента.
 - Переключатель разделов в тёмной шапке — `SegmentedPills` с `track` (вариант `segment` у `Toggle`).
 - Нижнее меню «стеклянное»: полупрозрачный navy с размытием; под ним страница плавно затухает (`nav-fade`).

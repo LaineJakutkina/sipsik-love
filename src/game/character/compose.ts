@@ -24,6 +24,9 @@ export interface CharacterLook {
   clicks?: number;
 }
 
+/** The cat is drawn a bit smaller than its design size so the ride behind it shows */
+const CAT_SCALE = 0.84;
+
 /** Transform that lets a group scale around the ground point */
 const aroundGround = () => ({
   x: GROUND[0],
@@ -69,32 +72,37 @@ export function composeCharacter({ mood, coat, worn, clicks }: CharacterLook): G
 
   return group([
     (ride === "truck" || ride === "bike") && ITEM_ART[ride]?.(),
-    ellipse(150, 209, 96, 6, { fill: "#1f1d38", alpha: 0.1 }),
-    ride === "skate" && ITEM_ART.skate?.(),
     group(
       [
+        ellipse(150, 209, 96, 6, { fill: "#1f1d38", alpha: 0.1 }),
+        ride === "skate" && ITEM_ART.skate?.(),
         group(
           [
-            catBodyArt(p, coatId),
-            body && body !== "puffer" && clothesArt(body, shape),
-            feetArt(p),
-            body === "puffer" && PUFFER,
-            head && ITEM_ART[head]?.(),
-            faceArt(mood, p),
-            noseArt(p),
-            mood !== "tired" && mood !== "happy" && lidsArt(p),
-            whiskersArt(p),
-            has("glasses") && ITEM_ART.glasses?.(),
-            has("chain") && ITEM_ART.chain?.(),
-            has("bag") && ITEM_ART.bag?.(),
-            has("cig") && ITEM_ART.cig?.(),
-            hold && ITEM_ART[hold]?.(),
-            holdAt && ellipse(holdAt[0], holdAt[1], 12, 9, pawPaint(p)),
+            group(
+              [
+                catBodyArt(p, coatId),
+                body && body !== "puffer" && clothesArt(body, shape),
+                feetArt(p),
+                body === "puffer" && PUFFER,
+                head && ITEM_ART[head]?.(),
+                faceArt(mood, p),
+                noseArt(p),
+                mood !== "tired" && mood !== "happy" && lidsArt(p),
+                whiskersArt(p),
+                has("glasses") && ITEM_ART.glasses?.(),
+                has("chain") && ITEM_ART.chain?.(),
+                has("bag") && ITEM_ART.bag?.(),
+                has("cig") && ITEM_ART.cig?.(),
+                hold && ITEM_ART[hold]?.(),
+                holdAt && ellipse(holdAt[0], holdAt[1], 12, 9, pawPaint(p)),
+              ],
+              { label: PART.body, transform: aroundGround() },
+            ),
           ],
-          { label: PART.body, transform: aroundGround() },
+          { label: PART.breath, transform: aroundGround() },
         ),
       ],
-      { label: PART.breath, transform: aroundGround() },
+      { transform: { ...aroundGround(), scaleX: CAT_SCALE, scaleY: CAT_SCALE } },
     ),
     pet === "mouse" && ITEM_ART.mouse?.(),
     pet === "kitten" && kittenArt(coatId),

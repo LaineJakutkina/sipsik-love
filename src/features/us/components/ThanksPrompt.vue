@@ -26,7 +26,7 @@ const text = computed(() => {
 </script>
 
 <template>
-  <CtaCard v-if="visible" tone="butter" title="💛 Спасибо за мелочи" :text="text">
+  <CtaCard v-if="visible" tone="lilac" title="💜 Спасибо за мелочи" :text="text">
     <Button @click="ui.show('thanks')">{{ session.solo ? "Записать" : "Поблагодарить" }}</Button>
   </CtaCard>
 </template>
