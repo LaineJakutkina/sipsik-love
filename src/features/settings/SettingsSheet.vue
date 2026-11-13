@@ -121,14 +121,16 @@ async function leave() {
     <Button variant="outline" @click="sheets.close()">Закрыть</Button>
   </div>
   <InviteSection />
-  <Button
-    as="a"
-    variant="link"
-    class="text-muted-foreground no-underline"
-    href="privacy.html"
-    @click="openPrivacy"
-  >
-    Конфиденциальность и удаление данных
-  </Button>
-  <Button variant="link" @click="leave">{{ leaveLabel }}</Button>
+  <div class="border-primary/10 flex flex-col items-start border-t pt-2">
+    <Button
+      as="a"
+      variant="link"
+      class="text-muted-foreground no-underline"
+      href="privacy.html"
+      @click="openPrivacy"
+    >
+      Конфиденциальность и удаление данных
+    </Button>
+    <Button variant="link" @click="leave">{{ leaveLabel }}</Button>
+  </div>
 </template>

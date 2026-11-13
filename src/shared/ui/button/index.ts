@@ -34,7 +34,10 @@ export const buttonVariants = cva(
         true: "w-full",
       },
     },
-    compoundVariants: [{ variant: "link", class: "min-h-0 justify-start" }],
+    /* A link keeps its own compact box whatever `size` says, and reads from the left */
+    compoundVariants: [
+      { variant: "link", class: "min-h-0 justify-start px-0 py-1.5 text-left text-[13px]" },
+    ],
     defaultVariants: {
       variant: "default",
       size: "default",
