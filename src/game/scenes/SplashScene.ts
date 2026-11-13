@@ -38,7 +38,7 @@ export class SplashScene extends Scene {
   private readonly mice: Container[];
   private readonly puffs: Puff[] = [];
   private readonly onDone: () => void;
-  private scale = 1;
+  private unit = 1;
   private groundY = 0;
   private lastPuff = 0;
   private finished = false;
@@ -58,31 +58,31 @@ export class SplashScene extends Scene {
   }
 
   protected override onResize({ width, height }: Viewport) {
-    this.scale = Math.min((width * 0.62) / DESIGN_WIDTH, (height * 0.82) / DESIGN_HEIGHT);
+    this.unit = Math.min((width * 0.62) / DESIGN_WIDTH, (height * 0.82) / DESIGN_HEIGHT);
     this.groundY = height * 0.86;
-    this.rig.scale.set(this.scale);
+    this.rig.scale.set(this.unit);
     this.rig.pivot.set(0, GROUND[1]);
-    for (const m of this.mice) m.scale.set(this.scale * 1.15);
+    for (const m of this.mice) m.scale.set(this.unit * 1.15);
   }
 
   protected override onUpdate() {
     const { width } = this.viewport;
-    const rigW = DESIGN_WIDTH * this.scale;
+    const rigW = DESIGN_WIDTH * this.unit;
     const trail = width * 0.5;
     const p = Math.min(1, this.time / DRIVE_MS);
     const x = -rigW + p * (width + rigW + trail);
 
-    const bump = Math.abs(Math.sin(this.time / BUMP_MS)) * 2 * this.scale;
+    const bump = Math.abs(Math.sin(this.time / BUMP_MS)) * 2 * this.unit;
     this.rig.position.set(x, this.groundY - bump);
     this.mice.forEach((m, i) => {
       const { gap, phase } = MICE[i] ?? MICE[0];
-      const hop = Math.abs(Math.sin((this.time + phase) / HOP_MS)) * 14 * this.scale;
+      const hop = Math.abs(Math.sin((this.time + phase) / HOP_MS)) * 14 * this.unit;
       m.position.set(x - width * gap, this.groundY - hop);
       m.angle = Math.sin((this.time + phase) / HOP_MS) * 6;
     });
 
     this.drawRoad(width);
-    this.updateDust(x + 14 * this.scale);
+    this.updateDust(x + 14 * this.unit);
 
     if (p >= 1 && !this.finished) {
       this.finished = true;
@@ -104,9 +104,9 @@ export class SplashScene extends Scene {
     if (this.time - this.lastPuff > DUST_EVERY_MS) {
       this.lastPuff = this.time;
       const g = new Graphics()
-        .circle(0, 0, 7 * this.scale)
+        .circle(0, 0, 7 * this.unit)
         .fill({ color: BRAND.paper, alpha: 0.5 });
-      g.position.set(backX, this.groundY - 6 * this.scale);
+      g.position.set(backX, this.groundY - 6 * this.unit);
       this.dust.addChild(g);
       this.puffs.push({ g, born: this.time });
     }
