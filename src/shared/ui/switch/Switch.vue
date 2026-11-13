@@ -17,7 +17,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
     v-bind="forwarded"
     :class="
       cn(
-        'peer border-primary bg-muted data-[state=checked]:bg-secondary relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border-2 transition-colors outline-none disabled:opacity-50',
+        'peer bg-primary/15 data-[state=checked]:bg-secondary relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border-2 border-transparent transition-colors outline-none disabled:opacity-50',
         props.class,
       )
     "

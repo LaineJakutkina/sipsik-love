@@ -24,7 +24,7 @@ const delegatedProps = reactiveOmit(props, "class");
       data-slot="native-select"
       :class="
         cn(
-          'border-input bg-background focus:border-ring h-[46px] w-full min-w-0 appearance-none rounded-full border-2 py-2.5 pr-9 pl-4 outline-none',
+          'border-input/25 bg-background focus:border-ring h-[46px] w-full min-w-0 appearance-none rounded-full border-[1.5px] py-2.5 pr-9 pl-4 outline-none',
           props.class,
         )
       "

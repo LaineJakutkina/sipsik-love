@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { formatShort, inDays, nextOccurrence, parseDate, today } from "@/domain/dates";
+import { inDays, MONTHS_GEN, nextOccurrence, parseDate, today } from "@/domain/dates";
 import { isTmp, tmpId } from "@/domain/ids";
 import type { Id } from "@/domain/types";
 import { notify } from "@/services/notify";
@@ -21,12 +21,14 @@ const list = computed(() =>
         ...b,
         next,
         dayOfMonth: d.getDate(),
+        month: (MONTHS_GEN[d.getMonth()] ?? "").slice(0, 3),
         turns: d.getFullYear() - parseDate(b.bdate).getFullYear(),
       };
     })
     .sort((a, b) => a.next.localeCompare(b.next)),
 );
 
+const adding = ref(false);
 const name = ref("");
 const bdate = ref("");
 const max = today();
@@ -48,6 +50,7 @@ function add() {
   );
   name.value = "";
   bdate.value = "";
+  adding.value = false;
 }
 
 function remove(id: Id) {
@@ -63,38 +66,40 @@ function remove(id: Id) {
 
 <template>
   <Card>
-    <CardTitle>Дни рождения</CardTitle>
-    <p class="text-muted-foreground mt-0.5 text-[13px]">
-      Бот напомнит {{ session.solo ? "тебе" : "вам обоим" }} за 3 дня и в сам день
+    <div class="flex items-center justify-between gap-2.5">
+      <CardTitle>Дни рождения</CardTitle>
+      <Button v-if="list.length" variant="link" :aria-expanded="adding" @click="adding = !adding">
+        {{ adding ? "Скрыть" : "+ Добавить" }}
+      </Button>
+    </div>
+    <p class="text-muted-foreground text-[13px]">
+      Напомним {{ session.solo ? "тебе" : "вам обоим" }} за 3 дня и в сам день
     </p>
-    <ul class="mt-1.5 flex flex-col">
-      <ListRow v-for="b in list" :key="b.id">
-        <template #lead>
-          <span
-            class="bg-primary text-primary-foreground grid size-[38px] flex-none place-items-center rounded-full text-[13px] font-extrabold"
-          >
-            {{ b.dayOfMonth }}
-          </span>
-        </template>
-        <ListTitle>{{ b.name }}</ListTitle>
-        <ListSub
-          >{{ formatShort(b.next) }} · {{ inDays(b.next) }}, исполнится {{ b.turns }}</ListSub
-        >
-        <template #trail><RemoveButton @remove="remove(b.id)" /></template>
-      </ListRow>
-      <li
-        v-if="!list.length"
-        class="text-muted-foreground px-2 py-[18px] text-center text-sm font-semibold"
-      >
-        Добавь близких, и бот напомнит заранее
-      </li>
-    </ul>
-    <form class="mt-2.5 flex flex-col gap-2" @submit.prevent="add">
+    <form
+      v-if="adding || !list.length"
+      class="bg-muted mt-3 flex flex-col gap-2 rounded-2xl p-3"
+      @submit.prevent="add"
+    >
       <Input v-model="name" placeholder="Имя" maxlength="60" />
       <div class="grid grid-cols-2 gap-2">
         <DateField v-model="bdate" placeholder="Дата рождения" :max="max" />
         <Button type="submit">Добавить</Button>
       </div>
     </form>
+    <ul class="mt-1.5 flex flex-col">
+      <ListRow v-for="b in list" :key="b.id">
+        <template #lead>
+          <span
+            class="bg-muted grid size-[42px] flex-none place-content-center rounded-2xl text-center leading-none"
+          >
+            <b class="tabular text-[15px] font-extrabold">{{ b.dayOfMonth }}</b>
+            <span class="text-muted-foreground mt-0.5 text-[10px] font-bold">{{ b.month }}</span>
+          </span>
+        </template>
+        <ListTitle>{{ b.name }}</ListTitle>
+        <ListSub>{{ inDays(b.next) }} · исполнится {{ b.turns }}</ListSub>
+        <template #trail><RemoveButton @remove="remove(b.id)" /></template>
+      </ListRow>
+    </ul>
   </Card>
 </template>

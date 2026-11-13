@@ -1,23 +1,24 @@
 import { cva } from "class-variance-authority";
 
 /**
- * Calendar day bubble. Variant order mirrors the legacy cascade
- * (out → plan → today → selected); `cn` resolves the overrides.
+ * Calendar day: a plain number; today gets a peach ring, the selected day a navy
+ * fill. What happens on the day is shown by dots under the number (`DAY_DOT`).
  */
 export const dayVariants = cva(
-  "border-primary bg-paper tabular relative grid aspect-square min-w-0 place-items-center rounded-full border-2 p-0 text-[13px] font-bold",
+  "group tabular relative grid aspect-square min-w-0 place-items-center rounded-full p-0 text-sm font-bold",
   {
     variants: {
-      out: { true: "border-mist text-grey" },
-      plan: { true: "bg-peach border-peach" },
-      birthday: {
-        true: "after:bg-navy after:border-paper after:absolute after:-top-0.5 after:-right-0.5 after:size-[9px] after:rounded-full after:border-2",
-      },
-      today: { true: "shadow-[0_0_0_3px_var(--peach-soft)]" },
-      selected: { true: "bg-navy border-navy text-paper" },
-      important: {
-        true: "before:bg-peach-ink before:border-paper before:absolute before:-top-0.5 before:-left-0.5 before:size-[9px] before:rounded-full before:border-2",
-      },
+      out: { true: "text-grey/60 font-semibold" },
+      today: { true: "ring-secondary ring-2 ring-inset" },
+      selected: { true: "bg-navy text-paper" },
     },
   },
 );
+
+/** Dot colours, shared by the day cells and the legend */
+export const DAY_DOT = {
+  plan: "bg-peach",
+  birthday: "bg-navy group-aria-pressed:bg-paper",
+  important: "bg-peach-ink group-aria-pressed:bg-peach-soft",
+} as const;
+export type DayMark = keyof typeof DAY_DOT;
