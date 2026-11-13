@@ -6,7 +6,7 @@ import { useSessionStore } from "@/stores/session";
 import CoatButton from "./CoatButton.vue";
 import { useCoatActions } from "./coatActions";
 
-/** Coat picker in the shop: owned coats switch instantly, others open the purchase sheet */
+/** Coat pickers in the shop (cats, then other animals): owned coats switch instantly, others open the purchase sheet */
 const session = useSessionStore();
 const { chooseCoat } = useCoatActions();
 
@@ -18,12 +18,10 @@ const current = computed(() => session.app.couple.coat || "black");
 </script>
 
 <template>
-  <Card v-if="list.length">
+  <Card v-if="cats.length">
     <div class="flex items-center justify-between gap-2">
-      <CardTitle>Окрас котика</CardTitle>
-      <span class="text-muted-foreground text-[13px]">{{
-        session.solo ? "" : "общий на двоих"
-      }}</span>
+      <CardTitle>Окрасы</CardTitle>
+      <span class="text-muted-foreground text-[13px]">{{ cats.length }} на выбор</span>
     </div>
     <div class="mt-3 grid grid-cols-3 gap-2">
       <CoatButton
@@ -35,21 +33,21 @@ const current = computed(() => session.app.couple.coat || "black");
         @choose="chooseCoat(c.id)"
       />
     </div>
-    <template v-if="animals.length">
-      <div class="mt-3.5 flex items-center justify-between gap-2">
-        <CardTitle>Другое животное</CardTitle>
-        <span class="text-muted-foreground text-[13px]">с эмоциями и вещами</span>
-      </div>
-      <div class="mt-3 grid grid-cols-3 gap-2">
-        <CoatButton
-          v-for="c in animals"
-          :key="c.id"
-          :coat="c"
-          :on="current === c.id"
-          :owned="owned.includes(c.id) || !c.price"
-          @choose="chooseCoat(c.id)"
-        />
-      </div>
-    </template>
+  </Card>
+  <Card v-if="animals.length">
+    <div class="flex items-center justify-between gap-2">
+      <CardTitle>Другие звери</CardTitle>
+      <span class="text-muted-foreground text-[13px]">с эмоциями и вещами</span>
+    </div>
+    <div class="mt-3 grid grid-cols-3 gap-2">
+      <CoatButton
+        v-for="c in animals"
+        :key="c.id"
+        :coat="c"
+        :on="current === c.id"
+        :owned="owned.includes(c.id) || !c.price"
+        @choose="chooseCoat(c.id)"
+      />
+    </div>
   </Card>
 </template>

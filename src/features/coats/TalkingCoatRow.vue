@@ -26,16 +26,16 @@ const label = computed(() => {
 </script>
 
 <template>
-  <li class="flex items-center gap-3">
-    <CharacterThumb kind="face" mood="happy" :coat="id" :width="64" class="size-16 shrink-0" />
+  <li class="bg-background flex items-center gap-3 rounded-2xl p-2.5">
+    <CharacterThumb kind="face" mood="happy" :coat="id" :width="56" class="size-14 shrink-0" />
     <div class="min-w-0 grow">
       <b class="block text-[15px] leading-tight">{{ name }}</b>
-      <span class="text-muted-foreground text-[13px] leading-snug">{{ TALK_ABOUT[kind] }}</span>
+      <span class="text-muted-foreground text-xs leading-snug">{{ TALK_ABOUT[kind] }}</span>
     </div>
     <Button
       size="sm"
-      :variant="on ? 'outline' : 'secondary'"
-      class="shrink-0"
+      :variant="on ? 'ghost' : owned ? 'outline' : 'secondary'"
+      class="shrink-0 px-3 py-1.5"
       :disabled="!offer || on"
       @click="$emit('choose')"
     >

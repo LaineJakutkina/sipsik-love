@@ -25,11 +25,11 @@ const rows = computed(() =>
 
 <template>
   <Card tone="soft">
-    <CardTitle>Говорящие котики ✨</CardTitle>
-    <p class="text-muted-foreground mt-1 text-[13px]">
-      Супер-бонус: на первом тапе и потом на каждом {{ TALK_EVERY }}-м котик что-нибудь скажет.
+    <CardTitle>Говорящие котики</CardTitle>
+    <p class="text-foreground/65 mt-1 text-[13px]">
+      На первом тапе и потом на каждом {{ TALK_EVERY }}-м котик что-нибудь скажет
     </p>
-    <ul class="mt-3 flex flex-col gap-3">
+    <ul class="mt-3 flex flex-col gap-2">
       <TalkingCoatRow
         v-for="r in rows"
         :key="r.id"
