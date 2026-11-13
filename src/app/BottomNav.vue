@@ -21,9 +21,13 @@ const target = (id: TabId) => ({ name: id === "plans" ? plans.last : id });
 </script>
 
 <template>
+  <div
+    class="nav-fade from-background pointer-events-none fixed inset-x-0 bottom-0 z-10 bg-linear-to-t to-transparent"
+    aria-hidden="true"
+  />
   <nav
     aria-label="Разделы"
-    class="bottom-nav bg-primary fixed inset-x-3 z-20 mx-auto max-w-[496px] rounded-[28px] p-1.5"
+    class="bottom-nav bg-primary/85 ring-primary-foreground/10 shadow-navy/30 fixed inset-x-3 z-20 mx-auto max-w-[496px] rounded-[28px] p-1.5 shadow-xl ring-1 backdrop-blur-md"
   >
     <div class="grid grid-cols-5">
       <RouterLink
@@ -37,11 +41,11 @@ const target = (id: TabId) => ({ name: id === "plans" ? plans.last : id });
         <a
           :href
           :aria-current="route.meta.tab === n.id ? 'page' : undefined"
-          class="group text-primary-foreground aria-[current=page]:opacity-100 flex min-w-0 flex-col items-center gap-0.5 py-1 text-[10.5px] font-bold no-underline opacity-72"
+          class="group text-primary-foreground aria-[current=page]:opacity-100 flex min-w-0 flex-col items-center gap-0.5 py-0.5 text-[10.5px] font-bold no-underline opacity-60"
           @click="navigate"
         >
           <span
-            class="group-aria-[current=page]:bg-secondary group-aria-[current=page]:text-secondary-foreground grid h-[34px] w-[40px] place-items-center rounded-full"
+            class="group-aria-[current=page]:bg-secondary group-aria-[current=page]:text-secondary-foreground grid h-8 w-[40px] place-items-center rounded-full"
           >
             <component :is="n.icon" class="size-[22px]" :stroke-width="2.2" aria-hidden="true" />
           </span>

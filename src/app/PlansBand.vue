@@ -32,6 +32,6 @@ const section = computed({
 </script>
 
 <template>
-  <SegmentedPills v-model="section" :options="OPTIONS" inverse center label="Раздел планов" />
+  <SegmentedPills v-model="section" :options="OPTIONS" track label="Раздел планов" />
   <RouterView name="band" />
 </template>

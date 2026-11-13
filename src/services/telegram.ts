@@ -52,6 +52,14 @@ export const telegram = {
     });
   },
 
+  /** Show «Settings» in Telegram's own ⋯ menu and call `open` when it is chosen */
+  onSettings(open: () => void) {
+    safely((tg) => {
+      tg.SettingsButton.show();
+      tg.SettingsButton.onClick(open);
+    });
+  },
+
   /** Ask for permission to send messages (notes, reminders) */
   requestWriteAccess() {
     safely((tg) => tg.requestWriteAccess?.());

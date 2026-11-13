@@ -1,19 +1,25 @@
 <script setup lang="ts">
-import { SlidersHorizontalIcon } from "@lucide/vue";
+import { onMounted } from "vue";
 import CharacterThumb from "@/game/vue/CharacterThumb.vue";
-import { Button } from "@/shared/ui/button";
+import { telegram } from "@/services/telegram";
 import { cn } from "@/shared/lib/utils";
 import { useSessionStore } from "@/stores/session";
 import { useSheetsStore } from "@/stores/sheets";
 import BottomNav from "./BottomNav.vue";
 
 /**
- * Page frame: navy band (brand row + per-screen band content) with a drip edge,
- * then the page body. `inApp` adds the settings button and the bottom nav.
+ * Page frame: navy band (per-screen band content) with a drip edge, then the page
+ * body. Outside the app (onboarding) the band starts with the brand row; `inApp`
+ * drops it, since Telegram's own header already names the app, and adds the
+ * bottom nav. Settings open from the cat card on «Мы» and from Telegram's ⋯ menu.
  */
-defineProps<{ inApp?: boolean }>();
+const props = defineProps<{ inApp?: boolean }>();
 const session = useSessionStore();
 const sheets = useSheetsStore();
+
+onMounted(() => {
+  if (props.inApp) telegram.onSettings(() => sheets.open("settings"));
+});
 </script>
 
 <template>
@@ -21,25 +27,14 @@ const sheets = useSheetsStore();
     class="text-primary-foreground bg-[linear-gradient(var(--navy),var(--navy))] bg-size-[100%_calc(100%-45px)] bg-top bg-no-repeat"
   >
     <div class="px-safe mx-auto flex max-w-[520px] flex-col gap-3.5 pt-2.5 pb-1">
-      <div class="flex items-center justify-between gap-2.5">
-        <div class="flex items-center gap-2 text-[19px] font-extrabold">
-          <CharacterThumb
-            kind="face"
-            :mood="session.myMood ?? 'happy'"
-            :width="34"
-            class="bg-paper size-[34px] rounded-full p-0.5"
-          />
-          Сипсик <em class="text-secondary not-italic">Love</em>
-        </div>
-        <Button
-          v-if="inApp"
-          variant="inverse"
-          size="icon"
-          aria-label="Настройки"
-          @click="sheets.open('settings')"
-        >
-          <SlidersHorizontalIcon class="size-[19px]" :stroke-width="2.2" />
-        </Button>
+      <div v-if="!inApp" class="flex items-center gap-2 text-[19px] font-extrabold">
+        <CharacterThumb
+          kind="face"
+          :mood="session.myMood ?? 'happy'"
+          :width="34"
+          class="bg-paper size-[34px] rounded-full p-0.5"
+        />
+        Сипсик <em class="text-secondary not-italic">Love</em>
       </div>
       <div class="flex flex-col gap-3.5">
         <slot name="band" />

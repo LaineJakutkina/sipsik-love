@@ -17,6 +17,9 @@ export const toggleVariants = cva(
         /** White outline pill on navy surfaces */
         inverse:
           "border-2 border-primary-foreground bg-transparent text-primary-foreground data-[state=on]:bg-primary-foreground data-[state=on]:text-primary",
+        /** Borderless item of a segmented track on navy surfaces; the pressed one is a white pill */
+        segment:
+          "grow border-0 bg-transparent text-primary-foreground/70 data-[state=on]:bg-primary-foreground data-[state=on]:text-primary data-[state=on]:shadow-sm",
         /** Thin chip for quick suggestions */
         chip: "border-[1.5px] border-primary bg-background font-semibold text-foreground data-[state=on]:bg-primary data-[state=on]:text-primary-foreground",
         /** Thin chip on navy surfaces */

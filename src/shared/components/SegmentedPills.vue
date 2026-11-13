@@ -6,10 +6,12 @@ import type { PillOption } from "./types";
 /**
  * Single-choice row of pills (gender, frequency, filters).
  * `inverse` is for navy surfaces; `allowEmpty` lets a pressed pill be released.
+ * `track` turns the row into one full-width segmented control for navy bands.
  */
 const props = defineProps<{
   options: readonly PillOption<T>[];
   inverse?: boolean;
+  track?: boolean;
   allowEmpty?: boolean;
   center?: boolean;
   label?: string;
@@ -28,8 +30,11 @@ function onUpdate(v: unknown) {
     type="single"
     :aria-label="label"
     :model-value="model"
-    :variant="inverse ? 'inverse' : 'default'"
-    :class="cn(center && 'justify-center')"
+    :variant="track ? 'segment' : inverse ? 'inverse' : 'default'"
+    :size="track ? 'sm' : 'default'"
+    :class="
+      cn(center && 'justify-center', track && 'bg-navy-2 w-full flex-nowrap gap-0 rounded-full p-1')
+    "
     @update:model-value="onUpdate"
   >
     <ToggleGroupItem v-for="o in options" :key="o.value" :value="o.value">

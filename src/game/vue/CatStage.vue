@@ -42,6 +42,7 @@ watch(
 
 defineExpose({
   boop: () => scene.value?.boop(),
+  celebrate: (label: string) => scene.value?.celebrate(label),
   shakeBubble: () => scene.value?.shakeBubble(),
 });
 </script>

@@ -14,8 +14,7 @@ const options = [
   <SegmentedPills
     :model-value="homeUi.section"
     :options
-    inverse
-    center
+    track
     label="Раздел"
     @update:model-value="(v) => v && (homeUi.section = v)"
   />

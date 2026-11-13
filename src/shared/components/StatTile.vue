@@ -5,7 +5,7 @@ defineProps<{ value: string | number; label: string; highlight?: boolean }>();
 
 <template>
   <div
-    class="border-primary data-highlight:bg-secondary data-highlight:border-secondary min-w-0 rounded-[18px] border-2 px-1.5 py-[9px] text-center"
+    class="bg-muted data-highlight:bg-secondary min-w-0 rounded-[18px] px-1.5 py-[11px] text-center"
     :data-highlight="highlight || undefined"
   >
     <b class="tabular block text-xl leading-[1.15] font-extrabold">{{ value }}</b>

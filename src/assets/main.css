@@ -88,6 +88,13 @@
   --radius-3xl: 36px;
 
   --animate-wiggle: wiggle 0.4s ease-in-out;
+  --animate-pop: pop 0.22s ease-out;
+
+  @keyframes pop {
+    40% {
+      transform: scale(1.18);
+    }
+  }
 
   @keyframes wiggle {
     25% {
@@ -105,13 +112,17 @@
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 @utility pb-nav {
-  padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
 }
 @utility pb-safe {
   padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px));
 }
 @utility bottom-nav {
   bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+}
+/* Soft fade of the page under the floating nav */
+@utility nav-fade {
+  height: calc(104px + env(safe-area-inset-bottom, 0px));
 }
 @utility tabular {
   font-variant-numeric: tabular-nums;
