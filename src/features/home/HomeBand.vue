@@ -10,7 +10,7 @@ const options = [
 </script>
 
 <template>
-  <h1>Дом</h1>
+  <h1 class="sr-only">Дом</h1>
   <SegmentedPills
     :model-value="homeUi.section"
     :options

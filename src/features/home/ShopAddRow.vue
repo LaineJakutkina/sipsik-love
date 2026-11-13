@@ -30,12 +30,12 @@ onMounted(() => {
     <Input ref="input" v-model="title" placeholder="Что купить" maxlength="80" class="flex-1" />
     <Button type="submit" class="flex-none">Добавить</Button>
   </form>
-  <div class="mt-2.5 mb-1 flex flex-wrap gap-1.5">
+  <div class="mt-2.5 flex flex-wrap gap-1.5">
     <button
       v-for="q in QUICK_SHOPPING"
       :key="q"
       type="button"
-      class="border-primary bg-card rounded-full border-[1.5px] px-3 py-1.5 text-[13px] font-semibold"
+      class="bg-muted rounded-full px-3 py-1.5 text-[13px] font-semibold"
       @click="household.addShop(q, inSheet)"
     >
       + {{ q }}

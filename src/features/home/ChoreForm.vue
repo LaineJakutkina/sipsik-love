@@ -3,12 +3,13 @@ import { ref } from "vue";
 import { CHORE_FREQUENCIES } from "@/domain/catalog";
 import type { Who } from "@/domain/types";
 import { Button } from "@/shared/ui/button";
-import { Card, CardTitle } from "@/shared/ui/card";
 import { Input } from "@/shared/ui/input";
 import { NativeSelect, NativeSelectOption } from "@/shared/ui/native-select";
 import { useSessionStore } from "@/stores/session";
 import { useHousehold } from "./useHousehold";
 
+/** «Новое дело» panel inside the chores card */
+const emit = defineEmits<{ added: [] }>();
 const session = useSessionStore();
 const household = useHousehold();
 
@@ -21,12 +22,12 @@ function submit() {
   title.value = "";
   who.value = "me";
   freq.value = CHORE_FREQUENCIES[0];
+  emit("added");
 }
 </script>
 
 <template>
-  <Card as="form" class="gap-2" @submit.prevent="submit">
-    <CardTitle>Новое дело</CardTitle>
+  <form class="bg-muted flex flex-col gap-2 rounded-2xl p-3" @submit.prevent="submit">
     <Input v-model="title" placeholder="Например, полить цветы" maxlength="80" />
     <div class="grid grid-cols-2 gap-2">
       <NativeSelect v-model="who" aria-label="Кто делает">
@@ -36,14 +37,11 @@ function submit() {
         </NativeSelectOption>
       </NativeSelect>
       <NativeSelect v-model="freq" aria-label="Как часто">
-        <NativeSelectOption v-for="f in CHORE_FREQUENCIES" :key="f" :value="f">{{
-          f
-        }}</NativeSelectOption>
+        <NativeSelectOption v-for="f in CHORE_FREQUENCIES" :key="f" :value="f">
+          {{ f }}
+        </NativeSelectOption>
       </NativeSelect>
     </div>
     <Button type="submit">Добавить дело</Button>
-    <p class="text-muted-foreground text-[13px]">
-      Галочки сбрасываются каждый день. Нажми на имя, чтобы передать дело.
-    </p>
-  </Card>
+  </form>
 </template>

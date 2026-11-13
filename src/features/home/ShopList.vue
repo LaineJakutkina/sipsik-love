@@ -17,13 +17,15 @@ const anyBought = computed(() => shop.value.some((x) => x.done));
 </script>
 
 <template>
-  <ShopAddRow />
   <Card>
-    <div class="flex items-center justify-between gap-2.5">
-      <CardTitle>Список</CardTitle>
-      <span class="text-muted-foreground text-[13px]">осталось {{ left }}</span>
+    <div class="mb-2.5 flex items-center justify-between gap-2.5">
+      <CardTitle>Покупки</CardTitle>
+      <span v-if="shop.length" class="text-muted-foreground text-[13px]">
+        {{ left ? `осталось ${left}` : "всё куплено" }}
+      </span>
     </div>
-    <ul v-if="shop.length" class="mt-1.5 flex flex-col">
+    <ShopAddRow />
+    <ul v-if="shop.length" class="mt-2 flex flex-col">
       <ListRow v-for="x in sorted" :key="x.id" :done="x.done">
         <template #lead>
           <CheckButton :checked="x.done" label="Куплено" @toggle="household.toggleShop(x.id)" />
@@ -35,8 +37,8 @@ const anyBought = computed(() => shop.value.some((x) => x.done));
       </ListRow>
     </ul>
     <EmptyState v-else>Список пуст. Добавь, что нужно купить.</EmptyState>
-    <Button v-if="anyBought" variant="link" @click="household.clearBought()"
-      >Убрать купленное</Button
-    >
+    <Button v-if="anyBought" variant="link" class="mt-1 self-start" @click="household.clearBought()">
+      Убрать купленное
+    </Button>
   </Card>
 </template>

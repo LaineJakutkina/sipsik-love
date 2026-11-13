@@ -92,10 +92,6 @@ export function useHousehold() {
     });
   }
 
-  function splitChores() {
-    void session.act("chore.split", {}, "Дела поделены поровну");
-  }
-
   return {
     addShop,
     toggleShop,
@@ -105,6 +101,5 @@ export function useHousehold() {
     toggleChore,
     swapChore,
     removeChore,
-    splitChores,
   };
 }
