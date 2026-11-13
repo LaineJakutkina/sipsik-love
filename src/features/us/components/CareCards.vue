@@ -31,13 +31,15 @@ const canTalk = computed(
   >
     <CareTile
       v-if="canAsk"
-      title="🫂 Тяжело?"
+      title="Тяжело?"
+      emoji="🫂"
       :text="`${session.partnerName} получит подсказку, как тебя поддержать`"
       @select="sheets.open('sos')"
     />
     <CareTile
       v-if="canTalk"
-      title="🕊 Что-то задело?"
+      title="Что-то задело?"
+      emoji="🕊"
       text="Помогу сказать это бережно, без обвинений"
       @select="sheets.open('talk')"
     />
