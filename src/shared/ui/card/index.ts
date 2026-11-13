@@ -10,7 +10,7 @@ export { default as CardAction } from "./CardAction.vue";
 export { default as CardContent } from "./CardContent.vue";
 export { default as CardFooter } from "./CardFooter.vue";
 
-export const cardVariants = cva("flex min-w-0 flex-col rounded-lg border-2", {
+export const cardVariants = cva("flex min-w-0 flex-col rounded-lg border", {
   variants: {
     padding: {
       /** Free-form content padded by the card itself */
@@ -22,18 +22,18 @@ export const cardVariants = cva("flex min-w-0 flex-col rounded-lg border-2", {
       sections: "gap-3 overflow-hidden py-3",
     },
     tone: {
-      /** White card with navy outline — the default surface */
-      default: "border-primary bg-card text-card-foreground",
+      /** White card lifted by a hairline and a soft navy shadow — the default surface */
+      default: "border-primary/10 bg-card text-card-foreground shadow-md shadow-navy/10",
       /** Navy surface with white text */
       dark: "border-primary bg-primary text-primary-foreground",
       /** Soft peach highlight: tips, notes, “on this day” */
-      soft: "border-secondary bg-accent text-accent-foreground",
+      soft: "border-transparent bg-accent text-accent-foreground",
       /** Quiet grey surface: own pending messages */
-      muted: "border-primary bg-muted text-foreground",
+      muted: "border-transparent bg-muted text-foreground",
       /** Warm yellow: gratitude */
-      butter: "border-butter-edge bg-butter text-foreground",
+      butter: "border-butter-edge/50 bg-butter text-foreground",
       /** Dashed outline: soft invitations to act */
-      dashed: "border-dashed border-primary bg-card text-card-foreground",
+      dashed: "border-[1.5px] border-dashed border-primary/35 bg-card text-card-foreground",
     },
   },
   defaultVariants: { tone: "default", padding: "default" },

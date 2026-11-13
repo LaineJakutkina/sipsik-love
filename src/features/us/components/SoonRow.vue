@@ -9,12 +9,12 @@ defineProps<{ title: string; when: string; fill?: boolean }>();
   <div
     :class="
       cn(
-        'border-primary-foreground flex min-w-0 items-center justify-between gap-2.5 rounded-full border-2 px-4 py-[9px]',
-        fill && 'bg-secondary border-secondary text-foreground',
+        'bg-navy-2 flex min-w-0 items-center justify-between gap-2.5 rounded-full px-4 py-[11px]',
+        fill && 'bg-secondary text-foreground',
       )
     "
   >
-    <span class="min-w-0 font-bold wrap-anywhere">{{ title }}</span>
+    <span class="min-w-0 truncate font-bold">{{ title }}</span>
     <span class="tabular flex-none text-xs font-bold">{{ when }}</span>
   </div>
 </template>

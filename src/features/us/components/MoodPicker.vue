@@ -29,7 +29,7 @@ function pick(mood: MoodId) {
         @click="pick(m.id)"
       >
         <span
-          class="border-primary bg-background group-aria-pressed:bg-secondary group-aria-pressed:border-secondary block size-14 rounded-full border-2 p-1"
+          class="bg-muted group-aria-pressed:bg-secondary block size-14 rounded-full p-1.5"
         >
           <CharacterThumb
             kind="face"
@@ -39,7 +39,9 @@ function pick(mood: MoodId) {
             class="size-full"
           />
         </span>
-        {{ m.name }}
+        <span class="text-muted-foreground group-aria-pressed:text-foreground w-full truncate">
+          {{ m.name }}
+        </span>
       </button>
     </div>
     <div v-if="session.app.partner" class="mt-3.5 flex flex-wrap items-center gap-2 text-[13px]">

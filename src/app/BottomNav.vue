@@ -22,12 +22,12 @@ const target = (id: TabId) => ({ name: id === "plans" ? plans.last : id });
 
 <template>
   <div
-    class="nav-fade from-background pointer-events-none fixed inset-x-0 bottom-0 z-10 bg-linear-to-t to-transparent"
+    class="nav-fade from-background via-background/85 pointer-events-none fixed inset-x-0 bottom-0 z-10 bg-linear-to-t to-transparent"
     aria-hidden="true"
   />
   <nav
     aria-label="Разделы"
-    class="bottom-nav bg-primary/85 ring-primary-foreground/10 shadow-navy/30 fixed inset-x-3 z-20 mx-auto max-w-[496px] rounded-[28px] p-1.5 shadow-xl ring-1 backdrop-blur-md"
+    class="bottom-nav bg-primary/92 ring-primary-foreground/10 shadow-navy/30 fixed inset-x-3 z-20 mx-auto max-w-[496px] rounded-[28px] p-1.5 shadow-xl ring-1 backdrop-blur-md"
   >
     <div class="grid grid-cols-5">
       <RouterLink

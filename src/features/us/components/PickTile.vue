@@ -16,9 +16,9 @@ defineEmits<{ select: [] }>();
     :aria-pressed="locked ? undefined : !!on"
     :class="
       cn(
-        'group border-primary bg-background flex min-w-0 flex-col items-center gap-[3px] rounded-[18px] border-2 px-1.5 pt-2 pb-[9px] text-center',
-        props.on && 'bg-secondary border-secondary',
-        props.locked && 'border-grey border-dashed',
+        'group bg-muted flex min-w-0 flex-col items-center gap-[3px] rounded-[18px] border-[1.5px] border-transparent px-1.5 pt-2.5 pb-2.5 text-center',
+        props.on && 'bg-secondary',
+        props.locked && 'bg-background border-grey/60 border-dashed',
       )
     "
     :data-locked="locked || undefined"

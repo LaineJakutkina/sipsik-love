@@ -33,18 +33,14 @@ function wear(id: ItemId) {
     <CardHead title="Вещи котика" :note="todayLine" />
     <div class="mt-2.5">
       <div class="mb-1.5 flex justify-between gap-2 text-[13px] font-bold">
-        <span>
-          {{
-            progress.next
-              ? `Следующая вещь: ${progress.next.name}`
-              : `${session.petName} собрал всё`
-          }}
+        <span class="min-w-0 truncate">
+          {{ progress.next ? `Дальше: ${progress.next.name}` : `${session.petName} собрал всё` }}
         </span>
-        <span v-if="progress.next" class="text-muted-foreground">
+        <span v-if="progress.next" class="text-muted-foreground tabular flex-none">
           ещё {{ formatNumber(progress.left) }}
         </span>
       </div>
-      <Progress :model-value="progress.percent" />
+      <Progress :model-value="progress.percent" class="bg-muted h-2 border-0" />
     </div>
     <div class="mt-3.5 grid grid-cols-3 gap-2">
       <template v-for="it in items" :key="it.id">

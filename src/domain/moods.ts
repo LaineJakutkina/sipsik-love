@@ -10,7 +10,7 @@ export const MOODS: readonly Mood[] = [
   { id: "tears", name: "Слёзы" },
   { id: "tired", name: "Устал" },
   { id: "angry", name: "Злюсь" },
-  { id: "neutral", name: "Нейтрально" },
+  { id: "neutral", name: "Спокойно" },
   { id: "happy", name: "Счастлив" },
 ];
 
@@ -31,7 +31,7 @@ export function moodLabel(id: MoodId | null | undefined, gender?: Gender | null)
     case "angry":
       return "злится";
     case "neutral":
-      return "нейтрально";
+      return "спокойно";
     case "happy":
       return gender === "f" ? "счастлива" : gender === "m" ? "счастлив" : "счастлив(а)";
     default:

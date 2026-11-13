@@ -42,8 +42,8 @@ const ACTIONS: { label: string; icon: Component; run: () => void }[] = [
       type="button"
       :class="
         cn(
-          'border-primary bg-background flex min-w-0 flex-col items-center gap-1.5 rounded-[18px] border-2 px-1.5 py-3 text-[13px] font-bold',
-          i === 0 && 'bg-secondary border-secondary',
+          'bg-muted flex min-w-0 flex-col items-center gap-1.5 rounded-[18px] px-1.5 py-3 text-[13px] font-bold',
+          i === 0 && 'bg-secondary',
         )
       "
       @click="a.run"
