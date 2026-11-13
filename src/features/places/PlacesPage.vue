@@ -1,16 +1,20 @@
 <script setup lang="ts">
+import { MapPinIcon } from "@lucide/vue";
 import { ref } from "vue";
 import { tmpId, isTmp } from "@/domain/ids";
 import type { Id } from "@/domain/types";
 import { notify } from "@/services/notify";
 import { ListRow, RemoveButton } from "@/shared/components";
 import { plural } from "@/shared/lib/plural";
+import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { Card, CardTitle } from "@/shared/ui/card";
 import { Input } from "@/shared/ui/input";
 import { useSessionStore } from "@/stores/session";
+import { useRouletteStore } from "./roulette";
 
 const session = useSessionStore();
+const roulette = useRouletteStore();
 const title = ref("");
 
 function add() {
@@ -34,10 +38,6 @@ function remove(id: Id) {
 </script>
 
 <template>
-  <form class="flex gap-2" @submit.prevent="add">
-    <Input v-model="title" placeholder="Кафе, парк, кино" maxlength="80" class="flex-1" />
-    <Button type="submit" class="flex-none">Добавить</Button>
-  </form>
   <Card>
     <div class="flex items-center justify-between gap-2.5">
       <CardTitle>Наши места</CardTitle>
@@ -46,17 +46,31 @@ function remove(id: Id) {
         {{ plural(session.app.places.length, ["место", "места", "мест"]) }}
       </span>
     </div>
+    <form class="mt-2.5 flex gap-2" @submit.prevent="add">
+      <Input v-model="title" placeholder="Кафе, парк, кино" maxlength="80" class="flex-1" />
+      <Button type="submit" class="flex-none">Добавить</Button>
+    </form>
     <ul class="mt-1.5 flex flex-col">
       <ListRow v-for="p in session.app.places" :key="p.id">
+        <template #lead>
+          <span class="bg-muted grid size-9 flex-none place-items-center rounded-xl">
+            <MapPinIcon class="size-[18px]" :stroke-width="2.2" aria-hidden="true" />
+          </span>
+        </template>
         <div class="font-semibold">{{ p.title }}</div>
-        <template #trail><RemoveButton @remove="remove(p.id)" /></template>
+        <template #trail>
+          <Badge v-if="!roulette.spinning && roulette.result === p.title" variant="secondary">
+            выпало
+          </Badge>
+          <RemoveButton @remove="remove(p.id)" />
+        </template>
       </ListRow>
-      <li
-        v-if="!session.app.places.length"
-        class="text-muted-foreground px-2 py-[18px] text-center text-sm font-semibold"
-      >
-        Добавь хотя бы два места
-      </li>
     </ul>
+    <p
+      v-if="session.app.places.length < 2"
+      class="bg-muted text-muted-foreground mt-2 rounded-2xl px-3.5 py-3 text-center text-sm font-semibold"
+    >
+      Добавь хотя бы два места, и рулетка выберет за вас
+    </p>
   </Card>
 </template>

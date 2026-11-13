@@ -37,7 +37,7 @@ function onFile(e: Event) {
 </script>
 
 <template>
-  <div class="bg-muted border-primary relative h-36 w-full shrink-0 border-b-2">
+  <div class="bg-muted relative h-36 w-full shrink-0">
     <template v-if="wish.thumb_url">
       <button
         type="button"
@@ -54,9 +54,9 @@ function onFile(e: Event) {
       </button>
       <Button
         as="label"
-        variant="outline"
+        variant="ghost"
         size="icon-sm"
-        class="absolute right-2 bottom-2"
+        class="bg-paper/90 text-foreground absolute right-2 bottom-2 size-8 shadow-sm"
         aria-label="Заменить фото"
       >
         <CameraIcon class="size-4" :stroke-width="2.2" />

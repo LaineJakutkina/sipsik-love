@@ -34,7 +34,7 @@ onBeforeUnmount(roulette.settle);
 <template>
   <h1>Куда идём сегодня?</h1>
   <div
-    class="group bg-paper text-navy data-hit:bg-peach grid min-h-[110px] place-items-center rounded-2xl p-3.5 text-center"
+    class="group bg-navy-2 text-primary-foreground data-hit:bg-peach data-hit:text-navy grid min-h-[96px] place-items-center rounded-2xl p-3.5 text-center transition-colors"
     :data-hit="(roulette.result && !roulette.spinning) || undefined"
     :data-spinning="roulette.spinning || undefined"
     aria-live="polite"

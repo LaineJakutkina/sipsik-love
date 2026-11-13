@@ -39,7 +39,7 @@ onBeforeUnmount(() => wishUi.closeForm());
 </script>
 
 <template>
-  <SegmentedPills v-if="!session.solo" v-model="who" :options center label="Чей список" />
+  <SegmentedPills v-if="!session.solo" v-model="who" :options track light label="Чей список" />
   <template v-if="!mine && !session.app.partner">
     <InviteCard />
     <EmptyState>
@@ -49,7 +49,7 @@ onBeforeUnmount(() => wishUi.closeForm());
   <template v-else>
     <p
       v-if="!session.solo"
-      class="bg-muted text-muted-foreground flex items-center gap-2 rounded-full px-3.5 py-[9px] text-xs font-semibold"
+      class="bg-muted text-muted-foreground flex items-center gap-2 rounded-2xl px-3.5 py-2.5 text-xs font-semibold"
     >
       <LockIcon class="size-[15px] flex-none" :stroke-width="2.2" aria-hidden="true" />
       {{

@@ -5,5 +5,5 @@ const session = useSessionStore();
 </script>
 
 <template>
-  <h1>{{ session.solo ? "Мой вишлист" : "Наш вишлист" }}</h1>
+  <h1 class="sr-only">{{ session.solo ? "Мой вишлист" : "Наш вишлист" }}</h1>
 </template>

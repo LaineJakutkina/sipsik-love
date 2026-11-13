@@ -27,7 +27,7 @@ async function onChange(e: Event) {
 
 <template>
   <label
-    class="border-primary relative flex cursor-pointer items-center gap-3 rounded-[18px] border-2 border-dashed p-2.5"
+    class="border-primary/35 relative flex cursor-pointer items-center gap-3 rounded-[18px] border-[1.5px] border-dashed p-2.5"
     :aria-busy="reading"
   >
     <input type="file" accept="image/*" class="sr-only" @change="onChange" />

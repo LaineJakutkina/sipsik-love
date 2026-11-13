@@ -6,12 +6,14 @@ import type { PillOption } from "./types";
 /**
  * Single-choice row of pills (gender, frequency, filters).
  * `inverse` is for navy surfaces; `allowEmpty` lets a pressed pill be released.
- * `track` turns the row into one full-width segmented control for navy bands.
+ * `track` turns the row into one full-width segmented control: for navy bands,
+ * or with `light` for white pages.
  */
 const props = defineProps<{
   options: readonly PillOption<T>[];
   inverse?: boolean;
   track?: boolean;
+  light?: boolean;
   allowEmpty?: boolean;
   center?: boolean;
   label?: string;
@@ -30,10 +32,14 @@ function onUpdate(v: unknown) {
     type="single"
     :aria-label="label"
     :model-value="model"
-    :variant="track ? 'segment' : inverse ? 'inverse' : 'default'"
+    :variant="track ? (light ? 'segment-light' : 'segment') : inverse ? 'inverse' : 'default'"
     :size="track ? 'sm' : 'default'"
     :class="
-      cn(center && 'justify-center', track && 'bg-navy-2 w-full flex-nowrap gap-0 rounded-full p-1')
+      cn(
+        center && 'justify-center',
+        track && 'w-full flex-nowrap gap-0 rounded-full p-1',
+        track && (light ? 'bg-muted' : 'bg-navy-2'),
+      )
     "
     @update:model-value="onUpdate"
   >
