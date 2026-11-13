@@ -1,3 +1,4 @@
+import { watchDebounced } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { DEFAULT_LIMITS, DEFAULT_TAP_CAP } from "@/domain/catalog";
@@ -6,10 +7,35 @@ import type { AppState, CoupleState, SpaceMode } from "@/domain/types";
 import { call, errorMessage } from "@/services/api/client";
 import type { PayloadOf, StateAction } from "@/services/api/contract";
 import { notify } from "@/services/notify";
+import { storage } from "@/services/storage";
 import { telegram } from "@/services/telegram";
+import { config } from "@/shared/config";
 import { useTapsStore } from "./taps";
 
 export type SessionStatus = "loading" | "notg" | "error" | "ready";
+
+/**
+ * The last state from the server, kept on this device per Telegram account, so a
+ * repeat visit opens instantly while the fresh state loads in the background.
+ */
+const cacheKey = () => (telegram.userId ? `sipsik.state.${telegram.userId}` : null);
+function readCache(): AppState | null {
+  const key = cacheKey();
+  const raw = key ? storage.get(key) : null;
+  if (!raw) return null;
+  try {
+    const s = JSON.parse(raw) as AppState;
+    return s?.me && s.couple ? s : null;
+  } catch {
+    return null;
+  }
+}
+function writeCache(s: AppState | null) {
+  const key = cacheKey();
+  if (!key) return;
+  if (s?.couple) storage.set(key, JSON.stringify(s));
+  else storage.remove(key);
+}
 
 /**
  * The couple's shared state from the server and the two ways to change it:
@@ -28,6 +54,8 @@ export const useSessionStore = defineStore("session", () => {
   /** Days the user skipped before this visit; the cat is sad after 2+ */
   const missed = ref(0);
   const cheered = ref(false);
+  /** The screen shows the cached state; the fresh one is still on its way */
+  const stale = ref(false);
 
   /* ---------- getters ---------- */
 
@@ -171,12 +199,20 @@ export const useSessionStore = defineStore("session", () => {
       status.value = "notg";
       return;
     }
-    status.value = "loading";
     telegram.setup();
     const join = new URLSearchParams(location.search).get("join") ?? "";
+    // A join link must reach the server first: it can change which couple we are in
+    const cached = config.demo || join ? null : readCache();
+    if (cached) {
+      state.value = cached;
+      stale.value = true;
+      status.value = "ready";
+    } else status.value = "loading";
     try {
       const s = await call("me", { code: join });
-      state.value = s;
+      // Something the user did meanwhile will bring its own fresh state
+      if (!isSyncing()) state.value = s;
+      stale.value = false;
       missed.value = s.missed ?? 0;
       status.value = "ready";
       if (s.joinError) notify(s.joinError);
@@ -185,13 +221,28 @@ export const useSessionStore = defineStore("session", () => {
         telegram.requestWriteAccess();
       }
     } catch (e) {
+      if (cached) {
+        notify("Нет связи. Показываем то, что было в прошлый раз");
+        return;
+      }
       error.value = errorMessage(e);
       status.value = "error";
     }
   }
 
+  if (!config.demo) {
+    watchDebounced(
+      state,
+      (s) => {
+        if (!stale.value && status.value === "ready") writeCache(s);
+      },
+      { deep: true, debounce: 1000 },
+    );
+  }
+
   return {
     status,
+    stale,
     error,
     state,
     busy,

@@ -12,8 +12,9 @@ import BottomNav from "./BottomNav.vue";
  * body. Outside the app (onboarding) the band starts with the brand row; `inApp`
  * drops it, since Telegram's own header already names the app, and adds the
  * bottom nav. Settings open from the cat card on «Мы» and from Telegram's ⋯ menu.
+ * `preview` is the first load: the same frame as the app, before its data arrives.
  */
-const props = defineProps<{ inApp?: boolean }>();
+const props = defineProps<{ inApp?: boolean; preview?: boolean }>();
 const session = useSessionStore();
 const sheets = useSheetsStore();
 
@@ -27,7 +28,7 @@ onMounted(() => {
     class="text-primary-foreground bg-[linear-gradient(var(--navy),var(--navy))] bg-size-[100%_calc(100%-45px)] bg-top bg-no-repeat"
   >
     <div class="px-safe mx-auto flex max-w-[520px] flex-col gap-3.5 pt-2.5 pb-1">
-      <div v-if="!inApp" class="flex items-center gap-2 text-[19px] font-extrabold">
+      <div v-if="!inApp && !preview" class="flex items-center gap-2 text-[19px] font-extrabold">
         <CharacterThumb
           kind="face"
           :mood="session.myMood ?? 'happy'"
@@ -55,11 +56,11 @@ onMounted(() => {
     :class="
       cn(
         'px-safe relative z-[1] mx-auto flex max-w-[520px] flex-col gap-3.5 pt-0.5',
-        inApp ? 'pb-nav' : 'pb-safe',
+        inApp || preview ? 'pb-nav' : 'pb-safe',
       )
     "
   >
     <slot />
   </main>
-  <BottomNav v-if="inApp" />
+  <BottomNav v-if="inApp || preview" />
 </template>

@@ -26,6 +26,10 @@ export const telegram = {
   get initData() {
     return webApp()?.initData ?? "";
   },
+  /** Telegram id of the person who opened the app, or null outside Telegram */
+  get userId(): number | null {
+    return webApp()?.initDataUnsafe?.user?.id ?? null;
+  },
   get available() {
     return config.demo || !!webApp()?.initData;
   },

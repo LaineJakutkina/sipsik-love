@@ -4,20 +4,18 @@ import AppShell from "@/app/AppShell.vue";
 import { config } from "@/shared/config";
 import { Button } from "@/shared/ui/button";
 import { Card } from "@/shared/ui/card";
-import { EmptyState } from "@/shared/components";
 import { useSessionStore } from "@/stores/session";
+import LoadingView from "./LoadingView.vue";
 
 /** Loading / “open in Telegram” / error screens shown before the app is ready */
 const session = useSessionStore();
 </script>
 
 <template>
-  <AppShell>
+  <LoadingView v-if="session.status === 'loading'" />
+  <AppShell v-else>
     <template #band>
-      <template v-if="session.status === 'loading'">
-        <CatStage :look="{ mood: 'neutral', worn: {} }" />
-      </template>
-      <template v-else-if="session.status === 'notg'">
+      <template v-if="session.status === 'notg'">
         <CatStage :look="{ mood: 'tired', worn: {} }" />
         <h1>Открой меня в Telegram</h1>
       </template>
@@ -27,8 +25,7 @@ const session = useSessionStore();
       </template>
     </template>
 
-    <EmptyState v-if="session.status === 'loading'">Загружаем вашего котика…</EmptyState>
-    <Card v-else-if="session.status === 'notg'">
+    <Card v-if="session.status === 'notg'">
       <p>
         Сипсик Love работает внутри Telegram. Найди бота
         <template v-if="config.botUsername">
