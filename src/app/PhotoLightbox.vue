@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { Dialog, DialogContent, DialogTitle } from "@/shared/ui/dialog";
 
 /** Full-screen photo viewer; tap anywhere to close */
-defineProps<{ url: string | null }>();
+const props = defineProps<{ url: string | null }>();
 const emit = defineEmits<{ close: [] }>();
+
+/** The photo stays while the viewer fades out */
+const shown = computed<string | null>((prev) => props.url ?? prev ?? null);
 </script>
 
 <template>
@@ -15,7 +19,7 @@ const emit = defineEmits<{ close: [] }>();
       @click="emit('close')"
     >
       <DialogTitle class="sr-only">Фото</DialogTitle>
-      <img v-if="url" :src="url" alt="" class="max-h-full max-w-full rounded-[18px]" />
+      <img v-if="shown" :src="shown" alt="" class="max-h-full max-w-full rounded-[18px]" />
     </DialogContent>
   </Dialog>
 </template>

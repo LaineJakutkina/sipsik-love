@@ -29,6 +29,9 @@ Telegram Mini App. Подробное описание приложения, с�
   (как в `src/shared/ui/*/index.ts`). Сначала ищи готовый вариант (`Button`, `Card` tone, `Badge`, `Toggle`…).
 - Сливать классы через `cn()` из `src/shared/lib/utils.ts`.
 - Цвета для Pixi (WebGL) живут в `src/game/theme.ts` и `src/game/character/palettes.ts`, не в компонентах.
+- **Анимации:** кликабельное → утилита `press`; списки с добавлением/удалением → `AnimatedList` (сетка — `grid`);
+  раскрывающиеся `v-if`-блоки → `Expand`; экраны — через `RouteView`. Только классы tw-animate-css с токенами
+  `ease-out-soft`/`ease-in-quick`/`ease-spring` или помощники `src/shared/lib/motion.ts` — без `<style>`/`:style`.
 
 ## Архитектура и слои
 

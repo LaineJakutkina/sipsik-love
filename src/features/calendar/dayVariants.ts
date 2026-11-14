@@ -5,7 +5,7 @@ import { cva } from "class-variance-authority";
  * fill. What happens on the day is shown by dots under the number (`DAY_DOT`).
  */
 export const dayVariants = cva(
-  "group tabular relative grid aspect-square min-w-0 place-items-center rounded-full p-0 text-sm font-bold",
+  "group tabular press relative grid aspect-square min-w-0 place-items-center rounded-full p-0 text-sm font-bold",
   {
     variants: {
       out: { true: "text-grey/60 font-semibold" },

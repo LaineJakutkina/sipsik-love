@@ -1,6 +1,8 @@
-import { createRouter, createWebHashHistory, RouterView, type RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHashHistory, type RouteRecordRaw } from "vue-router";
 import { storage } from "@/services/storage";
 import { PLAN_SECTIONS } from "@/stores/plans";
+import { installNavMotion, scrollAfterLeave } from "./navMotion";
+import RouteView from "./RouteView.vue";
 
 export const TABS = ["us", "plans", "home", "games", "shop"] as const;
 export type TabId = (typeof TABS)[number];
@@ -33,7 +35,7 @@ const routes: RouteRecordRaw[] = [
     meta: { tab: "plans" },
     components: {
       band: () => import("./PlansBand.vue"),
-      default: RouterView,
+      default: RouteView,
     },
     children: [
       { path: "", redirect: { name: "cal" } },
@@ -125,8 +127,9 @@ export function createAppRouter() {
   const router = createRouter({
     history: createWebHashHistory(),
     routes,
-    scrollBehavior: () => ({ top: 0 }),
+    scrollBehavior: scrollAfterLeave,
   });
+  installNavMotion(router);
   router.onError((error, to) => reloadOnStaleChunk(error, to.fullPath));
   return router;
 }

@@ -3,7 +3,7 @@ import { LockIcon } from "@lucide/vue";
 import { computed, onBeforeUnmount, ref } from "vue";
 import type { Id, Who } from "@/domain/types";
 import InviteCard from "@/features/settings/InviteCard.vue";
-import { EmptyState, SegmentedPills } from "@/shared/components";
+import { AnimatedList, EmptyState, Expand, SegmentedPills } from "@/shared/components";
 import { Button } from "@/shared/ui/button";
 import { useSessionStore } from "@/stores/session";
 import { useWishes } from "./useWishes";
@@ -58,9 +58,13 @@ onBeforeUnmount(() => wishUi.closeForm());
           : `Отметь, что даришь ты. ${session.partnerName} этого не увидит`
       }}
     </p>
-    <WishForm v-if="wishUi.formOpen" />
-    <Button v-else variant="secondary" block @click="wishUi.showForm()">+ Добавить желание</Button>
-    <div v-if="list.length" class="grid grid-cols-2 gap-3">
+    <Expand>
+      <WishForm v-if="wishUi.formOpen" />
+      <Button v-else variant="secondary" block @click="wishUi.showForm()">
+        + Добавить желание
+      </Button>
+    </Expand>
+    <AnimatedList v-if="list.length" as="div" grid class="grid grid-cols-2 gap-3">
       <WishCard
         v-for="w in list"
         :key="w.id"
@@ -70,7 +74,7 @@ onBeforeUnmount(() => wishUi.closeForm());
         @arm="delArm = w.id"
         @remove="remove(w.id)"
       />
-    </div>
+    </AnimatedList>
     <EmptyState v-else>
       {{ mine ? "Список пока пуст" : `${session.partnerName} пока ничего не загадал(а)` }}. Добавь
       первое желание.

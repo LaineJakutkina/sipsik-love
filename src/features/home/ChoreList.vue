@@ -2,7 +2,15 @@
 import { computed, ref } from "vue";
 import { today } from "@/domain/dates";
 import type { Chore } from "@/domain/types";
-import { CheckButton, ListRow, ListSub, ListTitle, RemoveButton } from "@/shared/components";
+import {
+  AnimatedList,
+  CheckButton,
+  Expand,
+  ListRow,
+  ListSub,
+  ListTitle,
+  RemoveButton,
+} from "@/shared/components";
 import { Button } from "@/shared/ui/button";
 import { Card, CardTitle } from "@/shared/ui/card";
 import { cn } from "@/shared/lib/utils";
@@ -39,8 +47,10 @@ const adding = ref(false);
         {{ adding ? "Скрыть" : "+ Добавить" }}
       </Button>
     </div>
-    <ChoreForm v-if="adding || !chores.length" class="mt-2.5" @added="adding = false" />
-    <ul v-if="chores.length" class="mt-1.5 flex flex-col">
+    <Expand>
+      <ChoreForm v-if="adding || !chores.length" class="mt-2.5" @added="adding = false" />
+    </Expand>
+    <AnimatedList v-if="chores.length" class="mt-1.5 flex flex-col">
       <ListRow v-for="c in chores" :key="c.id" :done="c.done_on === day">
         <template #lead>
           <CheckButton
@@ -56,7 +66,7 @@ const adding = ref(false);
             type="button"
             :class="
               cn(
-                'bg-accent max-w-[96px] flex-none truncate rounded-full px-2.5 py-1.5 text-xs font-extrabold',
+                'bg-accent press max-w-[96px] flex-none truncate rounded-full px-2.5 py-1.5 text-xs font-extrabold',
                 c.who !== 'me' && 'bg-primary text-primary-foreground',
               )
             "
@@ -69,11 +79,9 @@ const adding = ref(false);
           <RemoveButton @remove="household.removeChore(c.id)" />
         </template>
       </ListRow>
-    </ul>
+    </AnimatedList>
     <p v-if="chores.length" class="text-muted-foreground mt-2 text-xs leading-snug font-medium">
-      Галочки сбрасываются каждый день{{
-        hasPartner ? ". Нажми на имя, чтобы передать дело" : ""
-      }}
+      Галочки сбрасываются каждый день{{ hasPartner ? ". Нажми на имя, чтобы передать дело" : "" }}
     </p>
   </Card>
 </template>

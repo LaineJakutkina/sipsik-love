@@ -17,6 +17,7 @@ Telegram Mini App для пары: общий котик, вишлист, дом
 ```sh
 pnpm install
 pnpm dev          # vp dev
+pnpm playground   # приложение в рамке iPhone 13 Pro Max на моках Telegram и API
 pnpm build        # vue-tsc -b && vp build
 pnpm typecheck
 pnpm lint         # oxlint

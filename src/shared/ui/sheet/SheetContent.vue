@@ -29,7 +29,7 @@ function onOpenAutoFocus(e: Event) {
   <DialogPortal>
     <DialogOverlay
       data-slot="sheet-overlay"
-      class="bg-primary/55 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-30"
+      class="bg-primary/55 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 ease-out-soft fixed inset-0 z-30 data-[state=closed]:duration-200 data-[state=open]:duration-300"
     />
     <DialogContent
       ref="content"
@@ -38,7 +38,7 @@ function onOpenAutoFocus(e: Event) {
       @open-auto-focus="onOpenAutoFocus"
       :class="
         cn(
-          'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom px-safe fixed inset-x-0 bottom-0 z-30 mx-auto flex max-h-[90%] w-full max-w-[520px] flex-col gap-3 overflow-auto rounded-t-2xl pt-[22px] pb-[calc(22px+env(safe-area-inset-bottom,0px))] outline-none data-[state=closed]:duration-200 data-[state=open]:duration-300 [&_*]:min-w-0',
+          'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom px-safe fixed inset-x-0 bottom-0 z-30 mx-auto flex max-h-[90%] w-full max-w-[520px] flex-col gap-3 overflow-auto rounded-t-2xl pt-[22px] pb-[calc(22px+env(safe-area-inset-bottom,0px))] data-[state=closed]:ease-in-quick data-[state=open]:ease-out-soft transform-gpu outline-none will-change-transform data-[state=closed]:duration-200 data-[state=open]:duration-[420ms] [&_*]:min-w-0',
           props.class,
         )
       "

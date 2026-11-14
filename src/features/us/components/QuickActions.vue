@@ -42,7 +42,7 @@ const ACTIONS: { label: string; icon: Component; run: () => void }[] = [
       type="button"
       :class="
         cn(
-          'bg-muted flex min-w-0 flex-col items-center gap-1.5 rounded-[18px] px-1.5 py-3 text-[13px] font-bold',
+          'bg-muted press flex min-w-0 flex-col items-center gap-1.5 rounded-[18px] px-1.5 py-3 text-[13px] font-bold',
           i === 0 && 'bg-secondary',
         )
       "

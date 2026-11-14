@@ -2,7 +2,7 @@
 import { formatDateTime, formatShort, ymd } from "@/domain/dates";
 import { isTmp } from "@/domain/ids";
 import type { Note } from "@/domain/types";
-import { ListRow, RemoveButton } from "@/shared/components";
+import { AnimatedList, ListRow, RemoveButton } from "@/shared/components";
 import { Badge } from "@/shared/ui/badge";
 import { useSessionStore } from "@/stores/session";
 
@@ -26,7 +26,7 @@ function cancel(id: string) {
 </script>
 
 <template>
-  <ul v-if="session.app.notes.sent.length" class="mt-3 flex flex-col">
+  <AnimatedList v-if="session.app.notes.sent.length" class="mt-3 flex flex-col">
     <ListRow v-for="n in session.app.notes.sent" :key="n.id">
       <div>{{ n.body }}</div>
       <div class="mt-[5px]">
@@ -43,5 +43,5 @@ function cancel(id: string) {
         />
       </template>
     </ListRow>
-  </ul>
+  </AnimatedList>
 </template>
