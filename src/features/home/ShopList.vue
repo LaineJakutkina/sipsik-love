@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { CheckButton, EmptyState, ListRow, ListTitle, RemoveButton } from "@/shared/components";
+import {
+  AnimatedList,
+  CheckButton,
+  EmptyState,
+  ListRow,
+  ListTitle,
+  RemoveButton,
+} from "@/shared/components";
 import { Button } from "@/shared/ui/button";
 import { Card, CardTitle } from "@/shared/ui/card";
 import { useSessionStore } from "@/stores/session";
@@ -25,7 +32,7 @@ const anyBought = computed(() => shop.value.some((x) => x.done));
       </span>
     </div>
     <ShopAddRow />
-    <ul v-if="shop.length" class="mt-2 flex flex-col">
+    <AnimatedList v-if="shop.length" class="mt-2 flex flex-col">
       <ListRow v-for="x in sorted" :key="x.id" :done="x.done">
         <template #lead>
           <CheckButton :checked="x.done" label="Куплено" @toggle="household.toggleShop(x.id)" />
@@ -35,9 +42,14 @@ const anyBought = computed(() => shop.value.some((x) => x.done));
           <RemoveButton @remove="household.removeShop(x.id)" />
         </template>
       </ListRow>
-    </ul>
+    </AnimatedList>
     <EmptyState v-else>Список пуст. Добавь, что нужно купить.</EmptyState>
-    <Button v-if="anyBought" variant="link" class="mt-1 self-start" @click="household.clearBought()">
+    <Button
+      v-if="anyBought"
+      variant="link"
+      class="mt-1 self-start"
+      @click="household.clearBought()"
+    >
       Убрать купленное
     </Button>
   </Card>

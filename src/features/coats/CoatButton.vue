@@ -11,7 +11,7 @@ defineEmits<{ choose: [] }>();
   <button
     type="button"
     :aria-pressed="on"
-    class="group bg-muted aria-pressed:bg-secondary flex min-w-0 flex-col items-center gap-1 rounded-[18px] px-1 pt-2.5 pb-2.5"
+    class="group bg-muted aria-pressed:bg-secondary press flex min-w-0 flex-col items-center gap-1 rounded-[18px] px-1 pt-2.5 pb-2.5"
     @click="$emit('choose')"
   >
     <CharacterThumb kind="face" mood="happy" :coat="coat.id" :width="58" class="size-[58px]" />

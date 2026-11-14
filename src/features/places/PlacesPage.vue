@@ -4,7 +4,7 @@ import { ref } from "vue";
 import { tmpId, isTmp } from "@/domain/ids";
 import type { Id } from "@/domain/types";
 import { notify } from "@/services/notify";
-import { ListRow, RemoveButton } from "@/shared/components";
+import { AnimatedList, ListRow, RemoveButton } from "@/shared/components";
 import { plural } from "@/shared/lib/plural";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
@@ -50,7 +50,7 @@ function remove(id: Id) {
       <Input v-model="title" placeholder="Кафе, парк, кино" maxlength="80" class="flex-1" />
       <Button type="submit" class="flex-none">Добавить</Button>
     </form>
-    <ul class="mt-1.5 flex flex-col">
+    <AnimatedList class="mt-1.5 flex flex-col">
       <ListRow v-for="p in session.app.places" :key="p.id">
         <template #lead>
           <span class="bg-muted grid size-9 flex-none place-items-center rounded-xl">
@@ -65,7 +65,7 @@ function remove(id: Id) {
           <RemoveButton @remove="remove(p.id)" />
         </template>
       </ListRow>
-    </ul>
+    </AnimatedList>
     <p
       v-if="session.app.places.length < 2"
       class="bg-muted text-muted-foreground mt-2 rounded-2xl px-3.5 py-3 text-center text-sm font-semibold"

@@ -13,3 +13,5 @@ export { default as ChatBubble } from "./ChatBubble.vue";
 export { default as StatTile } from "./StatTile.vue";
 export { default as DayHeading } from "./DayHeading.vue";
 export { default as Hint } from "./Hint.vue";
+export { default as AnimatedList } from "./AnimatedList.vue";
+export { default as Expand } from "./Expand.vue";

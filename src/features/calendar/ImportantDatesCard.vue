@@ -5,7 +5,15 @@ import { isTmp, tmpId } from "@/domain/ids";
 import { importantDates } from "@/domain/relationship";
 import type { Id } from "@/domain/types";
 import { notify } from "@/services/notify";
-import { DateField, ListRow, ListSub, ListTitle, RemoveButton } from "@/shared/components";
+import {
+  AnimatedList,
+  Expand,
+  DateField,
+  ListRow,
+  ListSub,
+  ListTitle,
+  RemoveButton,
+} from "@/shared/components";
 import { DAY_FORMS, plural } from "@/shared/lib/plural";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
@@ -74,22 +82,24 @@ function remove(id: Id) {
     <p class="text-muted-foreground text-[13px]">
       Напомним {{ session.solo ? "тебе" : "вам обоим" }} за 3 дня и в сам день
     </p>
-    <form
-      v-if="adding"
-      class="bg-muted mt-3 flex flex-col gap-2 rounded-2xl p-3"
-      @submit.prevent="add"
-    >
-      <Input v-model="title" placeholder="Например, первое свидание" maxlength="80" />
-      <div class="grid grid-cols-2 gap-2">
-        <DateField v-model="day" placeholder="Дата" />
-        <Button type="submit">Добавить</Button>
-      </div>
-      <label class="flex cursor-pointer items-center gap-3 text-sm font-semibold">
-        <Switch v-model="yearly" />
-        <span>Повторять каждый год</span>
-      </label>
-    </form>
-    <ul class="mt-1.5 flex flex-col">
+    <Expand>
+      <form
+        v-if="adding"
+        class="bg-muted mt-3 flex flex-col gap-2 rounded-2xl p-3"
+        @submit.prevent="add"
+      >
+        <Input v-model="title" placeholder="Например, первое свидание" maxlength="80" />
+        <div class="grid grid-cols-2 gap-2">
+          <DateField v-model="day" placeholder="Дата" />
+          <Button type="submit">Добавить</Button>
+        </div>
+        <label class="flex cursor-pointer items-center gap-3 text-sm font-semibold">
+          <Switch v-model="yearly" />
+          <span>Повторять каждый год</span>
+        </label>
+      </form>
+    </Expand>
+    <AnimatedList class="mt-1.5 flex flex-col">
       <ListRow v-for="x in items" :key="x.id ?? x.title">
         <template #lead>
           <span
@@ -109,6 +119,6 @@ function remove(id: Id) {
           <RemoveButton v-if="x.id !== undefined" @remove="remove(x.id)" />
         </template>
       </ListRow>
-    </ul>
+    </AnimatedList>
   </Card>
 </template>

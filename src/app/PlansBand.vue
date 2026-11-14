@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed, watch } from "vue";
-import { RouterView, useRoute, useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { SegmentedPills } from "@/shared/components";
 import type { PillOption } from "@/shared/components";
+import RouteView from "./RouteView.vue";
 import { isPlanSection, usePlansStore, type PlanSection } from "@/stores/plans";
 
 const OPTIONS: readonly PillOption<PlanSection>[] = [
@@ -33,5 +34,5 @@ const section = computed({
 
 <template>
   <SegmentedPills v-model="section" :options="OPTIONS" track label="Раздел планов" />
-  <RouterView name="band" />
+  <RouteView name="band" />
 </template>

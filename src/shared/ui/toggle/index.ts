@@ -7,7 +7,7 @@ export { default as Toggle } from "./Toggle.vue";
  * Pressable pills / chips. Pressed state is driven by reka's `data-state=on`.
  */
 export const toggleVariants = cva(
-  "inline-flex min-w-0 items-center justify-center gap-1.5 rounded-full font-bold transition-colors outline-none disabled:pointer-events-none disabled:opacity-45",
+  "inline-flex min-w-0 items-center justify-center gap-1.5 rounded-full font-bold press outline-none disabled:pointer-events-none disabled:opacity-45",
   {
     variants: {
       variant: {

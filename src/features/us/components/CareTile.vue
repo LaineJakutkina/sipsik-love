@@ -9,7 +9,7 @@ defineEmits<{ select: [] }>();
 <template>
   <button
     type="button"
-    class="border-primary/35 bg-card relative flex min-w-0 flex-col gap-1 rounded-lg border-[1.5px] border-dashed overflow-hidden p-3.5 text-left"
+    class="border-primary/35 bg-card press relative flex min-w-0 flex-col gap-1 rounded-lg border-[1.5px] border-dashed overflow-hidden p-3.5 text-left"
     @click="$emit('select')"
   >
     <CornerEmoji :emoji />

@@ -24,12 +24,12 @@ function pick(mood: MoodId) {
         v-for="m in MOODS"
         :key="m.id"
         type="button"
-        class="group flex min-w-0 flex-col items-center gap-[5px] text-[11px] font-bold"
+        class="group press flex min-w-0 flex-col items-center gap-[5px] text-[11px] font-bold"
         :aria-pressed="session.myMood === m.id"
         @click="pick(m.id)"
       >
         <span
-          class="bg-muted group-aria-pressed:bg-secondary block size-14 rounded-full p-1"
+          class="bg-muted group-aria-pressed:bg-secondary ease-spring block size-14 rounded-full p-1 transition duration-300 group-aria-pressed:scale-110"
         >
           <CharacterThumb
             kind="face"

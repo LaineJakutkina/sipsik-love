@@ -4,7 +4,15 @@ import { inDays, MONTHS_GEN, nextOccurrence, parseDate, today } from "@/domain/d
 import { isTmp, tmpId } from "@/domain/ids";
 import type { Id } from "@/domain/types";
 import { notify } from "@/services/notify";
-import { DateField, ListRow, ListSub, ListTitle, RemoveButton } from "@/shared/components";
+import {
+  AnimatedList,
+  DateField,
+  Expand,
+  ListRow,
+  ListSub,
+  ListTitle,
+  RemoveButton,
+} from "@/shared/components";
 import { Button } from "@/shared/ui/button";
 import { Card, CardTitle } from "@/shared/ui/card";
 import { Input } from "@/shared/ui/input";
@@ -75,18 +83,20 @@ function remove(id: Id) {
     <p class="text-muted-foreground text-[13px]">
       Напомним {{ session.solo ? "тебе" : "вам обоим" }} за 3 дня и в сам день
     </p>
-    <form
-      v-if="adding || !list.length"
-      class="bg-muted mt-3 flex flex-col gap-2 rounded-2xl p-3"
-      @submit.prevent="add"
-    >
-      <Input v-model="name" placeholder="Имя" maxlength="60" />
-      <div class="grid grid-cols-2 gap-2">
-        <DateField v-model="bdate" placeholder="Дата рождения" :max="max" />
-        <Button type="submit">Добавить</Button>
-      </div>
-    </form>
-    <ul class="mt-1.5 flex flex-col">
+    <Expand>
+      <form
+        v-if="adding || !list.length"
+        class="bg-muted mt-3 flex flex-col gap-2 rounded-2xl p-3"
+        @submit.prevent="add"
+      >
+        <Input v-model="name" placeholder="Имя" maxlength="60" />
+        <div class="grid grid-cols-2 gap-2">
+          <DateField v-model="bdate" placeholder="Дата рождения" :max="max" />
+          <Button type="submit">Добавить</Button>
+        </div>
+      </form>
+    </Expand>
+    <AnimatedList class="mt-1.5 flex flex-col">
       <ListRow v-for="b in list" :key="b.id">
         <template #lead>
           <span
@@ -100,6 +110,6 @@ function remove(id: Id) {
         <ListSub>{{ inDays(b.next) }} · исполнится {{ b.turns }}</ListSub>
         <template #trail><RemoveButton @remove="remove(b.id)" /></template>
       </ListRow>
-    </ul>
+    </AnimatedList>
   </Card>
 </template>

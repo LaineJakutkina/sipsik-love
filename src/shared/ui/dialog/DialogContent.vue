@@ -21,7 +21,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
       data-slot="dialog-overlay"
       :class="
         cn(
-          'bg-primary/55 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-40',
+          'bg-primary/55 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 ease-out-soft fixed inset-0 z-40 duration-200',
           props.overlayClass,
         )
       "
@@ -31,7 +31,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
       v-bind="{ ...$attrs, ...forwarded }"
       :class="
         cn(
-          'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 fixed top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2 outline-none',
+          'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=open]:zoom-in-90 data-[state=closed]:zoom-out-95 data-[state=closed]:ease-in-quick data-[state=open]:ease-out-soft transform-gpu data-[state=closed]:duration-150 data-[state=open]:duration-300 fixed top-1/2 left-1/2 z-40 -translate-x-1/2 -translate-y-1/2 outline-none',
           props.class,
         )
       "

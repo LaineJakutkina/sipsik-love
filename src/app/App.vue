@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent, ref } from "vue";
-import { RouterView } from "vue-router";
 import OnboardingView from "@/features/onboarding/OnboardingView.vue";
 import StatusView from "@/features/status/StatusView.vue";
 import CareBanners from "@/features/care/CareBanners.vue";
@@ -8,6 +7,7 @@ import { config } from "@/shared/config";
 import { Toaster } from "@/shared/ui/sonner";
 import { useSessionStore } from "@/stores/session";
 import AppShell from "./AppShell.vue";
+import RouteView from "./RouteView.vue";
 import SheetHost from "./SheetHost.vue";
 import SplashScreen from "./SplashScreen.vue";
 import { useLiveSync } from "./useLiveSync";
@@ -30,7 +30,11 @@ void session.boot();
 </script>
 
 <template>
-  <Transition leave-active-class="animate-out fade-out duration-300" mode="out-in">
+  <Transition
+    enter-active-class="animate-in fade-in-0 duration-300 ease-out-soft"
+    leave-active-class="animate-out fade-out-0 duration-300"
+    mode="out-in"
+  >
     <SplashScreen v-if="intro" @done="intro = false" />
     <div v-else class="contents">
       <DemoBar v-if="DemoBar" />
@@ -38,10 +42,10 @@ void session.boot();
       <OnboardingView v-else-if="screen === 'onboarding'" />
       <AppShell v-else in-app>
         <template #band>
-          <RouterView name="band" />
+          <RouteView name="band" />
         </template>
         <CareBanners />
-        <RouterView />
+        <RouteView />
       </AppShell>
       <SheetHost v-if="screen === 'app'" />
     </div>

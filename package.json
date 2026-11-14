@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vp dev",
+    "playground": "vp dev --open /playground.html",
     "build": "vue-tsc -b && vp build",
     "preview": "vp preview",
     "check": "vp check",
