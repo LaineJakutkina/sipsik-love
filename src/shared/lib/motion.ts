@@ -78,6 +78,15 @@ export function collapse(el: HTMLElement, done: () => void) {
   );
 }
 
+/**
+ * Leave hook for view swaps: the old view goes at once, so the new one takes its place
+ * in the same frame. A fade-out first would leave an empty frame (and a collapsed
+ * header) between the two — that reads as a flicker.
+ */
+export function leaveAtOnce(_el: Element, done: () => void) {
+  done();
+}
+
 /** Appears in place: a fade with a small rise, or a small zoom for tiles in a grid */
 export function appear(el: HTMLElement, done: () => void, tile = false) {
   const from = tile ? "scale(0.92)" : "translateY(-6px)";

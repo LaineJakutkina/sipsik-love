@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from "vue-router";
 import { storage } from "@/services/storage";
 import { PLAN_SECTIONS } from "@/stores/plans";
-import { installNavMotion, scrollAfterLeave } from "./navMotion";
+import { installNavMotion } from "./navMotion";
 import RouteView from "./RouteView.vue";
 
 export const TABS = ["us", "plans", "home", "games", "shop"] as const;
@@ -138,7 +138,8 @@ export function createAppRouter() {
   const router = createRouter({
     history: createWebHashHistory(),
     routes,
-    scrollBehavior: scrollAfterLeave,
+    // The old screen is swapped out in the same frame, so the new one starts at the top at once
+    scrollBehavior: () => ({ top: 0 }),
   });
   installNavMotion(router);
   router.onError((error, to) => reloadOnStaleChunk(error, to.fullPath));

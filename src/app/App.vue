@@ -30,25 +30,22 @@ void session.boot();
 </script>
 
 <template>
-  <Transition
-    enter-active-class="animate-in fade-in-0 duration-250 ease-out-soft"
-    leave-active-class="animate-out fade-out-0 duration-200 ease-in-quick"
-    mode="out-in"
-  >
+  <!-- The app mounts under the intro as it fades out, so no empty frame shows in between -->
+  <Transition leave-active-class="animate-out fade-out-0 duration-180 ease-in-quick">
     <SplashScreen v-if="intro" @done="intro = false" />
-    <div v-else class="contents">
-      <DemoBar v-if="DemoBar" />
-      <StatusView v-if="screen === 'status'" />
-      <OnboardingView v-else-if="screen === 'onboarding'" />
-      <AppShell v-else in-app>
-        <template #band>
-          <RouteView name="band" />
-        </template>
-        <CareBanners />
-        <RouteView />
-      </AppShell>
-      <SheetHost v-if="screen === 'app'" />
-    </div>
   </Transition>
+  <div v-if="!intro" class="contents">
+    <DemoBar v-if="DemoBar" />
+    <StatusView v-if="screen === 'status'" />
+    <OnboardingView v-else-if="screen === 'onboarding'" />
+    <AppShell v-else in-app>
+      <template #band>
+        <RouteView name="band" />
+      </template>
+      <CareBanners />
+      <RouteView />
+    </AppShell>
+    <SheetHost v-if="screen === 'app'" />
+  </div>
   <Toaster />
 </template>

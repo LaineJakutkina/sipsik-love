@@ -37,13 +37,25 @@ const spec = computed((): { key: string; frame: () => ArtFrame } => {
 });
 
 const src = ref<string>();
+/** The art had to be drawn first, so it fades in rather than popping over its placeholder */
+const late = ref(false);
 watchEffect((onCleanup) => {
   let live = true;
   onCleanup(() => (live = false));
   const { key, frame } = spec.value;
+  const width = props.width ?? 96;
+  const drawn = thumbnails.peek(key, width);
+  if (drawn) {
+    src.value = drawn;
+    return;
+  }
   thumbnails
-    .render(key, frame, props.width ?? 96)
-    .then((url) => live && (src.value = url))
+    .render(key, frame, width)
+    .then((url) => {
+      if (!live) return;
+      late.value = !src.value;
+      src.value = url;
+    })
     .catch((e: unknown) => console.warn("thumbnail failed", key, e));
 });
 </script>
@@ -52,10 +64,13 @@ watchEffect((onCleanup) => {
   <img
     v-if="src"
     :src="src"
-    :class="kind === 'face' && 'rounded-full'"
+    :class="[
+      kind === 'face' && 'rounded-full',
+      late && 'animate-in fade-in-0 duration-200 ease-out-soft',
+    ]"
     alt=""
     aria-hidden="true"
     draggable="false"
   />
-  <span v-else aria-hidden="true" />
+  <span v-else :class="kind === 'face' && 'rounded-full'" aria-hidden="true" />
 </template>
