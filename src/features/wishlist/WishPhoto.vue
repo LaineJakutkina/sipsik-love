@@ -3,6 +3,7 @@ import { CameraIcon } from "@lucide/vue";
 import { computed } from "vue";
 import type { Wish } from "@/domain/types";
 import CharacterThumb from "@/game/vue/CharacterThumb.vue";
+import { LazyImage } from "@/shared/components";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { useSessionStore } from "@/stores/session";
@@ -45,12 +46,7 @@ function onFile(e: Event) {
         aria-label="Открыть фото"
         @click="open"
       >
-        <img
-          :src="wish.thumb_url"
-          :alt="wish.title"
-          loading="lazy"
-          class="absolute inset-0 size-full object-cover"
-        />
+        <LazyImage :src="wish.thumb_url" :alt="wish.title" class="absolute inset-0 size-full" />
       </button>
       <Button
         as="label"

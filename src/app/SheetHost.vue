@@ -4,11 +4,21 @@ import { computed, defineAsyncComponent, type Component } from "vue";
 import { Sheet, SheetContent } from "@/shared/ui/sheet";
 import { useSheetsStore, type SheetKind } from "@/stores/sheets";
 import PhotoLightbox from "./PhotoLightbox.vue";
+import SheetSkeleton from "./SheetSkeleton.vue";
 
 type ContentKind = Exclude<SheetKind, "photo">;
 type Loader = () => Promise<{ default: Component }>;
 
-const lazy = (load: Loader) => ({ load, component: defineAsyncComponent(load) });
+/** A skeleton fills the sheet only if its code takes longer than a blink */
+const SKELETON_DELAY_MS = 100;
+const lazy = (load: Loader) => ({
+  load,
+  component: defineAsyncComponent({
+    loader: load,
+    loadingComponent: SheetSkeleton,
+    delay: SKELETON_DELAY_MS,
+  }),
+});
 
 /** Lazy registry: sheet kind → its content component (each renders its own SheetTitle) */
 const SHEETS: Record<ContentKind, ReturnType<typeof lazy>> = {

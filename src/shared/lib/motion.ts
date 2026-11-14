@@ -59,7 +59,7 @@ export function expand(el: HTMLElement, done: () => void) {
       { ...flat(el), opacity: 0 },
       { ...box(el), opacity: 1 },
     ],
-    { duration: 320, easing: EASE_OUT_SOFT },
+    { duration: 260, easing: EASE_OUT_SOFT },
     done,
   );
 }
@@ -73,7 +73,7 @@ export function collapse(el: HTMLElement, done: () => void) {
       { opacity: 0, offset: 0.4 },
       { ...flat(el), opacity: 0 },
     ],
-    { duration: 260, easing: EASE_IN_QUICK },
+    { duration: 200, easing: EASE_IN_QUICK },
     done,
   );
 }
@@ -87,7 +87,7 @@ export function appear(el: HTMLElement, done: () => void, tile = false) {
       { opacity: 0, transform: from },
       { opacity: 1, transform: "none" },
     ],
-    { duration: 280, easing: EASE_OUT_SOFT },
+    { duration: 220, easing: EASE_OUT_SOFT },
     done,
   );
 }

@@ -15,3 +15,5 @@ export { default as DayHeading } from "./DayHeading.vue";
 export { default as Hint } from "./Hint.vue";
 export { default as AnimatedList } from "./AnimatedList.vue";
 export { default as Expand } from "./Expand.vue";
+export { default as LazyImage } from "./LazyImage.vue";
+export { default as SectionSwap } from "./SectionSwap.vue";

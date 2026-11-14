@@ -29,7 +29,7 @@ function pick(mood: MoodId) {
         @click="pick(m.id)"
       >
         <span
-          class="bg-muted group-aria-pressed:bg-secondary ease-spring block size-14 rounded-full p-1 transition duration-300 group-aria-pressed:scale-110"
+          class="bg-muted group-aria-pressed:bg-secondary ease-out-soft block size-14 rounded-full p-1 transition duration-200 group-aria-pressed:scale-105"
         >
           <CharacterThumb
             kind="face"

@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { formatDate } from "@/domain/dates";
 import { isTmp } from "@/domain/ids";
 import type { Memory } from "@/domain/types";
-import { RemoveButton } from "@/shared/components";
+import { LazyImage, RemoveButton } from "@/shared/components";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { useSessionStore } from "@/stores/session";
@@ -62,7 +62,7 @@ function remove(id: string) {
       "
       @click="openPhoto"
     >
-      <img :src="memory.thumb_url" alt="" loading="lazy" class="block size-full object-cover" />
+      <LazyImage :src="memory.thumb_url" class="size-full" />
     </button>
     <div class="flex flex-col gap-1 px-3.5 py-3">
       <div class="text-muted-foreground flex items-center justify-between gap-2 text-xs font-bold">

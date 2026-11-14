@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { SectionSwap } from "@/shared/components";
 import MemoriesSection from "./sections/MemoriesSection.vue";
 import ThanksSection from "./sections/ThanksSection.vue";
 import TodaySection from "./sections/TodaySection.vue";
@@ -9,7 +10,9 @@ const ui = useUsUiStore();
 </script>
 
 <template>
-  <MemoriesSection v-if="ui.segment === 'mem'" />
-  <ThanksSection v-else-if="ui.segment === 'thanks'" />
-  <TodaySection v-else />
+  <SectionSwap :id="ui.segment">
+    <MemoriesSection v-if="ui.segment === 'mem'" />
+    <ThanksSection v-else-if="ui.segment === 'thanks'" />
+    <TodaySection v-else />
+  </SectionSwap>
 </template>

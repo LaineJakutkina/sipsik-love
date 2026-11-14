@@ -31,8 +31,8 @@ void session.boot();
 
 <template>
   <Transition
-    enter-active-class="animate-in fade-in-0 duration-300 ease-out-soft"
-    leave-active-class="animate-out fade-out-0 duration-300"
+    enter-active-class="animate-in fade-in-0 duration-250 ease-out-soft"
+    leave-active-class="animate-out fade-out-0 duration-200 ease-in-quick"
     mode="out-in"
   >
     <SplashScreen v-if="intro" @done="intro = false" />

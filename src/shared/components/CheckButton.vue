@@ -16,7 +16,7 @@ defineEmits<{ toggle: [] }>();
     @click="$emit('toggle')"
   >
     <CheckIcon
-      class="ease-spring size-3.5 scale-50 opacity-0 transition duration-300 group-aria-pressed:scale-100 group-aria-pressed:opacity-100"
+      class="ease-spring size-3.5 scale-50 opacity-0 transition duration-200 group-aria-pressed:scale-100 group-aria-pressed:opacity-100"
       :stroke-width="3"
     />
   </button>

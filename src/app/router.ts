@@ -14,11 +14,19 @@ declare module "vue-router" {
   }
 }
 
+/** Every lazy screen, so they can all be fetched in the background once the app is up */
+const loaders: (() => Promise<unknown>)[] = [];
+function lazy<T>(load: () => Promise<T>) {
+  loaders.push(load);
+  return load;
+}
+
 /**
  * Each tab fills two slots: the navy `band` at the top and the `default` page body.
  * Pages are lazy so the first paint only loads the active tab.
  * «Планы» is a parent route: its band holds the section switch, and the sections
- * (`cal`, `go`, `wish`) are child routes that fill the same two slots.
+ * (`cal`, `go`, `wish`) are child routes; a section without its own band (`cal`, `wish`)
+ * leaves only the switch up there.
  */
 const routes: RouteRecordRaw[] = [
   {
@@ -26,15 +34,15 @@ const routes: RouteRecordRaw[] = [
     name: "us",
     meta: { tab: "us" },
     components: {
-      band: () => import("@/features/us/UsBand.vue"),
-      default: () => import("@/features/us/UsPage.vue"),
+      band: lazy(() => import("@/features/us/UsBand.vue")),
+      default: lazy(() => import("@/features/us/UsPage.vue")),
     },
   },
   {
     path: "/plans",
     meta: { tab: "plans" },
     components: {
-      band: () => import("./PlansBand.vue"),
+      band: lazy(() => import("./PlansBand.vue")),
       default: RouteView,
     },
     children: [
@@ -42,26 +50,20 @@ const routes: RouteRecordRaw[] = [
       {
         path: "cal",
         name: "cal",
-        components: {
-          band: () => import("@/features/calendar/CalendarBand.vue"),
-          default: () => import("@/features/calendar/CalendarPage.vue"),
-        },
+        component: lazy(() => import("@/features/calendar/CalendarPage.vue")),
       },
       {
         path: "go",
         name: "go",
         components: {
-          band: () => import("@/features/places/PlacesBand.vue"),
-          default: () => import("@/features/places/PlacesPage.vue"),
+          band: lazy(() => import("@/features/places/PlacesBand.vue")),
+          default: lazy(() => import("@/features/places/PlacesPage.vue")),
         },
       },
       {
         path: "wish",
         name: "wish",
-        components: {
-          band: () => import("@/features/wishlist/WishBand.vue"),
-          default: () => import("@/features/wishlist/WishPage.vue"),
-        },
+        component: lazy(() => import("@/features/wishlist/WishPage.vue")),
       },
     ],
   },
@@ -70,8 +72,8 @@ const routes: RouteRecordRaw[] = [
     name: "home",
     meta: { tab: "home" },
     components: {
-      band: () => import("@/features/home/HomeBand.vue"),
-      default: () => import("@/features/home/HomePage.vue"),
+      band: lazy(() => import("@/features/home/HomeBand.vue")),
+      default: lazy(() => import("@/features/home/HomePage.vue")),
     },
   },
   {
@@ -79,8 +81,8 @@ const routes: RouteRecordRaw[] = [
     name: "games",
     meta: { tab: "games" },
     components: {
-      band: () => import("@/features/games/GamesBand.vue"),
-      default: () => import("@/features/games/GamesPage.vue"),
+      band: lazy(() => import("@/features/games/GamesBand.vue")),
+      default: lazy(() => import("@/features/games/GamesPage.vue")),
     },
   },
   {
@@ -88,8 +90,8 @@ const routes: RouteRecordRaw[] = [
     name: "shop",
     meta: { tab: "shop" },
     components: {
-      band: () => import("@/features/coats/ShopBand.vue"),
-      default: () => import("@/features/coats/ShopPage.vue"),
+      band: lazy(() => import("@/features/coats/ShopBand.vue")),
+      default: lazy(() => import("@/features/coats/ShopPage.vue")),
     },
   },
   /** Old links: `#/cal`, `#/go`, `#/wish` lived at the top level before «Планы» */
@@ -122,6 +124,15 @@ function reloadOnStaleChunk(error: unknown, target: string) {
   location.reload();
 }
 
+const PREFETCH_AFTER_MS = 1500;
+
+/** Pulls in the other tabs' code after boot, so switching tabs never waits on the network */
+function prefetchScreens() {
+  setTimeout(() => {
+    for (const load of loaders) load().catch(() => {});
+  }, PREFETCH_AFTER_MS);
+}
+
 export function createAppRouter() {
   migrateLegacyHash();
   const router = createRouter({
@@ -131,5 +142,6 @@ export function createAppRouter() {
   });
   installNavMotion(router);
   router.onError((error, to) => reloadOnStaleChunk(error, to.fullPath));
+  void router.isReady().then(prefetchScreens);
   return router;
 }

@@ -5,6 +5,7 @@ import { SegmentedPills } from "@/shared/components";
 import type { PillOption } from "@/shared/components";
 import RouteView from "./RouteView.vue";
 import { isPlanSection, usePlansStore, type PlanSection } from "@/stores/plans";
+import { useSessionStore } from "@/stores/session";
 
 const OPTIONS: readonly PillOption<PlanSection>[] = [
   { value: "cal", label: "Календарь" },
@@ -15,6 +16,7 @@ const OPTIONS: readonly PillOption<PlanSection>[] = [
 const route = useRoute();
 const router = useRouter();
 const plans = usePlansStore();
+const session = useSessionStore();
 
 watch(
   () => route.name,
@@ -30,9 +32,20 @@ const section = computed({
     if (v) void router.replace({ name: v });
   },
 });
+
+/** Screen-reader title for sections whose band has nothing else; «Места» brings its own */
+const heading = computed(() => {
+  const titles: Record<PlanSection, string | null> = {
+    cal: "Календарь",
+    go: null,
+    wish: session.solo ? "Мой вишлист" : "Наш вишлист",
+  };
+  return titles[plans.last];
+});
 </script>
 
 <template>
+  <h1 v-if="heading" class="sr-only">{{ heading }}</h1>
   <SegmentedPills v-model="section" :options="OPTIONS" track label="Раздел планов" />
   <RouteView name="band" />
 </template>

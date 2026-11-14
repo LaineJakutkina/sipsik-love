@@ -13,7 +13,7 @@ const motion = useListMotion(() => props.grid);
   <TransitionGroup
     :tag="as"
     :css="false"
-    move-class="transition-transform duration-300 ease-out-soft"
+    move-class="transition-transform duration-250 ease-out-soft"
     @before-enter="motion.onBeforeEnter"
     @enter="motion.onEnter"
     @leave="motion.onLeave"

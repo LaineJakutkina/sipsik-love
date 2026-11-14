@@ -60,12 +60,12 @@ const target = (id: TabId) => ({ name: id === "plans" ? plans.last : id });
           @click="navigate"
         >
           <span
-            class="ease-spring grid h-8 w-[40px] place-items-center opacity-60 transition duration-300 group-active:scale-85 group-aria-[current=page]:opacity-100"
+            class="ease-spring grid h-8 w-[40px] place-items-center opacity-60 transition duration-200 group-active:scale-85 group-aria-[current=page]:opacity-100"
           >
             <component :is="n.icon" class="size-[22px]" :stroke-width="2.2" aria-hidden="true" />
           </span>
           <span
-            class="max-w-full truncate opacity-60 transition-opacity duration-300 group-aria-[current=page]:opacity-100"
+            class="max-w-full truncate opacity-60 transition-opacity duration-200 group-aria-[current=page]:opacity-100"
           >
             {{ n.label }}
           </span>
@@ -74,7 +74,7 @@ const target = (id: TabId) => ({ name: id === "plans" ? plans.last : id });
       <div
         :class="
           cn(
-            'bg-secondary text-secondary-foreground ease-out-soft pointer-events-none absolute inset-x-0 top-0.5 grid h-8 transform-gpu grid-cols-5 transition-[clip-path,opacity] duration-400',
+            'bg-secondary text-secondary-foreground ease-out-soft pointer-events-none absolute inset-x-0 top-0.5 grid h-8 transform-gpu grid-cols-5 transition-[clip-path,opacity] duration-300',
             active ? PILL_AT[active] : `${PILL_AT.us} opacity-0`,
           )
         "
