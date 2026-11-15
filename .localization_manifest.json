@@ -1,0 +1,14 @@
+{
+  "project": "Sipsik love bot",
+  "slug": "sipsik-love-bot",
+  "source_locale": "ru",
+  "locales": ["et_EE", "ru_RU", "uk_UA", "en_US", "en_GB"],
+  "server": "http://localhost:8080",
+  "localization_dir": "src/__localization__",
+  "harvest": {
+    "functions": ["t", "$t", "tc", "$tc", "tm", "$tm"],
+    "extensions": ["ts", "tsx", "vue"],
+    "paths": ["src"],
+    "exclude": ["src/legacy/**", "**/*.stories.ts"]
+  }
+}

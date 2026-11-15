@@ -2,15 +2,13 @@
 import { computed } from "vue";
 import { THANKS_CHIPS_SOLO } from "@/domain/care";
 import { isWithinLastWeek } from "@/domain/dates";
+import { t, tn } from "@/domain/i18n";
 import { EmptyState } from "@/shared/components";
-import { plural, type PluralForms } from "@/shared/lib/plural";
 import { useSessionStore } from "@/stores/session";
 import ThanksFeed from "../components/ThanksFeed.vue";
 import ThanksForm from "../components/ThanksForm.vue";
 import WeekSplit from "../components/WeekSplit.vue";
 import { useThanks } from "../useThanks";
-
-const ENTRY_FORMS: PluralForms = ["запись", "записи", "записей"];
 
 /** Solo mode: a gratitude journal instead of thanks to a partner */
 const session = useSessionStore();
@@ -20,23 +18,22 @@ const split = computed(() => {
   const week = list.value.filter((x) => isWithinLastWeek(x.created_at)).length;
   const total = list.value.length;
   return [
-    { title: "За неделю", value: week, unit: plural(week, ENTRY_FORMS) },
-    { title: "Всего", value: total, unit: plural(total, ENTRY_FORMS) },
+    { title: t("us.journal.week"), value: week, unit: tn("us.journal.entries", week) },
+    { title: t("us.journal.total"), value: total, unit: tn("us.journal.entries", total) },
   ];
 });
 </script>
 
 <template>
   <ThanksForm
-    :title="`Сегодня я ${session.gendered('благодарен', 'благодарна', 'благодарен(на)')} за…`"
-    placeholder="Например: за тёплый чай и тихий вечер"
+    :title="session.gendered('us.journal.title')"
+    :placeholder="t('us.journal.placeholder')"
     :chips="THANKS_CHIPS_SOLO"
-    submit="Записать 💛"
+    :submit="t('us.journal.submit')"
   />
   <WeekSplit :stats="split" />
   <ThanksFeed v-if="list.length" journal />
   <EmptyState v-else>
-    Дневник благодарности: каждый день одна строчка о хорошем. Через месяц будет приятно перечитать
-    💛
+    {{ t("us.journal.empty") }}
   </EmptyState>
 </template>

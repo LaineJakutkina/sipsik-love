@@ -1,3 +1,5 @@
+import { t } from "./i18n";
+
 export const COAT_IDS = [
   "black",
   "ginger",
@@ -37,28 +39,36 @@ export interface CoatMeta {
   talks?: TalkKind;
 }
 
+const coat = (id: CoatId, animal: boolean, talks?: TalkKind): CoatMeta => ({
+  get name() {
+    return t(`domain.coats.names.${id}`);
+  },
+  animal,
+  talks,
+});
+
 export const COAT_META: Record<CoatId, CoatMeta> = {
-  black: { name: "Чёрный", animal: false },
-  ginger: { name: "Рыжий", animal: false },
-  grey: { name: "Серый", animal: false },
-  calico: { name: "Трёхцветный", animal: false },
-  siamese: { name: "Сиамский", animal: false },
-  frog: { name: "Жаба", animal: true },
-  dog: { name: "Собака", animal: true },
-  fox: { name: "Лиса", animal: true },
-  panda: { name: "Панда", animal: true },
-  cow: { name: "Коровка", animal: true },
-  penguin: { name: "Пингвин", animal: true },
-  beaver: { name: "Бобёр", animal: true },
-  anon: { name: "Анонимус", animal: true },
-  vampire: { name: "Вампир", animal: true },
-  tuxedo: { name: "Смокинг", animal: false },
-  cream: { name: "Кремовый", animal: false },
-  choco: { name: "Шоколадный", animal: false },
-  lavender: { name: "Лавандовый", animal: false },
-  joker: { name: "Кот-анекдот", animal: false, talks: "jokes" },
-  carer: { name: "Кот-поддержка", animal: false, talks: "care" },
-  scholar: { name: "Кот-учёный", animal: false, talks: "facts" },
+  black: coat("black", false),
+  ginger: coat("ginger", false),
+  grey: coat("grey", false),
+  calico: coat("calico", false),
+  siamese: coat("siamese", false),
+  frog: coat("frog", true),
+  dog: coat("dog", true),
+  fox: coat("fox", true),
+  panda: coat("panda", true),
+  cow: coat("cow", true),
+  penguin: coat("penguin", true),
+  beaver: coat("beaver", true),
+  anon: coat("anon", true),
+  vampire: coat("vampire", true),
+  tuxedo: coat("tuxedo", false),
+  cream: coat("cream", false),
+  choco: coat("choco", false),
+  lavender: coat("lavender", false),
+  joker: coat("joker", false, "jokes"),
+  carer: coat("carer", false, "care"),
+  scholar: coat("scholar", false, "facts"),
 };
 
 export const isCoatId = (v: unknown): v is CoatId => COAT_IDS.includes(v as CoatId);

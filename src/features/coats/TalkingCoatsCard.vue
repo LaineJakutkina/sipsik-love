@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { TALK_EVERY } from "@/domain/catPhrases";
 import { COAT_IDS, COAT_META, type TalkKind } from "@/domain/coats";
+import { t } from "@/domain/i18n";
 import { Card, CardTitle } from "@/shared/ui/card";
 import { useSessionStore } from "@/stores/session";
 import { useCoatActions } from "./coatActions";
@@ -25,9 +26,9 @@ const rows = computed(() =>
 
 <template>
   <Card tone="soft">
-    <CardTitle>Говорящие котики</CardTitle>
+    <CardTitle>{{ t("coats.talking.title") }}</CardTitle>
     <p class="text-foreground/65 mt-1 text-[13px]">
-      На первом тапе и потом на каждом {{ TALK_EVERY }}-м котик что-нибудь скажет
+      {{ t("coats.talking.every", { n: TALK_EVERY }) }}
     </p>
     <ul class="mt-3 flex flex-col gap-2">
       <TalkingCoatRow

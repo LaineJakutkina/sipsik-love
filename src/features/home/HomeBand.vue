@@ -1,21 +1,23 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { t } from "@/domain/i18n";
 import { SegmentedPills } from "@/shared/components";
 import { useHomeUiStore } from "./homeUi";
 
 const homeUi = useHomeUiStore();
-const options = [
-  { value: "shop", label: "Покупки" },
-  { value: "chores", label: "Обязанности" },
-] as const;
+const options = computed(() => [
+  { value: "shop" as const, label: t("home.band.shop") },
+  { value: "chores" as const, label: t("home.band.chores") },
+]);
 </script>
 
 <template>
-  <h1 class="sr-only">Дом</h1>
+  <h1 class="sr-only">{{ t("home.band.title") }}</h1>
   <SegmentedPills
     :model-value="homeUi.section"
     :options
     track
-    label="Раздел"
+    :label="t('home.band.section')"
     @update:model-value="(v) => v && (homeUi.section = v)"
   />
 </template>

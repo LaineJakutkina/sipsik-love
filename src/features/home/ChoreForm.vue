@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { CHORE_FREQUENCIES } from "@/domain/catalog";
+import { CHORE_FREQUENCIES, choreFrequencyLabel } from "@/domain/catalog";
+import { t } from "@/domain/i18n";
 import type { Who } from "@/domain/types";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
@@ -28,20 +29,20 @@ function submit() {
 
 <template>
   <form class="bg-muted flex flex-col gap-2 rounded-2xl p-3" @submit.prevent="submit">
-    <Input v-model="title" placeholder="Например, полить цветы" maxlength="80" />
+    <Input v-model="title" :placeholder="t('home.choreForm.placeholder')" maxlength="80" />
     <div class="grid grid-cols-2 gap-2">
-      <NativeSelect v-model="who" aria-label="Кто делает">
+      <NativeSelect v-model="who" :aria-label="t('home.choreForm.who')">
         <NativeSelectOption value="me">{{ session.meName }}</NativeSelectOption>
         <NativeSelectOption v-if="session.app.partner" value="partner">
           {{ session.partnerName }}
         </NativeSelectOption>
       </NativeSelect>
-      <NativeSelect v-model="freq" aria-label="Как часто">
+      <NativeSelect v-model="freq" :aria-label="t('home.choreForm.freq')">
         <NativeSelectOption v-for="f in CHORE_FREQUENCIES" :key="f" :value="f">
-          {{ f }}
+          {{ choreFrequencyLabel(f) }}
         </NativeSelectOption>
       </NativeSelect>
     </div>
-    <Button type="submit">Добавить дело</Button>
+    <Button type="submit">{{ t("home.choreForm.submit") }}</Button>
   </form>
 </template>

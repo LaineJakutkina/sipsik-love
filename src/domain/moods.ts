@@ -1,3 +1,5 @@
+import { t, tg } from "./i18n";
+
 export const MOOD_IDS = ["tears", "tired", "angry", "neutral", "happy"] as const;
 export type MoodId = (typeof MOOD_IDS)[number];
 
@@ -6,34 +8,43 @@ export interface Mood {
   name: string;
 }
 
-export const MOODS: readonly Mood[] = [
-  { id: "tears", name: "Слёзы" },
-  { id: "tired", name: "Устал" },
-  { id: "angry", name: "Злюсь" },
-  { id: "neutral", name: "Спокойно" },
-  { id: "happy", name: "Счастлив" },
-];
+export const MOODS: readonly Mood[] = MOOD_IDS.map((id) => ({
+  id,
+  get name() {
+    return t(`domain.moods.names.${id}`);
+  },
+}));
 
 export type Gender = "m" | "f";
 
 export const GENDER_OPTIONS: readonly { value: Gender; label: string }[] = [
-  { value: "f", label: "Она" },
-  { value: "m", label: "Он" },
+  {
+    value: "f",
+    get label() {
+      return t("domain.moods.gender.she");
+    },
+  },
+  {
+    value: "m",
+    get label() {
+      return t("domain.moods.gender.he");
+    },
+  },
 ];
 
 /** Partner mood phrased for the partner's gender: «Аня сегодня: счастлива» */
 export function moodLabel(id: MoodId | null | undefined, gender?: Gender | null): string {
   switch (id) {
     case "tears":
-      return "грустно";
+      return t("domain.moods.partner.tears");
     case "tired":
-      return gender === "f" ? "устала" : gender === "m" ? "устал" : "устал(а)";
+      return tg("domain.moods.partner.tired", gender);
     case "angry":
-      return "злится";
+      return t("domain.moods.partner.angry");
     case "neutral":
-      return "спокойно";
+      return t("domain.moods.partner.neutral");
     case "happy":
-      return gender === "f" ? "счастлива" : gender === "m" ? "счастлив" : "счастлив(а)";
+      return tg("domain.moods.partner.happy", gender);
     default:
       return "—";
   }

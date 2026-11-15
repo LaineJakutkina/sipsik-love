@@ -2,16 +2,17 @@
 import { CalendarIcon, CatIcon, Gamepad2Icon, HouseIcon, StoreIcon } from "@lucide/vue";
 import { computed, type Component } from "vue";
 import { RouterLink, useRoute } from "vue-router";
+import { t } from "@/domain/i18n";
 import { cn } from "@/shared/lib/utils";
 import { usePlansStore } from "@/stores/plans";
 import type { TabId } from "./router";
 
-const NAV: { id: TabId; label: string; icon: Component }[] = [
-  { id: "us", label: "Мы", icon: CatIcon },
-  { id: "plans", label: "Планы", icon: CalendarIcon },
-  { id: "home", label: "Дом", icon: HouseIcon },
-  { id: "games", label: "Игры", icon: Gamepad2Icon },
-  { id: "shop", label: "Магазин", icon: StoreIcon },
+const NAV: { id: TabId; icon: Component }[] = [
+  { id: "us", icon: CatIcon },
+  { id: "plans", icon: CalendarIcon },
+  { id: "home", icon: HouseIcon },
+  { id: "games", icon: Gamepad2Icon },
+  { id: "shop", icon: StoreIcon },
 ];
 
 /**
@@ -41,7 +42,7 @@ const target = (id: TabId) => ({ name: id === "plans" ? plans.last : id });
     aria-hidden="true"
   />
   <nav
-    aria-label="Разделы"
+    :aria-label="t('app.nav.label')"
     class="bottom-nav bg-primary/92 ring-primary-foreground/10 shadow-navy/30 fixed inset-x-3 z-20 mx-auto max-w-[496px] rounded-[28px] p-1.5 shadow-xl ring-1 backdrop-blur-md"
   >
     <div class="relative grid grid-cols-5">
@@ -67,7 +68,7 @@ const target = (id: TabId) => ({ name: id === "plans" ? plans.last : id });
           <span
             class="max-w-full truncate opacity-60 transition-opacity duration-200 group-aria-[current=page]:opacity-100"
           >
-            {{ n.label }}
+            {{ t(`app.nav.${n.id}`) }}
           </span>
         </a>
       </RouterLink>

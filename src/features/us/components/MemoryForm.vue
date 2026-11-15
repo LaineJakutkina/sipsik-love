@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { today } from "@/domain/dates";
+import { t } from "@/domain/i18n";
 import { tmpId } from "@/domain/ids";
 import type { DateStr } from "@/domain/types";
 import { notify } from "@/services/notify";
@@ -20,14 +21,14 @@ async function save() {
   const body = ui.memText.trim();
   const day: DateStr = ui.memDay || today();
   const draft = ui.memDraft;
-  if (!body && !draft) return notify("Добавь фото или пару слов");
+  if (!body && !draft) return notify(t("us.memoryForm.empty"));
   ui.closeMemForm();
   if (draft) {
-    notify("Сохраняем вместе с фото…");
+    notify(t("us.memoryForm.savingPhoto"));
     const ok = await session.act(
       "memory.add",
       { body, day, photo: draft.full, thumb: draft.thumb },
-      "Воспоминание сохранено 📸",
+      t("us.memoryForm.saved"),
     );
     if (!ok) {
       ui.memForm = true;
@@ -47,7 +48,7 @@ async function save() {
           thumb_url: null,
         });
       },
-      "Воспоминание сохранено 📸",
+      t("us.memoryForm.saved"),
     );
   }
 }
@@ -55,20 +56,27 @@ async function save() {
 
 <template>
   <Card as="form" class="gap-2" @submit.prevent="save">
-    <CardTitle>Новое воспоминание</CardTitle>
+    <CardTitle>{{ t("us.memoryForm.title") }}</CardTitle>
     <PhotoPicker
-      :title="ui.memDraft ? 'Фото добавлено' : 'Добавить фото'"
-      :subtitle="ui.memDraft ? 'Нажми, чтобы заменить' : 'Можно и без фото'"
+      :title="ui.memDraft ? t('us.memoryForm.photoAdded') : t('us.memoryForm.addPhoto')"
+      :subtitle="ui.memDraft ? t('us.memoryForm.tapToReplace') : t('us.memoryForm.photoOptional')"
       :preview="ui.memDraft?.thumb"
       @pick="ui.memDraft = $event"
     />
-    <Textarea v-model="ui.memText" rows="3" maxlength="1000" placeholder="Что запомнилось?" />
-    <Field label="Когда это было">
+    <Textarea
+      v-model="ui.memText"
+      rows="3"
+      maxlength="1000"
+      :placeholder="t('us.memoryForm.placeholder')"
+    />
+    <Field :label="t('us.memoryForm.when')">
       <Input v-model="ui.memDay" type="date" :max="max" />
     </Field>
     <div class="grid grid-cols-2 gap-2">
-      <Button type="button" variant="outline" @click="ui.closeMemForm()">Отмена</Button>
-      <Button type="submit">Сохранить</Button>
+      <Button type="button" variant="outline" @click="ui.closeMemForm()">
+        {{ t("common.actions.cancel") }}
+      </Button>
+      <Button type="submit">{{ t("common.actions.save") }}</Button>
     </div>
   </Card>
 </template>

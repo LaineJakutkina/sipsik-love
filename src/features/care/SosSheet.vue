@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { SOS_KINDS } from "@/domain/care";
+import { t } from "@/domain/i18n";
 import { notify } from "@/services/notify";
 import { Button } from "@/shared/ui/button";
 import { SheetDescription, SheetTitle } from "@/shared/ui/sheet";
@@ -20,7 +21,7 @@ const feminine = session.app.me.gender === "f";
 
 function send() {
   if (!kind.value) {
-    notify("Выбери, что тебе сейчас нужно");
+    notify(t("care.sosSheet.pickKind"));
     return;
   }
   void sendSos(kind.value, body.value.trim());
@@ -28,9 +29,9 @@ function send() {
 </script>
 
 <template>
-  <SheetTitle>Что тебе сейчас нужно?</SheetTitle>
+  <SheetTitle>{{ t("care.sosSheet.title") }}</SheetTitle>
   <SheetDescription>
-    {{ session.partnerName }} сразу получит сообщение в Telegram с подсказкой, как тебя поддержать.
+    {{ t("care.sosSheet.description", { name: session.partnerName }) }}
   </SheetDescription>
   <div class="flex flex-col gap-2">
     <Toggle
@@ -46,14 +47,9 @@ function send() {
       {{ feminine && k.textF ? k.textF : k.text }}
     </Toggle>
   </div>
-  <Textarea
-    v-model="body"
-    rows="2"
-    maxlength="300"
-    placeholder="Пара слов, если хочется (необязательно)"
-  />
+  <Textarea v-model="body" rows="2" maxlength="300" :placeholder="t('care.sosSheet.placeholder')" />
   <div class="grid grid-cols-2 gap-2">
-    <Button variant="outline" @click="sheets.close()">Отмена</Button>
-    <Button @click="send">Отправить сигнал</Button>
+    <Button variant="outline" @click="sheets.close()">{{ t("common.actions.cancel") }}</Button>
+    <Button @click="send">{{ t("care.sosSheet.send") }}</Button>
   </div>
 </template>

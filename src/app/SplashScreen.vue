@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { usePreferredReducedMotion, useTimeoutFn } from "@vueuse/core";
 import { computed, onMounted } from "vue";
+import { t } from "@/domain/i18n";
 import SplashStage from "@/game/vue/SplashStage.vue";
 import { useSessionStore } from "@/stores/session";
 
@@ -39,11 +40,12 @@ onMounted(() => {
   <button
     type="button"
     class="bg-primary text-primary-foreground fixed inset-0 z-50 flex cursor-pointer flex-col items-center justify-center gap-2"
-    aria-label="Пропустить заставку"
+    :aria-label="t('app.splashSkip')"
     @click="end"
   >
     <span class="animate-in fade-in slide-in-from-bottom-2 text-[34px] font-extrabold duration-500">
-      Сипсик <em class="text-secondary not-italic">Love</em>
+      {{ t("app.brand.name") }}
+      <em class="text-secondary not-italic">{{ t("app.brand.accent") }}</em>
     </span>
     <span class="block h-[38vh] w-full max-w-[520px]">
       <SplashStage :look @done="end" />

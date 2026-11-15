@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from "@/domain/i18n";
 import { MOODS, moodLabel, type MoodId } from "@/domain/moods";
 import CharacterThumb from "@/game/vue/CharacterThumb.vue";
 import { telegram } from "@/services/telegram";
@@ -18,7 +19,7 @@ function pick(mood: MoodId) {
 
 <template>
   <Card>
-    <CardTitle>Какой ты сегодня?</CardTitle>
+    <CardTitle>{{ t("us.mood.title") }}</CardTitle>
     <div class="mt-3 grid grid-cols-5 gap-1">
       <button
         v-for="m in MOODS"
@@ -53,11 +54,11 @@ function pick(mood: MoodId) {
         class="size-[30px] flex-none"
       />
       <span>
-        {{ session.partnerName }} сегодня:
+        {{ t("us.mood.partnerToday", { name: session.partnerName }) }}
         <b>{{
           session.app.moods.partner
             ? moodLabel(session.app.moods.partner, session.app.partner.gender)
-            : "ещё не отметил(а)"
+            : t("us.mood.partnerUnknown")
         }}</b>
       </span>
     </div>

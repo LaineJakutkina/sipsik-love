@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { t } from "@/domain/i18n";
 import { Button } from "@/shared/ui/button";
 import { useSessionStore } from "@/stores/session";
 import { useSheetsStore } from "@/stores/sheets";
@@ -9,16 +10,20 @@ import CtaCard from "./CtaCard.vue";
 const session = useSessionStore();
 const sheets = useSheetsStore();
 
-const title = computed(() => (session.solo ? "Записка себе в будущее" : "Записка-сюрприз"));
+const title = computed(() => t(session.solo ? "us.note.titleSolo" : "us.note.titleCouple"));
 const text = computed(() => {
   const way = session.app.notes.sent.filter((n) => !n.delivered_at).length;
-  const who = session.solo ? "Придёт тебе" : `${session.partnerName} получит её`;
-  return `${who} в случайный момент недели${way ? `. В пути: ${way}` : ""}`;
+  const when = session.solo
+    ? t("us.note.textSolo")
+    : t("us.note.textCouple", { name: session.partnerName });
+  return way ? t("us.note.onTheWay", { text: when, n: way }) : when;
 });
 </script>
 
 <template>
   <CtaCard tone="soft" emoji="💌" :title="title" :text="text">
-    <Button variant="secondary" class="relative flex-none" @click="sheets.open('note')">Написать</Button>
+    <Button variant="secondary" class="relative flex-none" @click="sheets.open('note')">
+      {{ t("us.note.write") }}
+    </Button>
   </CtaCard>
 </template>

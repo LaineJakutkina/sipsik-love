@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { isAnimalOffer, isCoatId, isTalkingOffer } from "@/domain/coats";
+import { formatNumber, t } from "@/domain/i18n";
 import { Card, CardTitle } from "@/shared/ui/card";
 import { useSessionStore } from "@/stores/session";
 import CoatButton from "./CoatButton.vue";
@@ -20,8 +21,10 @@ const current = computed(() => session.app.couple.coat || "black");
 <template>
   <Card v-if="cats.length">
     <div class="flex items-center justify-between gap-2">
-      <CardTitle>Окрасы</CardTitle>
-      <span class="text-muted-foreground text-[13px]">{{ cats.length }} на выбор</span>
+      <CardTitle>{{ t("coats.card.coats") }}</CardTitle>
+      <span class="text-muted-foreground text-[13px]">{{
+        t("coats.card.choice", { n: formatNumber(cats.length) })
+      }}</span>
     </div>
     <div class="mt-3 grid grid-cols-3 gap-2">
       <CoatButton
@@ -36,8 +39,8 @@ const current = computed(() => session.app.couple.coat || "black");
   </Card>
   <Card v-if="animals.length">
     <div class="flex items-center justify-between gap-2">
-      <CardTitle>Другие звери</CardTitle>
-      <span class="text-muted-foreground text-[13px]">с эмоциями и вещами</span>
+      <CardTitle>{{ t("coats.card.animals") }}</CardTitle>
+      <span class="text-muted-foreground text-[13px]">{{ t("coats.card.animalsNote") }}</span>
     </div>
     <div class="mt-3 grid grid-cols-3 gap-2">
       <CoatButton

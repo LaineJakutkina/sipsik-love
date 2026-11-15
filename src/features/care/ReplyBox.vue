@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { t } from "@/domain/i18n";
 import { notify } from "@/services/notify";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
@@ -15,7 +16,7 @@ const chip = toggleVariants({ variant: "chip-inverse", size: "sm" });
 function submit(preset?: string) {
   const r = preset || text.value.trim();
   if (!r) {
-    notify("Выбери ответ или напиши своё");
+    notify(t("care.reply.pickOrWrite"));
     return;
   }
   emit("reply", r);
@@ -33,9 +34,11 @@ function submit(preset?: string) {
       v-model="text"
       type="text"
       class="text-foreground flex-1"
-      placeholder="Или напиши своё"
+      :placeholder="t('care.reply.placeholder')"
       :maxlength="maxlength"
     />
-    <Button variant="secondary" class="flex-none" @click="submit()">Ответить</Button>
+    <Button variant="secondary" class="flex-none" @click="submit()">{{
+      t("care.reply.submit")
+    }}</Button>
   </div>
 </template>

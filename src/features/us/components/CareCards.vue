@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { t } from "@/domain/i18n";
 import { useSessionStore } from "@/stores/session";
 import { useSheetsStore } from "@/stores/sheets";
 import CareTile from "./CareTile.vue";
@@ -13,9 +14,7 @@ import TalkCard from "./TalkCard.vue";
 const session = useSessionStore();
 const sheets = useSheetsStore();
 
-const canAsk = computed(
-  () => !!session.app.partner && !!session.app.sos && !session.app.sos.mine,
-);
+const canAsk = computed(() => !!session.app.partner && !!session.app.sos && !session.app.sos.mine);
 const canTalk = computed(
   () => !!session.app.partner && !!session.app.talk && !session.app.talk.mine,
 );
@@ -31,16 +30,16 @@ const canTalk = computed(
   >
     <CareTile
       v-if="canAsk"
-      title="Тяжело?"
+      :title="t('us.care.sosTitle')"
       emoji="🫂"
-      :text="`${session.partnerName} получит подсказку, как тебя поддержать`"
+      :text="t('us.care.sosText', { name: session.partnerName })"
       @select="sheets.open('sos')"
     />
     <CareTile
       v-if="canTalk"
-      title="Что-то задело?"
+      :title="t('us.care.talkTitle')"
       emoji="🕊"
-      text="Помогу сказать это бережно, без обвинений"
+      :text="t('us.care.talkText')"
       @select="sheets.open('talk')"
     />
   </div>

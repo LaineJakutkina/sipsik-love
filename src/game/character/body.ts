@@ -73,11 +73,14 @@ function earsArt(p: Palette, coat: CoatId): ArtNode[] {
         group(
           [
             ellipse(236, 176, 22, 40, { fill: "#5a3a22", stroke: "#45291a", width: 2.5 }),
-            path("M220 150l32 20M218 166l36 20M220 182l32 18M216 158l38-6M216 176l40-6M218 194l36-6", {
-              stroke: "#45291a",
-              width: 1.6,
-              alpha: 0.7,
-            }),
+            path(
+              "M220 150l32 20M218 166l36 20M220 182l32 18M216 158l38-6M216 176l40-6M218 194l36-6",
+              {
+                stroke: "#45291a",
+                width: 1.6,
+                alpha: 0.7,
+              },
+            ),
           ],
           { transform: rotateAbout(-28, 236, 176) },
         ),
@@ -104,8 +107,18 @@ function earsArt(p: Palette, coat: CoatId): ArtNode[] {
       ];
     case "joker":
       return [
-        path("M112 66Q86 40 62 22Q92 22 128 52Z", { fill: "#7b4fc4", stroke: "#4e2f86", width: 2.5, join: "round" }),
-        path("M188 66Q214 40 238 22Q208 22 172 52Z", { fill: "#2fa39a", stroke: "#1d6f69", width: 2.5, join: "round" }),
+        path("M112 66Q86 40 62 22Q92 22 128 52Z", {
+          fill: "#7b4fc4",
+          stroke: "#4e2f86",
+          width: 2.5,
+          join: "round",
+        }),
+        path("M188 66Q214 40 238 22Q208 22 172 52Z", {
+          fill: "#2fa39a",
+          stroke: "#1d6f69",
+          width: 2.5,
+          join: "round",
+        }),
         circle(60, 22, 9, { fill: "#f6d24a", stroke: "#b8911c", width: 2 }),
         circle(240, 22, 9, { fill: "#f6d24a", stroke: "#b8911c", width: 2 }),
       ];
@@ -248,14 +261,27 @@ const PATTERNS: Record<PatternId, (p: Palette) => ArtNode[]> = {
     }),
     path("M176 150l14 4l-6 40l-16-2z", { fill: "#8fbf9f" }),
     path("M172 172h14M170 182h14", { stroke: "#cfe6d6", width: 3, cap: "round" }),
-    path("M150 196c-14-10-24-18-24-28c0-7 6-12 12-12c5 0 9 3 12 7c3-4 7-7 12-7c6 0 12 5 12 12c0 10-10 18-24 28z", {
-      fill: "#e86a7a",
-    }),
+    path(
+      "M150 196c-14-10-24-18-24-28c0-7 6-12 12-12c5 0 9 3 12 7c3-4 7-7 12-7c6 0 12 5 12 12c0 10-10 18-24 28z",
+      {
+        fill: "#e86a7a",
+      },
+    ),
   ],
   scholar: () => [
     // lab coat: pale blue so it stands out on the white stage
-    path("M40 230V136Q104 146 132 230Z", { fill: "#e4ecf8", stroke: "#6f84a8", width: 3, join: "round" }),
-    path("M260 230V136Q196 146 168 230Z", { fill: "#e4ecf8", stroke: "#6f84a8", width: 3, join: "round" }),
+    path("M40 230V136Q104 146 132 230Z", {
+      fill: "#e4ecf8",
+      stroke: "#6f84a8",
+      width: 3,
+      join: "round",
+    }),
+    path("M260 230V136Q196 146 168 230Z", {
+      fill: "#e4ecf8",
+      stroke: "#6f84a8",
+      width: 3,
+      join: "round",
+    }),
     path("M112 150L126 186M188 150L174 186", { stroke: "#6f84a8", width: 2.5, cap: "round" }),
     rect(192, 168, 30, 24, { fill: "#d6e1f2", stroke: "#6f84a8", width: 2, r: 3 }),
     path("M200 172v-16M210 172v-12", { stroke: "#3c6fd8", width: 4, cap: "round" }),

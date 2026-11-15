@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+import { formatList, t } from "@/domain/i18n";
 import { ITEM_BY_ID, isItemId } from "@/domain/items";
 import { call, errorMessage } from "@/services/api/client";
 import { notify } from "@/services/notify";
@@ -54,7 +55,11 @@ export const useTapsStore = defineStore("taps", () => {
       }
       couple.worn = res.worn;
       const names = (res.unlocked ?? []).filter(isItemId).map((id) => ITEM_BY_ID[id].name);
-      if (names.length) notify(`${session.petName} получил: ${names.join(", ")}!`, "heavy");
+      if (names.length)
+        notify(
+          t("stores.taps.unlocked", { name: session.petName, items: formatList(names) }),
+          "heavy",
+        );
     } catch (e) {
       const couple = session.state?.couple;
       if (couple) {
@@ -78,13 +83,13 @@ export const useTapsStore = defineStore("taps", () => {
     tap();
     telegram.haptic("light");
     if (session.tired) {
-      notify(`${session.petName} устал. Тапы продолжатся завтра 😴`, "medium");
+      notify(t("stores.taps.tired", { name: session.petName }), "medium");
       return "got-tired";
     }
     if (session.welcomeBack) session.cheered = true;
     if (session.sad) {
       session.cheered = true;
-      notify(`${session.petName} снова счастлив 💜`);
+      notify(t("stores.taps.cheered", { name: session.petName }));
       return "cheered";
     }
     return "boop";

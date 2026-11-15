@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { daysBetween, MONTHS_GEN, parseDate, today } from "@/domain/dates";
+import { daysBetween, formatDate, today } from "@/domain/dates";
+import { formatNumber, t, tn } from "@/domain/i18n";
 import { nextAnniversary } from "@/domain/relationship";
 import { StatTile } from "@/shared/components";
-import { DAY_FORMS, formatNumber, plural, type PluralForms } from "@/shared/lib/plural";
 import { useSessionStore } from "@/stores/session";
 import HeroStat from "./HeroStat.vue";
 import RingStat from "./RingStat.vue";
 
-const WISH_FORMS: PluralForms = ["желание", "желания", "желаний"];
-const MEMORY_FORMS: PluralForms = ["воспоминание", "воспоминания", "воспоминаний"];
 const YEAR_DAYS = 365;
 
 /**
@@ -25,15 +23,14 @@ const hero = computed(() => {
     const n = Math.max(0, days.value) + 1;
     return {
       value: formatNumber(n),
-      label: `${plural(n, DAY_FORMS)} ${session.solo ? "вместе с котиком" : "вместе в Сипсик Love"}`,
+      label: tn(session.solo ? "us.stats.daysSolo" : "us.stats.daysFriends", n),
       sub: undefined,
     };
   }
-  const start = parseDate(session.app.couple.start_date);
   return {
     value: formatNumber(Math.max(0, days.value)),
-    label: `${plural(days.value, DAY_FORMS)} вместе`,
-    sub: `с ${start.getDate()} ${MONTHS_GEN[start.getMonth()]} ${start.getFullYear()}`,
+    label: tn("us.stats.daysPair", days.value),
+    sub: t("us.stats.since", { date: formatDate(session.app.couple.start_date) }),
   };
 });
 
@@ -41,11 +38,15 @@ const anniversary = computed(() => {
   if (!session.isPair) return null;
   const ann = nextAnniversary(session.app.couple.start_date, today());
   if (ann.inDays === 0) {
-    return { value: "🎉", label: `${ann.years}-я годовщина сегодня`, percent: 100 };
+    return {
+      value: "🎉",
+      label: t("us.stats.anniversaryToday", { years: ann.years }),
+      percent: 100,
+    };
   }
   return {
     value: ann.inDays,
-    label: `${plural(ann.inDays, DAY_FORMS)} до ${ann.years}-й годовщины`,
+    label: tn("us.stats.toAnniversary", ann.inDays, { years: ann.years }),
     percent: Math.min(100, Math.max(0, 100 - (ann.inDays / YEAR_DAYS) * 100)),
   };
 });
@@ -55,8 +56,8 @@ const extras = computed(() => {
   const wishes = session.app.wishes.filter((w) => !w.done).length;
   const memories = (session.app.memories ?? []).length;
   return [
-    { value: wishes, label: `${plural(wishes, WISH_FORMS)} в вишлисте` },
-    { value: memories, label: plural(memories, MEMORY_FORMS) },
+    { value: wishes, label: tn("us.stats.wishes", wishes) },
+    { value: memories, label: tn("us.stats.memories", memories) },
   ];
 });
 </script>

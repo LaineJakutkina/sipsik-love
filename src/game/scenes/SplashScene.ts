@@ -103,9 +103,7 @@ export class SplashScene extends Scene {
   private updateDust(backX: number) {
     if (this.time - this.lastPuff > DUST_EVERY_MS) {
       this.lastPuff = this.time;
-      const g = new Graphics()
-        .circle(0, 0, 7 * this.unit)
-        .fill({ color: BRAND.paper, alpha: 0.5 });
+      const g = new Graphics().circle(0, 0, 7 * this.unit).fill({ color: BRAND.paper, alpha: 0.5 });
       g.position.set(backX, this.groundY - 6 * this.unit);
       this.dust.addChild(g);
       this.puffs.push({ g, born: this.time });

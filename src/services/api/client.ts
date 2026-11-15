@@ -1,4 +1,5 @@
 import { today } from "@/domain/dates";
+import { t } from "@/domain/i18n";
 import { config } from "@/shared/config";
 import { telegram } from "../telegram";
 import type { Action, PayloadOf, ResponseOf } from "./contract";
@@ -33,10 +34,10 @@ export async function call<A extends Action>(
   } catch {
     // handled below
   }
-  if (!data) throw new ApiError("Сервер не ответил. Проверь интернет и попробуй ещё раз");
-  if (!res.ok || data.error) throw new ApiError(data.error || "Ошибка сервера");
+  if (!data) throw new ApiError(t("services.api.noResponse"));
+  if (!res.ok || data.error) throw new ApiError(data.error || t("services.api.serverError"));
   return data;
 }
 
 export const errorMessage = (e: unknown) =>
-  e instanceof Error ? e.message : "Что-то пошло не так";
+  e instanceof Error ? e.message : t("services.api.unknown");

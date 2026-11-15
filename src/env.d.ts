@@ -10,3 +10,11 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+/** Week data from Intl.Locale (Safari ≤ 17 and Chrome ≤ 129 only have the `weekInfo` getter, some engines neither) */
+declare namespace Intl {
+  interface Locale {
+    getWeekInfo?(): { firstDay: number };
+    readonly weekInfo?: { firstDay: number };
+  }
+}

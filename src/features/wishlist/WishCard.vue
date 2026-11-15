@@ -2,6 +2,7 @@
 import { ExternalLinkIcon, XIcon } from "@lucide/vue";
 import { computed } from "vue";
 import { safeUrl } from "@/domain/catalog";
+import { t } from "@/domain/i18n";
 import type { Wish } from "@/domain/types";
 import { telegram } from "@/services/telegram";
 import { Button } from "@/shared/ui/button";
@@ -54,7 +55,7 @@ function openLink(e: MouseEvent) {
           variant="ghost"
           size="icon-sm"
           class="-my-1.5 -mr-1.5"
-          aria-label="Удалить желание"
+          :aria-label="t('wishlist.card.remove')"
           @click="emit('arm')"
         >
           <XIcon class="size-4" :stroke-width="2.4" />
@@ -72,13 +73,15 @@ function openLink(e: MouseEvent) {
         class="text-destructive ml-auto inline-flex flex-none items-center gap-1 text-xs font-bold"
         @click="openLink"
       >
-        Ссылка
+        {{ t("wishlist.card.link") }}
         <ExternalLinkIcon class="size-3.5" :stroke-width="2.4" aria-hidden="true" />
       </a>
     </CardContent>
 
     <CardFooter v-if="armed" class="mt-auto">
-      <Button variant="warn" size="sm" block @click="emit('remove')">Удалить?</Button>
+      <Button variant="warn" size="sm" block @click="emit('remove')">
+        {{ t("wishlist.card.confirmRemove") }}
+      </Button>
     </CardFooter>
     <CardFooter v-else-if="!wish.done" class="mt-auto flex-col">
       <Button
@@ -88,7 +91,7 @@ function openLink(e: MouseEvent) {
         :variant="wish.reserved_by_me ? 'outline' : 'secondary'"
         @click="wishes.toggleReserve(wish.id)"
       >
-        {{ wish.reserved_by_me ? "Не дарю" : "Я подарю" }}
+        {{ wish.reserved_by_me ? t("wishlist.card.unreserve") : t("wishlist.card.reserve") }}
       </Button>
       <Button
         size="sm"
@@ -96,7 +99,7 @@ function openLink(e: MouseEvent) {
         :variant="mine ? 'default' : 'outline'"
         @click="wishes.markDone(wish.id)"
       >
-        Сбылось
+        {{ t("wishlist.card.markDone") }}
       </Button>
     </CardFooter>
   </Card>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { choreFrequencyLabel } from "@/domain/catalog";
 import { today } from "@/domain/dates";
+import { t } from "@/domain/i18n";
 import type { Chore } from "@/domain/types";
 import {
   AnimatedList,
@@ -42,9 +44,9 @@ const adding = ref(false);
   </div>
   <Card>
     <div class="flex items-center justify-between gap-2.5">
-      <CardTitle>Дела</CardTitle>
+      <CardTitle>{{ t("home.chores.title") }}</CardTitle>
       <Button v-if="chores.length" variant="link" :aria-expanded="adding" @click="adding = !adding">
-        {{ adding ? "Скрыть" : "+ Добавить" }}
+        {{ adding ? t("common.actions.hide") : t("common.actions.addMore") }}
       </Button>
     </div>
     <Expand>
@@ -55,12 +57,12 @@ const adding = ref(false);
         <template #lead>
           <CheckButton
             :checked="c.done_on === day"
-            label="Сделано сегодня"
+            :label="t('home.chores.doneToday')"
             @toggle="household.toggleChore(c.id)"
           />
         </template>
         <ListTitle>{{ c.title }}</ListTitle>
-        <ListSub>{{ c.freq || "" }}</ListSub>
+        <ListSub>{{ c.freq ? choreFrequencyLabel(c.freq) : "" }}</ListSub>
         <template #trail>
           <button
             type="button"
@@ -71,7 +73,7 @@ const adding = ref(false);
               )
             "
             :disabled="!hasPartner"
-            aria-label="Поменять, кто делает"
+            :aria-label="t('home.chores.swap')"
             @click="household.swapChore(c.id)"
           >
             {{ doer(c) }}
@@ -81,7 +83,7 @@ const adding = ref(false);
       </ListRow>
     </AnimatedList>
     <p v-if="chores.length" class="text-muted-foreground mt-2 text-xs leading-snug font-medium">
-      Галочки сбрасываются каждый день{{ hasPartner ? ". Нажми на имя, чтобы передать дело" : "" }}
+      {{ hasPartner ? t("home.chores.resetHintPair") : t("home.chores.resetHint") }}
     </p>
   </Card>
 </template>

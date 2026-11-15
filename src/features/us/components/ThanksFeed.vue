@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { dayHeading } from "@/domain/dates";
+import { t } from "@/domain/i18n";
 import { isTmp } from "@/domain/ids";
 import type { Thanks } from "@/domain/types";
 import { AnimatedList, ChatBubble, DayHeading, RemoveButton } from "@/shared/components";
@@ -29,7 +30,7 @@ const rows = computed(() =>
 );
 
 const author = (x: Thanks) =>
-  x.who === "me" ? `Ты → ${session.partnerName}` : `${session.partnerName} → тебе`;
+  t(x.who === "me" ? "us.feed.fromMe" : "us.feed.toMe", { name: session.partnerName });
 </script>
 
 <template>
@@ -52,7 +53,7 @@ const author = (x: Thanks) =>
           type="button"
           class="press flex-none p-1 text-xl leading-none"
           :aria-pressed="r.item.hearted"
-          aria-label="Нравится"
+          :aria-label="t('us.feed.like')"
           @click="heart(r.item.id)"
         >
           <span :key="String(r.item.hearted)" class="animate-pop inline-block">
@@ -62,7 +63,7 @@ const author = (x: Thanks) =>
         <span
           v-else-if="!journal && r.item.hearted"
           class="flex-none p-1 text-xl leading-none"
-          title="Понравилось"
+          :title="t('us.feed.liked')"
         >
           💛
         </span>
@@ -72,7 +73,7 @@ const author = (x: Thanks) =>
           size="sm"
           @click="remove(r.item.id)"
         >
-          Удалить?
+          {{ t("us.feed.confirmDelete") }}
         </Button>
         <RemoveButton v-else-if="!isTmp(r.item.id)" @remove="ui.thanksDel = r.item.id" />
       </template>

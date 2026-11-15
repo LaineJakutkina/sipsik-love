@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { formatDateTime, formatShort, ymd } from "@/domain/dates";
+import { t } from "@/domain/i18n";
 import { isTmp } from "@/domain/ids";
 import type { Note } from "@/domain/types";
 import { AnimatedList, ListRow, RemoveButton } from "@/shared/components";
@@ -20,7 +21,7 @@ function cancel(id: string) {
     (s) => {
       s.notes.sent = s.notes.sent.filter((n) => n.id !== id);
     },
-    "Записка отменена",
+    t("notes.sent.cancelled"),
   );
 }
 </script>
@@ -31,14 +32,16 @@ function cancel(id: string) {
       <div>{{ n.body }}</div>
       <div class="mt-[5px]">
         <Badge v-if="n.delivered_at" variant="secondary" size="sm">
-          Доставлена {{ formatDateTime(n.delivered_at) }}
+          {{ t("notes.sent.delivered", { when: formatDateTime(n.delivered_at) }) }}
         </Badge>
-        <Badge v-else variant="outline" size="sm">В пути · придёт до {{ arrivesBy(n) }}</Badge>
+        <Badge v-else variant="outline" size="sm">{{
+          t("notes.sent.onTheWay", { date: arrivesBy(n) })
+        }}</Badge>
       </div>
       <template #trail>
         <RemoveButton
           v-if="!n.delivered_at && !isTmp(n.id)"
-          label="Отменить записку"
+          :label="t('notes.sent.cancel')"
           @remove="cancel(n.id)"
         />
       </template>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { sameMonthDay, today } from "@/domain/dates";
+import { t, tn } from "@/domain/i18n";
 import { AnimatedList, EmptyState, Expand } from "@/shared/components";
-import { plural, YEAR_FORMS } from "@/shared/lib/plural";
 import { Button } from "@/shared/ui/button";
 import { Card, CardTitle } from "@/shared/ui/card";
 import { useSessionStore } from "@/stores/session";
@@ -19,13 +19,13 @@ const limit = computed(() => session.limits.memories);
 const sorted = computed(() => all.value.slice().sort((a, b) => b.day.localeCompare(a.day)));
 
 const onThis = computed(() => {
-  const t = today();
-  const y = Number(t.slice(0, 4));
+  const now = today();
+  const y = Number(now.slice(0, 4));
   return sorted.value
-    .filter((m) => sameMonthDay(m.day, t) && m.day < t)
+    .filter((m) => sameMonthDay(m.day, now) && m.day < now)
     .map((m) => {
       const k = y - Number(m.day.slice(0, 4));
-      return { memory: m, ago: `${k} ${plural(k, YEAR_FORMS)} назад` };
+      return { memory: m, ago: tn("us.memories.yearsAgo", k) };
     });
 });
 const feed = computed(() => {
@@ -41,21 +41,21 @@ const feed = computed(() => {
       v-else-if="all.length >= limit"
       class="bg-muted text-muted-foreground flex items-center gap-2 rounded-full px-3.5 py-[9px] text-xs font-semibold"
     >
-      Воспоминаний {{ limit }} из {{ limit }}. Чтобы добавить новое, удали одно из старых
+      {{ t("us.memories.limitReached", { limit }) }}
     </div>
     <Button v-else variant="secondary" block @click="ui.openMemForm()">
-      + Добавить воспоминание · {{ all.length }} из {{ limit }}
+      {{ t("us.memories.add", { n: all.length, limit }) }}
     </Button>
   </Expand>
 
   <Card v-if="onThis.length" tone="soft" class="gap-3">
-    <CardTitle>В этот день</CardTitle>
+    <CardTitle>{{ t("us.memories.onThisDay") }}</CardTitle>
     <MemoryCard v-for="x in onThis" :key="x.memory.id" :memory="x.memory" :ago="x.ago" soft />
   </Card>
   <AnimatedList v-if="feed.length" as="div" class="flex flex-col gap-3">
     <MemoryCard v-for="m in feed" :key="m.id" :memory="m" />
   </AnimatedList>
   <EmptyState v-else-if="!onThis.length">
-    Здесь будут ваши моменты: фото и пара слов о дне. Через год Сипсик покажет их вам снова.
+    {{ t("us.memories.empty") }}
   </EmptyState>
 </template>

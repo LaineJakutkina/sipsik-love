@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { t, tg, tn } from "@/domain/i18n";
 import type { DailyTask } from "@/domain/types";
 import { telegram } from "@/services/telegram";
 import { CheckButton, ListRow, ListSub } from "@/shared/components";
@@ -12,13 +13,11 @@ import CardHead from "./CardHead.vue";
 const session = useSessionStore();
 const tasks = computed(() => session.app.tasks ?? null);
 const bonus = computed(() => session.app.task_bonus ?? 0);
-const left = computed(() => (tasks.value ?? []).filter((t) => !t.done).length);
+const left = computed(() => (tasks.value ?? []).filter((x) => !x.done).length);
 
-function doneBy(t: DailyTask): string {
-  if (t.done === "me") return session.gendered("Отметил ты", "Отметила ты", "Готово");
-  const g = session.app.partner?.gender;
-  const verb = g === "f" ? "Отметила " : g === "m" ? "Отметил " : "Отметил(а) ";
-  return verb + session.partnerName;
+function doneBy(task: DailyTask): string {
+  if (task.done === "me") return session.gendered("us.tasks.doneByMe");
+  return tg("us.tasks.doneByPartner", session.app.partner?.gender, { name: session.partnerName });
 }
 
 function complete(idx: number) {
@@ -34,31 +33,34 @@ function complete(idx: number) {
       if (x) x.done = "me";
       s.couple.clicks += s.task_bonus ?? 0;
     },
-    `+${b} тапов ${session.petName} ⭐`,
+    tn("us.tasks.bonus", b, { name: session.petName }),
   );
 }
 </script>
 
 <template>
   <Card v-if="tasks">
-    <CardHead title="Задания дня" :note="left ? `осталось ${left}` : 'все готовы 🎉'" />
+    <CardHead
+      :title="t('us.tasks.title')"
+      :note="left ? t('us.tasks.left', { n: left }) : t('us.tasks.allDone')"
+    />
     <ul class="mt-1.5 flex flex-col">
-      <ListRow v-for="t in tasks" :key="t.idx" :done="!!t.done">
+      <ListRow v-for="task in tasks" :key="task.idx" :done="!!task.done">
         <template #lead>
           <CheckButton
-            :checked="!!t.done"
-            :disabled="!!t.done"
-            label="Выполнено"
-            @toggle="complete(t.idx)"
+            :checked="!!task.done"
+            :disabled="!!task.done"
+            :label="t('us.tasks.done')"
+            @toggle="complete(task.idx)"
           />
         </template>
         <span
           class="group-data-done:text-muted-foreground font-semibold group-data-done:line-through"
         >
-          {{ t.text }}
+          {{ task.text }}
         </span>
-        <ListSub v-if="t.done">{{ doneBy(t) }}</ListSub>
-        <template v-if="!t.done" #trail>
+        <ListSub v-if="task.done">{{ doneBy(task) }}</ListSub>
+        <template v-if="!task.done" #trail>
           <Badge variant="soft" size="sm">+{{ bonus }}</Badge>
         </template>
       </ListRow>

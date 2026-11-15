@@ -15,7 +15,9 @@ defineProps<{ tone: "navy" | "fill" }>();
 
 <template>
   <div :class="rowVariants({ tone })">
-    <span class="tabular w-11 flex-none text-xs font-extrabold"><slot name="right" /></span>
+    <span class="tabular min-w-11 flex-none whitespace-nowrap text-xs font-extrabold"
+      ><slot name="right"
+    /></span>
     <span class="min-w-0 flex-1 font-bold wrap-anywhere"><slot /></span>
     <span class="grid min-h-[30px] flex-none place-items-center"><slot name="action" /></span>
   </div>

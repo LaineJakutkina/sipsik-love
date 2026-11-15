@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, useTemplateRef } from "vue";
+import { t } from "@/domain/i18n";
 import { tmpId } from "@/domain/ids";
 import { notify } from "@/services/notify";
 import { Button } from "@/shared/ui/button";
@@ -19,7 +20,7 @@ onMounted(() => setTimeout(() => field.value?.$el.focus(), 50));
 function send() {
   const body = text.value.trim();
   if (!body) {
-    notify("Напиши текст записки");
+    notify(t("notes.sheet.empty"));
     return;
   }
   session.mutate(
@@ -33,33 +34,38 @@ function send() {
         created_at: new Date().toISOString(),
       });
     },
-    "Записка улетела. Придёт неожиданно 💌",
+    t("notes.sheet.sent"),
   );
   text.value = "";
 }
 </script>
 
 <template>
-  <SheetTitle>{{ session.solo ? "Записка себе в будущее" : "Записка-сюрприз" }}</SheetTitle>
+  <SheetTitle>{{
+    session.solo ? t("notes.sheet.titleSolo") : t("notes.sheet.titlePair")
+  }}</SheetTitle>
   <SheetDescription>
-    {{ session.solo ? "Придёт тебе в Telegram" : `Получит ${session.partnerName}. Придёт` }} в
-    случайный момент в течение недели. Точное время не узнает никто, даже ты.
+    {{
+      session.solo
+        ? t("notes.sheet.descriptionSolo")
+        : t("notes.sheet.descriptionPair", { name: session.partnerName })
+    }}
   </SheetDescription>
   <Textarea
     ref="field"
     v-model="text"
     rows="4"
     maxlength="2000"
-    aria-label="Текст записки"
+    :aria-label="t('notes.sheet.textAria')"
     :placeholder="
       session.solo
-        ? 'Например: не забудь, как ты справилась с этой неделей'
-        : 'Напиши что-нибудь тёплое'
+        ? session.gendered('notes.sheet.placeholderSolo')
+        : t('notes.sheet.placeholderPair')
     "
   />
   <div class="grid grid-cols-2 gap-2">
-    <Button variant="outline" @click="sheets.close()">Закрыть</Button>
-    <Button @click="send">Отправить наугад</Button>
+    <Button variant="outline" @click="sheets.close()">{{ t("common.actions.close") }}</Button>
+    <Button @click="send">{{ t("notes.sheet.send") }}</Button>
   </div>
   <SentNotes />
 </template>

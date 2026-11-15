@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { formatNumber, t, tn } from "@/domain/i18n";
 import { applyWear, itemProgress, ITEMS, visibleItems, type ItemId } from "@/domain/items";
 import CharacterThumb from "@/game/vue/CharacterThumb.vue";
-import { formatNumber } from "@/shared/lib/plural";
 import { Button } from "@/shared/ui/button";
 import { Card } from "@/shared/ui/card";
 import { Progress } from "@/shared/ui/progress";
@@ -16,8 +16,11 @@ const session = useSessionStore();
 const ui = useUsUiStore();
 
 const couple = computed(() => session.app.couple);
-const todayLine = computed(
-  () => `${Math.min(couple.value.taps_today || 0, session.tapCap)} / ${session.tapCap} сегодня`,
+const todayLine = computed(() =>
+  t("us.items.todayTaps", {
+    done: Math.min(couple.value.taps_today || 0, session.tapCap),
+    cap: session.tapCap,
+  }),
 );
 const progress = computed(() => itemProgress(couple.value.clicks));
 const items = computed(() => visibleItems(couple.value.clicks, ui.allItems));
@@ -30,14 +33,18 @@ function wear(id: ItemId) {
 
 <template>
   <Card>
-    <CardHead title="Вещи котика" :note="todayLine" />
+    <CardHead :title="t('us.items.title')" :note="todayLine" />
     <div class="mt-2.5">
       <div class="mb-1.5 flex justify-between gap-2 text-[13px] font-bold">
         <span class="min-w-0 truncate">
-          {{ progress.next ? `Дальше: ${progress.next.name}` : `${session.petName} собрал всё` }}
+          {{
+            progress.next
+              ? t("us.items.next", { name: progress.next.name })
+              : t("us.items.all", { name: session.petName })
+          }}
         </span>
         <span v-if="progress.next" class="text-muted-foreground tabular flex-none">
-          ещё {{ formatNumber(progress.left) }}
+          {{ t("us.items.left", { n: formatNumber(progress.left) }) }}
         </span>
       </div>
       <Progress :model-value="progress.percent" class="bg-muted h-2 border-0" />
@@ -47,7 +54,7 @@ function wear(id: ItemId) {
         <PickTile
           v-if="couple.clicks >= it.at"
           :name="it.name"
-          :caption="couple.worn[it.id] ? 'Надето' : 'Снято'"
+          :caption="couple.worn[it.id] ? t('us.items.worn') : t('us.items.off')"
           :on="!!couple.worn[it.id]"
           @select="wear(it.id)"
         >
@@ -59,7 +66,7 @@ function wear(id: ItemId) {
             class="h-[38px] w-full object-contain"
           />
         </PickTile>
-        <PickTile v-else locked :name="it.name" :caption="`${formatNumber(it.at)} тапов`">
+        <PickTile v-else locked :name="it.name" :caption="tn('us.items.cost', it.at)">
           <CharacterThumb
             kind="item"
             :item="it.id"
@@ -71,7 +78,7 @@ function wear(id: ItemId) {
       </template>
     </div>
     <Button variant="link" class="self-start" @click="ui.allItems = !ui.allItems">
-      {{ ui.allItems ? "Свернуть" : `Все ${ITEMS.length} вещей: от семечек до котёнка` }}
+      {{ ui.allItems ? t("us.items.collapse") : t("us.items.showAll", { n: ITEMS.length }) }}
     </Button>
   </Card>
 </template>

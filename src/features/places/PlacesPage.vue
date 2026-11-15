@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { MapPinIcon } from "@lucide/vue";
 import { ref } from "vue";
+import { t, tn } from "@/domain/i18n";
 import { tmpId, isTmp } from "@/domain/ids";
 import type { Id } from "@/domain/types";
 import { notify } from "@/services/notify";
 import { AnimatedList, ListRow, RemoveButton } from "@/shared/components";
-import { plural } from "@/shared/lib/plural";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { Card, CardTitle } from "@/shared/ui/card";
@@ -18,17 +18,17 @@ const roulette = useRouletteStore();
 const title = ref("");
 
 function add() {
-  const t = title.value.trim();
-  if (!t) return;
-  session.mutate("place.add", { title: t }, (s) => {
-    s.places.push({ id: tmpId(), title: t });
+  const place = title.value.trim();
+  if (!place) return;
+  session.mutate("place.add", { title: place }, (s) => {
+    s.places.push({ id: tmpId(), title: place });
   });
   title.value = "";
 }
 
 function remove(id: Id) {
   if (isTmp(id)) {
-    notify("Секунду, сохраняем…");
+    notify(t("common.savingWait"));
     return;
   }
   session.mutate("place.delete", { id }, (s) => {
@@ -40,15 +40,19 @@ function remove(id: Id) {
 <template>
   <Card>
     <div class="flex items-center justify-between gap-2.5">
-      <CardTitle>Наши места</CardTitle>
+      <CardTitle>{{ t("places.page.title") }}</CardTitle>
       <span class="text-muted-foreground text-[13px]">
-        {{ session.app.places.length }}
-        {{ plural(session.app.places.length, ["место", "места", "мест"]) }}
+        {{ tn("places.page.count", session.app.places.length) }}
       </span>
     </div>
     <form class="mt-2.5 flex gap-2" @submit.prevent="add">
-      <Input v-model="title" placeholder="Кафе, парк, кино" maxlength="80" class="flex-1" />
-      <Button type="submit" class="flex-none">Добавить</Button>
+      <Input
+        v-model="title"
+        :placeholder="t('places.page.placeholder')"
+        maxlength="80"
+        class="flex-1"
+      />
+      <Button type="submit" class="flex-none">{{ t("common.actions.add") }}</Button>
     </form>
     <AnimatedList class="mt-1.5 flex flex-col">
       <ListRow v-for="p in session.app.places" :key="p.id">
@@ -60,7 +64,7 @@ function remove(id: Id) {
         <div class="font-semibold">{{ p.title }}</div>
         <template #trail>
           <Badge v-if="!roulette.spinning && roulette.result === p.title" variant="secondary">
-            выпало
+            {{ t("places.page.picked") }}
           </Badge>
           <RemoveButton @remove="remove(p.id)" />
         </template>
@@ -70,7 +74,7 @@ function remove(id: Id) {
       v-if="session.app.places.length < 2"
       class="bg-muted text-muted-foreground mt-2 rounded-2xl px-3.5 py-3 text-center text-sm font-semibold"
     >
-      Добавь хотя бы два места, и рулетка выберет за вас
+      {{ t("places.page.needTwo") }}
     </p>
   </Card>
 </template>

@@ -1,3 +1,5 @@
+import { t } from "./i18n";
+
 export type ItemSlot = "head" | "paw" | "neck" | "body" | "eyes" | "mouth" | "bag" | "pet" | "ride";
 
 export const ITEM_IDS = [
@@ -37,32 +39,41 @@ export interface Item {
   slot: ItemSlot;
 }
 
+const item = (id: ItemId, at: number, slot: ItemSlot): Item => ({
+  id,
+  get name() {
+    return t(`domain.items.names.${id}`);
+  },
+  at,
+  slot,
+});
+
 /** Ladder from ordinary to the coolest. */
 export const ITEMS: readonly Item[] = [
-  { id: "panama", name: "Панама abibas", at: 20, slot: "head" },
-  { id: "seeds", name: "Семечки", at: 50, slot: "paw" },
-  { id: "coffee", name: "Кофе с собой", at: 100, slot: "paw" },
-  { id: "chain", name: "Золотая цепь", at: 200, slot: "neck" },
-  { id: "bandana", name: "Бандана", at: 300, slot: "head" },
-  { id: "cap", name: "Кепка назад", at: 500, slot: "head" },
-  { id: "lemonade", name: "Лимонад «Буратино»", at: 800, slot: "paw" },
-  { id: "stripes", name: "Тельняшка", at: 1200, slot: "body" },
-  { id: "glasses", name: "Очки «Матрица»", at: 1600, slot: "eyes" },
-  { id: "cig", name: "Сигарета", at: 2000, slot: "mouth" },
-  { id: "tracksuit", name: "Спортивка abibas", at: 2600, slot: "body" },
-  { id: "mic", name: "Микрофон", at: 3200, slot: "paw" },
-  { id: "bag", name: "Барсетка", at: 4000, slot: "bag" },
-  { id: "ushanka", name: "Ушанка", at: 5000, slot: "head" },
-  { id: "hawaii", name: "Гавайская рубашка", at: 6000, slot: "body" },
-  { id: "helmet", name: "Строительная каска", at: 7000, slot: "head" },
-  { id: "tablet", name: "Планшет", at: 8400, slot: "paw" },
-  { id: "mouse", name: "Мышь", at: 10000, slot: "pet" },
-  { id: "skate", name: "Скейтборд", at: 12000, slot: "ride" },
-  { id: "puffer", name: "Пуховик-дутик", at: 14000, slot: "body" },
-  { id: "bike", name: "Велосипед «Урал»", at: 16000, slot: "ride" },
-  { id: "truck", name: "Фура", at: 20000, slot: "ride" },
-  { id: "suit", name: "Костюм с бабочкой", at: 25000, slot: "body" },
-  { id: "kitten", name: "Котёнок для Сипсика", at: 30000, slot: "pet" },
+  item("panama", 20, "head"),
+  item("seeds", 50, "paw"),
+  item("coffee", 100, "paw"),
+  item("chain", 200, "neck"),
+  item("bandana", 300, "head"),
+  item("cap", 500, "head"),
+  item("lemonade", 800, "paw"),
+  item("stripes", 1200, "body"),
+  item("glasses", 1600, "eyes"),
+  item("cig", 2000, "mouth"),
+  item("tracksuit", 2600, "body"),
+  item("mic", 3200, "paw"),
+  item("bag", 4000, "bag"),
+  item("ushanka", 5000, "head"),
+  item("hawaii", 6000, "body"),
+  item("helmet", 7000, "head"),
+  item("tablet", 8400, "paw"),
+  item("mouse", 10000, "pet"),
+  item("skate", 12000, "ride"),
+  item("puffer", 14000, "body"),
+  item("bike", 16000, "ride"),
+  item("truck", 20000, "ride"),
+  item("suit", 25000, "body"),
+  item("kitten", 30000, "pet"),
 ];
 
 export const ITEM_BY_ID = Object.fromEntries(ITEMS.map((i) => [i.id, i])) as Record<ItemId, Item>;

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { t } from "@/domain/i18n";
 import { Button } from "@/shared/ui/button";
 import { Card, CardTitle } from "@/shared/ui/card";
 import { useSessionStore } from "@/stores/session";
@@ -13,11 +14,9 @@ const couple = computed(() => session.app.couple);
 
 <template>
   <Card v-if="session.solo && couple.invite_link" tone="dark" class="my-1 gap-2.5">
-    <CardTitle>Поделиться котиком</CardTitle>
+    <CardTitle>{{ t("settings.invite.shareTitle") }}</CardTitle>
     <p class="mt-1 text-[13px] opacity-80">
-      Если захочешь, можно позвать близкого человека. Тогда {{ session.petName }}, вишлист и списки
-      станут общими, а всё, что ты уже
-      {{ session.gendered("добавил", "добавила", "добавил(а)") }}, сохранится.
+      {{ session.gendered("settings.invite.shareInfo", { pet: session.petName }) }}
     </p>
     <div
       class="bg-navy-2 rounded-[14px] px-3 py-2.5 text-[13px] font-semibold wrap-anywhere select-all"
@@ -25,18 +24,24 @@ const couple = computed(() => session.app.couple);
       {{ couple.invite_link }}
     </div>
     <div class="grid grid-cols-2 gap-2">
-      <Button variant="secondary" @click="shareInvite">Отправить</Button>
-      <Button variant="inverse" @click="copyInvite">Скопировать</Button>
+      <Button variant="secondary" @click="shareInvite">{{ t("common.actions.send") }}</Button>
+      <Button variant="inverse" @click="copyInvite">{{ t("settings.invite.copy") }}</Button>
     </div>
   </Card>
   <template v-else-if="couple.invite_link">
     <p class="text-muted-foreground text-[13px]">
-      Код приглашения: <b>{{ couple.invite_code }}</b>
+      {{ t("settings.invite.code") }} <b>{{ couple.invite_code }}</b>
     </p>
-    <Button variant="secondary" @click="shareInvite">Пригласить {{ session.other.gen }}</Button>
+    <Button variant="secondary" @click="shareInvite">{{
+      t("settings.invite.invite", { who: session.other.gen })
+    }}</Button>
   </template>
   <p v-else class="text-muted-foreground text-[13px]">
-    {{ session.friends ? "Вы вместе" : "Вы в паре" }}: {{ session.meName }} и
-    {{ session.partnerName }}
+    {{
+      t(session.friends ? "settings.invite.together" : "settings.invite.inPair", {
+        me: session.meName,
+        partner: session.partnerName,
+      })
+    }}
   </p>
 </template>

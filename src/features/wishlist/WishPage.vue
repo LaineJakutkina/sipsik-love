@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { LockIcon } from "@lucide/vue";
 import { computed, onBeforeUnmount, ref } from "vue";
+import { t, tg } from "@/domain/i18n";
 import type { Id, Who } from "@/domain/types";
 import InviteCard from "@/features/settings/InviteCard.vue";
 import { AnimatedList, EmptyState, Expand, SegmentedPills } from "@/shared/components";
@@ -16,8 +17,8 @@ const wishUi = useWishUiStore();
 const wishes = useWishes();
 
 const options = computed(() => [
-  { value: "me" as const, label: "Хочу я" },
-  { value: "partner" as const, label: `Хочет ${session.partnerName}` },
+  { value: "me" as const, label: t("wishlist.page.mine") },
+  { value: "partner" as const, label: t("wishlist.page.partner", { name: session.partnerName }) },
 ]);
 const who = computed({
   get: () => wishUi.who,
@@ -30,6 +31,13 @@ const list = computed(() =>
     .sort((a, b) => Number(a.done) - Number(b.done)),
 );
 const delArm = ref<Id | null>(null);
+const empty = computed(() =>
+  mine.value
+    ? t("wishlist.page.emptyMine")
+    : tg("wishlist.page.emptyPartner", session.app.partner?.gender, {
+        name: session.partnerName,
+      }),
+);
 
 function remove(id: Id) {
   if (wishes.remove(id)) delArm.value = null;
@@ -39,11 +47,18 @@ onBeforeUnmount(() => wishUi.closeForm());
 </script>
 
 <template>
-  <SegmentedPills v-if="!session.solo" v-model="who" :options track light label="Чей список" />
+  <SegmentedPills
+    v-if="!session.solo"
+    v-model="who"
+    :options
+    track
+    light
+    :label="t('wishlist.page.whose')"
+  />
   <template v-if="!mine && !session.app.partner">
     <InviteCard />
     <EmptyState>
-      Когда {{ session.other.nom }} присоединится, здесь появятся его желания.
+      {{ t("wishlist.page.noPartner", { other: session.other.nom }) }}
     </EmptyState>
   </template>
   <template v-else>
@@ -54,14 +69,14 @@ onBeforeUnmount(() => wishUi.closeForm());
       <LockIcon class="size-[15px] flex-none" :stroke-width="2.2" aria-hidden="true" />
       {{
         mine
-          ? "Кто готовит тебе подарок, ты не увидишь"
-          : `Отметь, что даришь ты. ${session.partnerName} этого не увидит`
+          ? t("wishlist.page.secretMine")
+          : t("wishlist.page.secretPartner", { name: session.partnerName })
       }}
     </p>
     <Expand>
       <WishForm v-if="wishUi.formOpen" />
       <Button v-else variant="secondary" block @click="wishUi.showForm()">
-        + Добавить желание
+        {{ t("wishlist.page.add") }}
       </Button>
     </Expand>
     <AnimatedList v-if="list.length" as="div" grid class="grid grid-cols-2 gap-3">
@@ -75,9 +90,6 @@ onBeforeUnmount(() => wishUi.closeForm());
         @remove="remove(w.id)"
       />
     </AnimatedList>
-    <EmptyState v-else>
-      {{ mine ? "Список пока пуст" : `${session.partnerName} пока ничего не загадал(а)` }}. Добавь
-      первое желание.
-    </EmptyState>
+    <EmptyState v-else>{{ empty }}</EmptyState>
   </template>
 </template>

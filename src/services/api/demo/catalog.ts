@@ -5,11 +5,30 @@
 /* oxlint-disable */
 
 export const ITEMS: readonly (readonly [string, number, string])[] = [
-  ["panama", 20, "head"], ["seeds", 50, "paw"], ["coffee", 100, "paw"], ["chain", 200, "neck"], ["bandana", 300, "head"],
-  ["cap", 500, "head"], ["lemonade", 800, "paw"], ["stripes", 1200, "body"], ["glasses", 1600, "eyes"], ["cig", 2000, "mouth"],
-  ["tracksuit", 2600, "body"], ["mic", 3200, "paw"], ["bag", 4000, "bag"], ["ushanka", 5000, "head"], ["hawaii", 6000, "body"],
-  ["helmet", 7000, "head"], ["tablet", 8400, "paw"], ["mouse", 10000, "pet"], ["skate", 12000, "ride"], ["puffer", 14000, "body"],
-  ["bike", 16000, "ride"], ["truck", 20000, "ride"], ["suit", 25000, "body"], ["kitten", 30000, "pet"],
+  ["panama", 20, "head"],
+  ["seeds", 50, "paw"],
+  ["coffee", 100, "paw"],
+  ["chain", 200, "neck"],
+  ["bandana", 300, "head"],
+  ["cap", 500, "head"],
+  ["lemonade", 800, "paw"],
+  ["stripes", 1200, "body"],
+  ["glasses", 1600, "eyes"],
+  ["cig", 2000, "mouth"],
+  ["tracksuit", 2600, "body"],
+  ["mic", 3200, "paw"],
+  ["bag", 4000, "bag"],
+  ["ushanka", 5000, "head"],
+  ["hawaii", 6000, "body"],
+  ["helmet", 7000, "head"],
+  ["tablet", 8400, "paw"],
+  ["mouse", 10000, "pet"],
+  ["skate", 12000, "ride"],
+  ["puffer", 14000, "body"],
+  ["bike", 16000, "ride"],
+  ["truck", 20000, "ride"],
+  ["suit", 25000, "body"],
+  ["kitten", 30000, "pet"],
 ];
 
 export const TASKS: readonly string[] = [
@@ -198,19 +217,54 @@ export const FRIEND_QUESTIONS: readonly string[] = [
   "Что ты хочешь успеть до конца года?",
 ];
 
-export const SOS_REPLIES: readonly string[] = ["Я рядом 💜", "Иду обнимать 🫂", "Слушаю тебя 👂", "Дам тебе время 🌙", "Давай помиримся 🕊"];
+export const SOS_REPLIES: readonly string[] = [
+  "Я рядом 💜",
+  "Иду обнимать 🫂",
+  "Слушаю тебя 👂",
+  "Дам тебе время 🌙",
+  "Давай помиримся 🕊",
+];
 
-export const TALK_REPLIES: readonly string[] = ["Слышу тебя 💜", "Прости меня", "Давай обсудим вечером", "Мне нужно немного подумать"];
+export const TALK_REPLIES: readonly string[] = [
+  "Слышу тебя 💜",
+  "Прости меня",
+  "Давай обсудим вечером",
+  "Мне нужно немного подумать",
+];
 
 export const SOS: Record<string, { emoji: string; ask: string; askF?: string; tip: string }> = {
-  hug:    { emoji: "🫂", ask: "Обними без лишних вопросов", tip: "Не спрашивай «что случилось». Просто обними и побудь рядом пару минут." },
-  listen: { emoji: "👂", ask: "Выслушай меня", tip: "Слушай, не перебивай и не давай советов, пока не попросят. Можно просто сказать: «Я тебя слышу»." },
-  space:  { emoji: "🌙", ask: "Мне нужно немного побыть одному", askF: "Мне нужно немного побыть одной", tip: "Дай немного времени и не принимай на свой счёт. Напиши, что ты рядом и можно прийти в любой момент." },
-  calm:   { emoji: "🕊", ask: "Мы поссорились, давай остынем и помиримся", tip: "Сделайте паузу минут на 20. Потом начни с «я»: «мне было обидно, когда…», а не «ты всегда…». Цель — понять друг друга, а не выиграть спор." },
-  care:   { emoji: "🍵", ask: "Позаботься обо мне", tip: "Чай, плед, что-нибудь вкусное или пара тёплых слов. Маленькая забота сейчас значит очень много." },
+  hug: {
+    emoji: "🫂",
+    ask: "Обними без лишних вопросов",
+    tip: "Не спрашивай «что случилось». Просто обними и побудь рядом пару минут.",
+  },
+  listen: {
+    emoji: "👂",
+    ask: "Выслушай меня",
+    tip: "Слушай, не перебивай и не давай советов, пока не попросят. Можно просто сказать: «Я тебя слышу».",
+  },
+  space: {
+    emoji: "🌙",
+    ask: "Мне нужно немного побыть одному",
+    askF: "Мне нужно немного побыть одной",
+    tip: "Дай немного времени и не принимай на свой счёт. Напиши, что ты рядом и можно прийти в любой момент.",
+  },
+  calm: {
+    emoji: "🕊",
+    ask: "Мы поссорились, давай остынем и помиримся",
+    tip: "Сделайте паузу минут на 20. Потом начни с «я»: «мне было обидно, когда…», а не «ты всегда…». Цель — понять друг друга, а не выиграть спор.",
+  },
+  care: {
+    emoji: "🍵",
+    ask: "Позаботься обо мне",
+    tip: "Чай, плед, что-нибудь вкусное или пара тёплых слов. Маленькая забота сейчас значит очень много.",
+  },
 };
 
-export const COATS: Record<string, { n: string; price: number; animal?: boolean; about?: string; aboutEn?: string }> = {
+export const COATS: Record<
+  string,
+  { n: string; price: number; animal?: boolean; about?: string; aboutEn?: string }
+> = {
   black: { n: "Чёрный", price: 0 },
   ginger: { n: "Рыжий", price: 50 },
   grey: { n: "Серый", price: 50 },
@@ -232,6 +286,16 @@ export const COATS: Record<string, { n: string; price: number; animal?: boolean;
   vampire: { n: "Вампир", price: 100, animal: true },
   // Говорящие котики (супер-бонус): на 1-м и каждом 50-м тапе говорят фразу
   joker: { n: "Кот-анекдот", price: 200, about: "рассказывает анекдоты", aboutEn: "tells jokes" },
-  carer: { n: "Кот-поддержка", price: 200, about: "говорит слова поддержки", aboutEn: "says kind, supportive words" },
-  scholar: { n: "Кот-учёный", price: 200, about: "делится фактами о мире", aboutEn: "shares facts about the world" },
+  carer: {
+    n: "Кот-поддержка",
+    price: 200,
+    about: "говорит слова поддержки",
+    aboutEn: "says kind, supportive words",
+  },
+  scholar: {
+    n: "Кот-учёный",
+    price: 200,
+    about: "делится фактами о мире",
+    aboutEn: "shares facts about the world",
+  },
 };

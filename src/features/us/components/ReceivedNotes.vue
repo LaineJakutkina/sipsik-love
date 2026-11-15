@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { formatDateTime } from "@/domain/dates";
+import { t } from "@/domain/i18n";
 import { ListRow, ListSub } from "@/shared/components";
 import { Card, CardTitle } from "@/shared/ui/card";
 import { useSessionStore } from "@/stores/session";
@@ -13,7 +14,11 @@ const notes = computed(() => session.app.notes.received.slice(0, 3));
 <template>
   <Card v-if="notes.length">
     <CardTitle>
-      {{ session.solo ? "Записки из прошлого" : `Записки от ${session.partnerName}` }}
+      {{
+        session.solo
+          ? t("us.received.titleSolo")
+          : t("us.received.titleCouple", { name: session.partnerName })
+      }}
     </CardTitle>
     <ul class="mt-3 flex flex-col">
       <ListRow v-for="n in notes" :key="n.id">

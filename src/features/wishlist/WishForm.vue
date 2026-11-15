@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, reactive, useTemplateRef, watch } from "vue";
+import { t } from "@/domain/i18n";
 import type { Photo } from "@/domain/types";
 import { PhotoPicker } from "@/shared/components";
 import { Button } from "@/shared/ui/button";
@@ -43,26 +44,46 @@ async function submit() {
 
 <template>
   <Card as="form" class="gap-2" novalidate @submit.prevent="submit">
-    <CardTitle>Новое желание {{ mine ? "для меня" : `для ${session.partnerName}` }}</CardTitle>
+    <CardTitle>
+      {{
+        mine
+          ? t("wishlist.form.titleMine")
+          : t("wishlist.form.titlePartner", { name: session.partnerName })
+      }}
+    </CardTitle>
     <p v-if="used >= limit" class="text-muted-foreground text-[13px]">
-      Фото: {{ limit }} из {{ limit }}. Чтобы добавить новое, удали одно из желаний с фото
+      {{ t("wishlist.form.photosFull", { limit }) }}
     </p>
     <PhotoPicker
       v-else
-      :title="photo ? 'Фото добавлено' : 'Добавить фото'"
-      :subtitle="photo ? 'Нажми, чтобы заменить' : `Скриншот или фото вещи · ${used} из ${limit}`"
+      :title="photo ? t('wishlist.form.photoAdded') : t('wishlist.form.addPhoto')"
+      :subtitle="
+        photo ? t('wishlist.form.replaceHint') : t('wishlist.form.photoHint', { used, limit })
+      "
       :preview="photo?.thumb"
       @pick="pick"
     />
-    <Input ref="title" v-model="draft.title" placeholder="Что хочется" maxlength="120" />
+    <Input
+      ref="title"
+      v-model="draft.title"
+      :placeholder="t('wishlist.form.what')"
+      maxlength="120"
+    />
     <div class="grid grid-cols-2 gap-2">
-      <Input v-model="draft.price" placeholder="Цена" maxlength="40" />
-      <Input v-model="draft.link" type="url" placeholder="Ссылка" maxlength="500" />
+      <Input v-model="draft.price" :placeholder="t('wishlist.form.price')" maxlength="40" />
+      <Input
+        v-model="draft.link"
+        type="url"
+        :placeholder="t('wishlist.form.link')"
+        maxlength="500"
+      />
     </div>
-    <Input v-model="draft.note" placeholder="Размер, цвет, где купить" maxlength="300" />
+    <Input v-model="draft.note" :placeholder="t('wishlist.form.note')" maxlength="300" />
     <div class="grid grid-cols-2 gap-2">
-      <Button variant="outline" @click="wishUi.closeForm()">Отмена</Button>
-      <Button type="submit">Добавить</Button>
+      <Button variant="outline" @click="wishUi.closeForm()">
+        {{ t("common.actions.cancel") }}
+      </Button>
+      <Button type="submit">{{ t("common.actions.add") }}</Button>
     </div>
   </Card>
 </template>

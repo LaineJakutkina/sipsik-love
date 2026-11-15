@@ -3,6 +3,7 @@ import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import AppShell from "@/app/AppShell.vue";
 import { today } from "@/domain/dates";
+import { t, type MessageKey } from "@/domain/i18n";
 import { GENDER_OPTIONS, type Gender, type MoodId } from "@/domain/moods";
 import CatStage from "@/game/vue/CatStage.vue";
 import { notify } from "@/services/notify";
@@ -15,12 +16,12 @@ import { useSessionStore } from "@/stores/session";
 
 type Step = "start" | "create" | "friends" | "solo" | "join";
 
-const STEPS: Record<Step, { mood: MoodId; title: (name: string) => string }> = {
-  start: { mood: "happy", title: (name) => `Привет, ${name}!` },
-  create: { mood: "happy", title: () => "Новая пара" },
-  friends: { mood: "happy", title: () => "Мы друзья" },
-  solo: { mood: "happy", title: () => "Ты и Сипсик" },
-  join: { mood: "neutral", title: () => "По приглашению" },
+const STEPS: Record<Step, { mood: MoodId; title: MessageKey }> = {
+  start: { mood: "happy", title: "onboarding.title.start" },
+  create: { mood: "happy", title: "onboarding.title.create" },
+  friends: { mood: "happy", title: "onboarding.title.friends" },
+  solo: { mood: "happy", title: "onboarding.title.solo" },
+  join: { mood: "neutral", title: "onboarding.title.join" },
 };
 
 const session = useSessionStore();
@@ -30,7 +31,12 @@ const step = ref<Step>("start");
 const name = ref(session.meName);
 const gender = ref<Gender | "">("");
 const start = ref("");
-const pet = ref("Сипсик");
+/** Until the user types a name of their own, the default follows the language */
+const petInput = ref<string>();
+const pet = computed({
+  get: () => petInput.value ?? t("onboarding.form.defaultPet"),
+  set: (v: string) => (petInput.value = v),
+});
 const code = ref("");
 
 function welcome() {
@@ -40,17 +46,17 @@ function welcome() {
 
 type FormStep = Exclude<Step, "start" | "join">;
 
-const CREATE_LABEL: Record<FormStep, string> = {
-  create: "Создать пару",
-  friends: "Создать",
-  solo: "Начать",
+const CREATE_LABEL: Record<FormStep, MessageKey> = {
+  create: "onboarding.submit.create",
+  friends: "onboarding.submit.friends",
+  solo: "onboarding.submit.solo",
 };
 
 /** The create form is shown only on these steps */
 const formStep = computed(() => step.value as FormStep);
 
 async function create(kind: FormStep) {
-  if (kind === "create" && !start.value) return notify("Укажи, с какого дня вы вместе");
+  if (kind === "create" && !start.value) return notify(t("onboarding.needStart"));
   const modePayload =
     kind === "solo"
       ? { solo: true }
@@ -70,7 +76,7 @@ async function create(kind: FormStep) {
 
 async function join() {
   const c = code.value.trim();
-  if (!c) return notify("Введи код");
+  if (!c) return notify(t("onboarding.needCode"));
   if (!(await session.act("couple.join", { code: c }))) return;
   welcome();
   notify(session.togetherMessage);
@@ -81,64 +87,63 @@ async function join() {
   <AppShell>
     <template #band>
       <CatStage :look="{ mood: STEPS[step].mood, worn: {} }" />
-      <h1>{{ STEPS[step].title(session.meName) }}</h1>
+      <h1>{{ t(STEPS[step].title, { name: session.meName }) }}</h1>
     </template>
 
     <Card v-if="step === 'start'" class="gap-3.5">
-      <p>
-        Сипсик Love — уютное пространство с котиком, который собирает вещи за тапы. Внутри
-        вишлист с фото, календарь с днями рождения, покупки, дела и записки-сюрпризы. Для пары,
-        для друзей или только для тебя.
-      </p>
-      <Button @click="step = 'create'">Мы пара</Button>
-      <Button @click="step = 'friends'">Мы друзья</Button>
-      <Button variant="outline" @click="step = 'solo'">Только я и Сипсик</Button>
-      <Button variant="outline" @click="step = 'join'">У меня есть приглашение</Button>
+      <p>{{ t("onboarding.intro") }}</p>
+      <Button @click="step = 'create'">{{ t("onboarding.choose.pair") }}</Button>
+      <Button @click="step = 'friends'">{{ t("onboarding.choose.friends") }}</Button>
+      <Button variant="outline" @click="step = 'solo'">{{ t("onboarding.choose.solo") }}</Button>
+      <Button variant="outline" @click="step = 'join'">{{ t("onboarding.choose.join") }}</Button>
     </Card>
 
     <Card v-else-if="step === 'join'" as="form" class="gap-2" @submit.prevent="join">
       <p class="text-muted-foreground text-[13px]">
-        Проще всего перейти по ссылке, которую тебе прислали. Если есть только код из шести
-        символов, введи его здесь.
+        {{ t("onboarding.join.text") }}
       </p>
       <Input
         v-model="code"
-        placeholder="Например, K7F2QX"
+        :placeholder="t('onboarding.join.placeholder')"
         maxlength="12"
         autocapitalize="characters"
         autocomplete="off"
-        aria-label="Код приглашения"
+        :aria-label="t('onboarding.join.aria')"
       />
-      <Button type="submit">Присоединиться</Button>
-      <Button type="button" variant="outline" @click="step = 'start'">Назад</Button>
+      <Button type="submit">{{ t("onboarding.join.submit") }}</Button>
+      <Button type="button" variant="outline" @click="step = 'start'">{{
+        t("common.actions.back")
+      }}</Button>
     </Card>
 
     <Card v-else as="form" class="gap-2" @submit.prevent="create(formStep)">
       <p v-if="step === 'solo'" class="text-muted-foreground text-[13px]">
-        Твой котик, вишлист, покупки, дела, календарь, дневник благодарности и записки себе в
-        будущее. Всё это только для тебя.
+        {{ t("onboarding.form.soloText") }}
       </p>
       <p v-else-if="step === 'friends'" class="text-muted-foreground text-[13px]">
-        Общий котик, вишлисты с фото, календарь с днями рождения, покупки и записки-сюрпризы для
-        двоих друзей. После создания пригласишь друга по ссылке.
+        {{ t("onboarding.form.friendsText") }}
       </p>
-      <Field label="Как тебя зовут">
+      <Field :label="t('onboarding.form.name')">
         <Input v-model="name" maxlength="30" />
       </Field>
-      <Field label="Как к тебе обращаться" as="div">
-        <SegmentedPills v-model="gender" :options="GENDER_OPTIONS" label="Как к тебе обращаться" />
+      <Field :label="t('onboarding.form.gender')" as="div">
+        <SegmentedPills
+          v-model="gender"
+          :options="GENDER_OPTIONS"
+          :label="t('onboarding.form.gender')"
+        />
       </Field>
-      <Field v-if="step === 'create'" label="Дата начала отношений">
-        <DateField v-model="start" placeholder="Выбери дату" :max="today()" />
-        <Hint>
-          С этого дня Сипсик считает, сколько дней вы вместе. Потом можно поменять в настройках
-        </Hint>
+      <Field v-if="step === 'create'" :label="t('onboarding.form.startDate')">
+        <DateField v-model="start" :placeholder="t('onboarding.form.pickDate')" :max="today()" />
+        <Hint>{{ t("onboarding.form.startHint") }}</Hint>
       </Field>
-      <Field label="Имя котика">
+      <Field :label="t('onboarding.form.petName')">
         <Input v-model="pet" maxlength="30" />
       </Field>
-      <Button type="submit">{{ CREATE_LABEL[formStep] }}</Button>
-      <Button type="button" variant="outline" @click="step = 'start'">Назад</Button>
+      <Button type="submit">{{ t(CREATE_LABEL[formStep]) }}</Button>
+      <Button type="button" variant="outline" @click="step = 'start'">{{
+        t("common.actions.back")
+      }}</Button>
     </Card>
   </AppShell>
 </template>

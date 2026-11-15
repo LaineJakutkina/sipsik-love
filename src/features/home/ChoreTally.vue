@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { plural } from "@/shared/lib/plural";
+import { formatNumber, t, tn } from "@/domain/i18n";
 
 /** One person's chores: how many are theirs and how many are done today; the partner's tile is navy */
 defineProps<{ name: string; count: number; done: number; dark?: boolean }>();
@@ -12,11 +12,11 @@ defineProps<{ name: string; count: number; done: number; dark?: boolean }>();
   >
     <span class="block truncate text-xs font-bold opacity-75">{{ name }}</span>
     <p class="flex items-baseline gap-1.5">
-      <b class="tabular text-[28px] leading-tight font-extrabold">{{ count }}</b>
-      <span class="text-[13px] font-bold">{{ plural(count, ["дело", "дела", "дел"]) }}</span>
+      <b class="tabular text-[28px] leading-tight font-extrabold">{{ formatNumber(count) }}</b>
+      <span class="text-[13px] font-bold">{{ tn("home.tally.unit", count) }}</span>
     </p>
     <span v-if="count" class="tabular block text-xs font-semibold opacity-75">
-      сегодня сделано {{ done }} из {{ count }}
+      {{ t("home.tally.doneToday", { done, count }) }}
     </span>
   </div>
 </template>

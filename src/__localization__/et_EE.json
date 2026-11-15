@@ -1,0 +1,1038 @@
+{
+  "common": {
+    "actions": {
+      "add": "Lisa",
+      "cancel": "Tühista",
+      "back": "Tagasi",
+      "save": "Salvesta",
+      "close": "Sule",
+      "send": "Saada",
+      "delete": "Kustuta",
+      "hide": "Peida",
+      "addMore": "+Lisa"
+    },
+    "savingWait": "Hetk, säästa...",
+    "units": {
+      "days": "päev | päev | päevadel",
+      "years": "aasta | aasta | aastat",
+      "taps": "puudutage | tapa | kraanid"
+    },
+    "count": {
+      "days": "{n} päev | {n} päeva | {n} päeva",
+      "years": "{n} aasta | {n} aastat | {n} aastat"
+    }
+  },
+  "settings": {
+    "language": {
+      "label": "Keel",
+      "auto": "Nagu Telegramis – {name}"
+    },
+    "title": {
+      "pair": "Sidumisseaded",
+      "other": "Seaded"
+    },
+    "myName": "Sinu nimi",
+    "gender": "Kuidas teiega ühendust võtta",
+    "petName": "Kassi nimi",
+    "mode": {
+      "label": "Kes te olete üksteisele",
+      "pair": "Paari",
+      "friends": "Sõbrad"
+    },
+    "startDate": "Suhte algus",
+    "notify": "Saada telegrammi, mis märgib {name}",
+    "saved": "Salvestatud",
+    "nowFriends": "Nüüd olete sõbrad 🤝",
+    "nowPair": "Nüüd olete paar 💜",
+    "privacy": "Privaatsus ja andmete kustutamine",
+    "leave": {
+      "confirmSolo": "Täpselt? Kass, sooviloend ja kõik nimekirjad kustutatakse. Vajutage uuesti",
+      "confirm": "Kas oled kindel, et tahad välja minna? Teie soovid eemaldatakse. Vajutage uuesti",
+      "restart": "Alusta uuesti",
+      "leaveSpace": "Kao ruumist välja",
+      "leavePair": "Jäta paar",
+      "cleared": "Kõik on kustutatud, võite uuesti alustada",
+      "left": {
+        "m": "Sa oled väljas",
+        "f": "Sa tulid välja",
+        "n": "Sa oled väljas"
+      },
+      "leftPair": {
+        "m": "Sa lahkusid paarist",
+        "f": "Sa lahkusid paarist",
+        "n": "Sa lahkusid paarist"
+      }
+    },
+    "invite": {
+      "shareText": "Liitu minuga Sipsik Love’s: meil on ühine kass, soovinimekiri ja kalender",
+      "copy": "Kopeeri",
+      "inviteFriend": "Kutsu sõber",
+      "invitePartner": "Kutsu oma hingesugulane",
+      "cardText": "Saada link. Niipea kui {who} selle avab, on teil ühine kass ja kõik loendid.",
+      "shareTitle": "Jaga kassi",
+      "shareInfo": {
+        "m": "Soovi korral võid kallimale helistada. Seejärel muutuvad {pet}, sooviloend ja loendid tavaliseks ning kõik, mille olete juba lisanud, salvestatakse.",
+        "f": "Soovi korral võid kallimale helistada. Seejärel muutuvad {pet}, sooviloend ja loendid tavaliseks ning kõik, mille olete juba lisanud, salvestatakse.",
+        "n": "Soovi korral võid kallimale helistada. Seejärel muutuvad {pet}, sooviloend ja loendid tavaliseks ning kõik, mille olete juba lisanud, salvestatakse."
+      },
+      "code": "Kutse kood:",
+      "invite": "Kutsu {who}",
+      "together": "Olete koos: {me} ja {partner}",
+      "inPair": "Olete seotud: {me} ja {partner}"
+    }
+  },
+  "domain": {
+    "care": {
+      "sos": {
+        "hug": "Kallista, ühtegi küsimust ei esitata",
+        "listen": "Kuula mind",
+        "space": "Ma vajan aega üksi",
+        "spaceF": "Ma vajan aega üksi",
+        "calm": "Läksime tülli, jahutame maha ja lepime rahu",
+        "care": "Hoolitse minu eest"
+      },
+      "feelings": {
+        "hurt": "solvumine",
+        "anxiety": "äratus",
+        "sadness": "kurbust",
+        "tiredness": "väsimus",
+        "irritation": "ärritust",
+        "loneliness": "üksindus",
+        "confusion": "segadus",
+        "disappointment": "pettumus",
+        "jealousy": "armukadedus",
+        "helplessness": "impotentsus"
+      },
+      "needs": {
+        "attention": "tähelepanu",
+        "support": "toetust",
+        "respect": "lugupidamine",
+        "predictability": "prognoositavus",
+        "rest": "puhata",
+        "closeness": "lähedus",
+        "honesty": "ausus",
+        "help": "abi",
+        "freedom": "vabadust",
+        "care": "hoolitseda"
+      },
+      "blame": "alati, mitte kunagi, uuesti, igavesti, spetsiaalselt, nagu tavaliselt, pidevalt",
+      "talk": {
+        "factFeelings": "Kui {fact}, tunnen end {feelings}.",
+        "fact": "Kui {fact}.",
+        "feelings": "Ma tunnen, et {feelings}.",
+        "needs": "Minu jaoks on oluline: {needs}.",
+        "ask": "Minu taotlus: {ask}."
+      },
+      "thanks": {
+        "couple": {
+          "nearby": "et ta oli läheduses",
+          "dinner": "maitsvaks õhtusöögiks",
+          "chores": "et ta aitas maja ümber",
+          "support": "teie toetuse eest",
+          "laugh": "see ajas mind naerma"
+        },
+        "solo": {
+          "breakfast": "maitsev hommikusöök",
+          "sun": "Päike",
+          "friend": "sõbraga kohtumine",
+          "rest": "puhata",
+          "win": "väike võit"
+        }
+      }
+    },
+    "catalog": {
+      "quickShopping": {
+        "bread": "Leib",
+        "eggs": "Munad",
+        "milk": "Piim",
+        "sugar": "Suhkur",
+        "coffee": "Kohv",
+        "catFood": "Sööda Sipsiku"
+      },
+      "choreFrequency": {
+        "daily": "Iga päev",
+        "twiceWeekly": "2 korda nädalas",
+        "weekly": "Kord nädalas",
+        "monthly": "Kord kuus"
+      }
+    },
+    "catPhrases": {
+      "title": {
+        "jokes": "Kassi nali",
+        "care": "Tugikass",
+        "facts": "Kasside teadlane"
+      },
+      "about": {
+        "jokes": "Räägib lühikesi tänapäevaseid nalju",
+        "care": "Räägib õrnaid toetussõnu",
+        "facts": "Jagab hämmastavaid fakte maailma kohta"
+      },
+      "jokes": {
+        "j01": "Ostsin nutikella. Nüüd tuletavad nad mulle iga tund meelde, et ma istun. Tänan, olen teadlik.",
+        "j02": "Parool peab sisaldama suurt tähte, numbrit ja sümbolit. Sisestas \"Kitty1!\" Kirjutab: \"Liiga lihtne.\" Olin kassi peale solvunud.",
+        "j03": "- Miks sa hiljaks jäid? — Panin äratuskella seitsmeks. - JA? - Ta helistas. Ma olin ka üllatunud.",
+        "j04": "Tahtsin esmaspäeval uut elu alustada. Esmaspäev tuli jälle ilma hoiatuseta.",
+        "j05": "Tootlikumaks muutmiseks kustutasin kõik mängud. Nüüd kerin produktiivselt oma voogu.",
+        "j06": "Kuller kirjutas: \"Olen 5 minuti pärast kohal.\" See oli eile. Ilmselt on tal omad hetked.",
+        "j07": "Registreeritud jõusaali. Olen sellest juba kuu aega mööda kõndinud – see on kardio jaoks suurepärane.",
+        "j08": "Kass magab 16 tundi ööpäevas, mina kuus. Kumb meist on targem, on suletud küsimus.",
+        "j09": "- Kui kaua sa pead valmistuma? - Viis minutit. - Kas see on õiglane? - Nelikümmend. Kuid viiele neist ütlen: \"Ma lahkun.\"",
+        "j10": "Nädalavahetuse plaan: lõõgastu. Fakt: võtsin kapi lahti, istutasin fikusse ümber ja olin rohkem väsinud kui nädalaga.",
+        "j11": "- Tere, kas see on tugiteenus? - Jah. - Toeta mind, palun. Lihtsalt moraalselt.",
+        "j12": "Sõber kirjutab: \"Kas sa magad?\" Vastan: \"Jah.\" Ta: \"Olgu.\" Nii me siis rääkisime.",
+        "j13": "Ütlesin endale: \"Ainult üks episood.\" Päike ei nõustunud – oli juba tõusmas.",
+        "j14": "Lapsena arvasin, et täiskasvanud teavad, mida teevad. Nüüd olen täiskasvanu ja tean kindlalt: ei.",
+        "j15": "Ostsin korraldaja, et asju korraldada. Nüüd otsin, kuhu korraldaja panna.",
+        "j16": "— Miks kassid alati käppadele kukuvad? - Sest võileivad võtsid teise poole.",
+        "j17": "Navigaator: \"300 meetri pärast pöörake paremale.\" Mina: \"Kus elus?\" Ta korraldas vaikides oma marsruudi ümber.",
+        "j18": "Otsustasin varakult magama minna. Ärkasin kell 2:40, et meenutada ebamugavat hetke seitsmendast klassist.",
+        "j19": "Mu kass arvab, et töötan tema heaks. Söötmisgraafiku järgi otsustades on tal õigus.",
+        "j20": "— Mida kinkida inimesele, kellel on kõik olemas? - Sipsis. Sipsis tal kindlasti ei ole.",
+        "j21": "Kirjutasin vestlusesse \"ok\". Sain vastuseks \"okei\". täpiga. Nüüd ma ei maga, analüüsin.",
+        "j22": "Läksin leiba tooma. Ostsin küünla, teki ja kolme sorti küpsiseid. Unustasin leiva, aga see on hubane.",
+        "j23": "Lülitasin režiimi Mitte segada sisse. Telefon mind enam ei häiri. Nüüd olen mures.",
+        "j24": "Ta ütles nutikale kõnelejale: \"Tuju loomiseks lülitage midagi sisse.\" Ta lülitas homseks äratuse sisse.",
+        "j25": "Otsustasin säästa raha ja mitte osta kaasavõetavat kohvi. Ostsin kohvimasina. Olen säästnud juba kolm aastat."
+      },
+      "care": {
+        "c01": "Sa teed piisavalt. Kas see on tõsi.",
+        "c02": "Sa ei pea täna produktiivne olema. Lihtsalt olemisest piisab.",
+        "c03": "Kui päev on raske, saate seda väikeste sammudega elada. Lonks vett on juba samm.",
+        "c04": "Teie tunded on olulised, isegi kui need on praegu ebamugavad.",
+        "c05": "Viga ei ole ebaõnnestumine. See on vaid osa sellest, kuidas me õpime.",
+        "c06": "Sa ei pea kõigega üksi hakkama saama. Abi küsimine on julge.",
+        "c07": "Pidage meeles, kui palju raskeid päevi on juba seljataga. Ka see läheb mööda.",
+        "c08": "Hinga sügavalt sisse... ja hinga aeglaselt välja. Olen lähedal, nurrun 🐾",
+        "c09": "Igaühel on oma aeg. Ärge jääge oma elus millekski hiljaks.",
+        "c10": "Ka väikesed rõõmud loevad: soe tee, tekk, see kass.",
+        "c11": "Kui täna õnnestus ainult püsti tõusta, on see ka võit.",
+        "c12": "Sa oled väärtuslik mitte oma tegude pärast, vaid lihtsalt sellepärast, et oled.",
+        "c13": "Sa võid olla kurb ja siiski kõik korras.",
+        "c14": "Olge enda vastu sama lahke kui oma sõprade vastu.",
+        "c15": "Kõike ei pea täna lahendama. Mõni asi võib vaikselt homseni oodata.",
+        "c16": "Võite öelda \"ei\" ja mitte selgitada, miks.",
+        "c17": "Puhkus on ka iseasi. Ja väga oluline.",
+        "c18": "Ärge võrrelge oma keskpunkti kellegi teise lõppmänguga.",
+        "c19": "Joo vett, söö midagi sooja, mine vara magama. Jälgin 🐾",
+        "c20": "Läheduses on neid, kes sinust hoolivad. Isegi kui see praegu nii ei tundu.",
+        "c21": "Täna võid ennast veidi kiita. Alustan: sa oled suurepärane inimene.",
+        "c22": "Kõik, mida praegu tunnete, muutub aja jooksul lihtsamaks.",
+        "c23": "Hea, et sa siin oled. Mul on sinuga koos soe.",
+        "c24": "Teil on õigus peatada. Maailm ootab paar minutit.",
+        "c25": "Saate juba palju ära teha – isegi kui te seda ise ei märka."
+      },
+      "facts": {
+        "f01": "Kassid magavad keskmiselt 12–16 tundi ööpäevas.",
+        "f02": "Kassid ei tunne magusat maitset: magusa retseptori geen neil ei tööta.",
+        "f03": "Kassi keel on kaetud pisikeste konksudega, millega ta kammib nagu harja oma karva.",
+        "f04": "Kaheksajalal on kolm südant ja sinine veri: see sisaldab raua asemel vaske.",
+        "f05": "Päikeselt tulev valgus jõuab Maale umbes 8 minuti 20 sekundiga.",
+        "f06": "Banaanid on kaalium-40 tõttu kergelt radioaktiivsed, kuid see on täiesti ohutu.",
+        "f07": "Täiskasvanul on 206 luud ja vastsündinul umbes 300 – paljud neist kasvavad hiljem kokku.",
+        "f08": "Veenusel tõuseb Päike läänes: planeet pöörleb \"tagurpidi\".",
+        "f09": "Päev Veenusel on pikem kui selle aasta: 243 Maa päeva versus 225.",
+        "f10": "Vombatid jätavad allapanu kuubikutena.",
+        "f11": "Vahel hoiavad merisaarmad magamise ajal käppadest kinni, et hoovus neid ära ei kannaks.",
+        "f12": "Suvel tõuseb Eiffeli torn umbes 15 cm võrra kõrgemale: metall paisub kuumusest.",
+        "f13": "Sinivaala süda kaalub umbes 180 kg.",
+        "f14": "Marsil on päikeseloojangud sinised ja päevad oranžikasroosad.",
+        "f15": "Ajaloo lühim sõda, 1896. aasta Anglo-Sansibari sõda, kestis vähem kui tund.",
+        "f16": "Botaanilisest seisukohast ei ole maasikas mari, aga banaan on mari.",
+        "f17": "Mesilased tantsivad, et näidata oma sugulastele, kust nad nektarit on leidnud.",
+        "f18": "Aju moodustab umbes 2% kehamassist, kuid kulutab umbes 20% kogu energiast.",
+        "f19": "Haid ilmusid Maale varem kui puud.",
+        "f20": "Flamingod on roosad nende toidus sisalduvate pigmentide – vetikate ja vähilaadsete – tõttu.",
+        "f21": "Kosmoses ei voola pisarad alla, vaid kogunevad silma lähedal asuvasse palli.",
+        "f22": "Elevandid tunnevad end peeglist ära – väga vähesed loomad suudavad seda teha.",
+        "f23": "Heli levib vees umbes 4 korda kiiremini kui õhus.",
+        "f24": "Aasta Neptuunil kestab umbes 165 Maa aastat.",
+        "f25": "Vesi võib korraga keeda ja külmuda – nn kolmikpunktis."
+      }
+    },
+    "coats": {
+      "names": {
+        "black": "Must",
+        "ginger": "Ingver",
+        "grey": "Hall",
+        "calico": "Kolmevärviline",
+        "siamese": "Siiami",
+        "frog": "Kärnkonn",
+        "dog": "Koer",
+        "fox": "Rebane",
+        "panda": "Panda",
+        "cow": "Lehm",
+        "penguin": "Pingviin",
+        "beaver": "Kobras",
+        "anon": "Anonüümne",
+        "vampire": "Vampiir",
+        "tuxedo": "Smoking",
+        "cream": "Kreem",
+        "choco": "Šokolaad",
+        "lavender": "Lavendel",
+        "joker": "Kassi nali",
+        "carer": "Tugikass",
+        "scholar": "Kasside teadlane"
+      }
+    },
+    "items": {
+      "names": {
+        "panama": "Panama abibas",
+        "seeds": "Seemned",
+        "coffee": "Kohv kaasa",
+        "chain": "Kuldne kett",
+        "bandana": "Bandana",
+        "cap": "Kork tagasi",
+        "lemonade": "Limonaad \"Pinocchio\"",
+        "stripes": "Vest",
+        "glasses": "Matrix prillid",
+        "cig": "Sigarett",
+        "tracksuit": "Pusa abibas",
+        "mic": "Mikrofon",
+        "bag": "Rahakott",
+        "ushanka": "Ušanka",
+        "hawaii": "Hawaii särk",
+        "helmet": "Ehituskiiver",
+        "tablet": "Tahvelarvuti",
+        "mouse": "Hiir",
+        "skate": "Rula",
+        "puffer": "Sulejope",
+        "bike": "Jalgratas \"Ural\"",
+        "truck": "Veoauto",
+        "suit": "Ülikond kikilipsuga",
+        "kitten": "Kassipoeg Sipsy jaoks"
+      }
+    },
+    "moods": {
+      "names": {
+        "tears": "Pisarad",
+        "tired": "Väsinud",
+        "angry": "Ma olen vihane",
+        "neutral": "Rahulikult",
+        "happy": "Õnnelik"
+      },
+      "partner": {
+        "tears": "kurb",
+        "tired": {
+          "m": "väsinud",
+          "f": "väsinud",
+          "n": "väsinud)"
+        },
+        "angry": "vihane",
+        "neutral": "rahulikult",
+        "happy": {
+          "m": "õnnelik",
+          "f": "õnnelik",
+          "n": "õnnelik"
+        }
+      },
+      "gender": {
+        "she": "Ta",
+        "he": "Ta"
+      }
+    },
+    "relationship": {
+      "yearly": "{title} · {n} aasta | {title} · {n} aastat | {title} · {n} aastat",
+      "daysTogether": "{n} päev koos | {n} päeva koos | {n} päeva koos",
+      "anniversary": "{n}. aastapäev"
+    }
+  },
+  "stores": {
+    "session": {
+      "other": {
+        "friend": {
+          "nom": "sõber",
+          "gen": "sõber",
+          "dat": "sõber"
+        },
+        "partner": {
+          "nom": "partner",
+          "gen": "partner",
+          "dat": "partner"
+        }
+      },
+      "together": {
+        "friends": "Olete nüüd koos!",
+        "pair": "Olete nüüd paar!"
+      },
+      "defaultName": {
+        "friend": "Sõber",
+        "partner": "Partner"
+      },
+      "petName": "Sipsis",
+      "offline": "Ühendust pole. Näidates, mis juhtus eelmisel korral"
+    },
+    "taps": {
+      "unlocked": "{name} sai: {items}!",
+      "tired": "{name} väsinud. Kraanid jätkuvad ka homme 😴",
+      "cheered": "{name} jälle õnnelik 💜"
+    }
+  },
+  "services": {
+    "notify": {
+      "copied": "Kopeeritud",
+      "copyManually": "Valige link ja kopeerige"
+    },
+    "api": {
+      "noResponse": "Server ei vastanud. Kontrollige Internetti ja proovige uuesti",
+      "serverError": "Serveri viga",
+      "unknown": "Midagi läks valesti"
+    }
+  },
+  "game": {
+    "items": {
+      "seedsLabel": "SEEMNED",
+      "lemonadeLabel": "Pinocchio"
+    }
+  },
+  "app": {
+    "brand": {
+      "name": "Sipsis",
+      "accent": "Armastus"
+    },
+    "nav": {
+      "label": "Sektsioonid",
+      "us": "Meie",
+      "plans": "Plaanid",
+      "home": "Maja",
+      "games": "Mängud",
+      "shop": "Pood"
+    },
+    "plans": {
+      "label": "Plaanide jaotis",
+      "cal": "Kalender",
+      "go": "Kohad",
+      "wish": "Soovid",
+      "myWishlist": "Minu soovinimekiri",
+      "ourWishlist": "Meie soovinimekiri"
+    },
+    "demo": {
+      "you": "🧪 Demo · teie – {name}",
+      "become": "Saa: {name}",
+      "reset": "Lähtesta",
+      "startOver": "Alusta uuesti:",
+      "ready": "Valmis paar",
+      "blank": "Nullist"
+    },
+    "photo": "Foto",
+    "sheetLoading": "Laadimine...",
+    "splashSkip": "Jätke avakuva vahele"
+  },
+  "shared": {
+    "photoPicker": {
+      "openFailed": "Seda fotot ei saanud avada"
+    }
+  },
+  "care": {
+    "actions": {
+      "sosSent": "Signaal saadetud {name} 💜",
+      "sosReplied": "Vastus saadetud 💜",
+      "sosResolved": "Tore, et tunnete end paremini 🌤",
+      "talkSent": "Sõnum saadetud hoolega 🕊",
+      "talkReplied": "Vastus saadetud 🕊",
+      "talkClosed": "Tore, et rääkisid 💜"
+    },
+    "breath": {
+      "title": "Hingake koos kassiga",
+      "secondsLeft": "{n} s",
+      "in": "Hinga sisse",
+      "hold": "Hoidke hinge kinni",
+      "out": "Väljahingamine"
+    },
+    "reply": {
+      "pickOrWrite": "Valige vastus või kirjutage oma",
+      "placeholder": "Või kirjutage oma",
+      "submit": "Vastus"
+    },
+    "sosBanner": {
+      "asks": "{name} küsib tuge",
+      "youReplied": {
+        "m": "Sa vastasid:",
+        "f": "Sa vastasid:",
+        "n": "Sa vastasid:"
+      }
+    },
+    "sosSheet": {
+      "title": "Mida sa nüüd vajad?",
+      "description": "{name} saab kohe Telegramis sõnumi vihjega, kuidas teid toetada.",
+      "pickKind": "Valige, mida praegu vajate",
+      "placeholder": "Paar sõna, kui soovite (valikuline)",
+      "send": "Saada signaal"
+    },
+    "talkBanner": {
+      "wants": "{name} soovib ettevaatlikult rääkida",
+      "tip": "Esiteks proovige lihtsalt kuulda tundeid, mitte süüdistusi. Ärge otsige kohe vabandusi."
+    },
+    "talkSheet": {
+      "title": "Ütle seda hoolikalt",
+      "description": "Vägivallatu suhtlemise neli sammu. Nii kuuleb {name} teid ega hakka end kaitsma.",
+      "fillOneStep": "Täitke vähemalt üks samm",
+      "fillStepsFirst": "Esmalt täitke sammud",
+      "aiDone": "Tehtud ✨ Kontrolli ja vajadusel paranda",
+      "factLabel": "1. Mis juhtus? Lihtsalt fakt, ei mingeid hinnanguid",
+      "factPlaceholder": "Näiteks: eile tulite tund aega hiljaks ega kirjutanud",
+      "blameHint": "Proovige ilma \"alati\" ja \"mitte kunagi\": kirjeldage ühte konkreetset juhtumit",
+      "feelingsLabel": "2. Kuidas ma end tunnen",
+      "needsLabel": "3. Mis on minu jaoks oluline",
+      "askLabel": "4. Mida ma palun? Konkreetne ja teostatav",
+      "askPlaceholder": "Näiteks: kui jääd hiljaks, kirjuta mulle paar sõna",
+      "assemble": "Koguge sõnum",
+      "resultLabel": "Sõnum valmis, saab parandada",
+      "resultAria": "Valmis sõnum",
+      "aiBusy": "AI arvab...",
+      "aiSoften": "✨ Muutke see AI abil pehmemaks"
+    }
+  },
+  "coats": {
+    "actions": {
+      "readyAnimal": "Valmis! {pet} on nüüd {name} 🎉",
+      "readyCoat": "Valmis! {pet} uues värvitoonis 🎉",
+      "paidLater": "Makse on läbi käinud. Värv ilmub minuti pärast, värskendage ekraani",
+      "paidAnimal": "Makse on möödas! {pet} pööret...",
+      "paidCoat": "Makse on möödas! Värvime {pet}...",
+      "payFailed": "Makse ebaõnnestus. Proovi uuesti"
+    },
+    "button": {
+      "chosen": "Valitud",
+      "owned": "Söö"
+    },
+    "card": {
+      "coats": "Värvid",
+      "choice": "{n}, mille hulgast valida",
+      "animals": "Muud loomad",
+      "animalsNote": "emotsioonide ja asjadega"
+    },
+    "sheet": {
+      "titleAnimal": "{pet} on nüüd {name}",
+      "titleCoat": "{pet}: {name} värv",
+      "foreverAnimalSolo": "Loom jääb teiega igaveseks. Asjad ja emotsioonid säilivad, saate kassi igal ajal tagastada.",
+      "foreverAnimalPair": "Loom läheb teile mõlemale igaveseks. Asjad ja emotsioonid säilivad, saate kassi igal ajal tagastada.",
+      "foreverCoatSolo": "Värv jääb teiega igaveseks. Asjad ja emotsioonid säilivad, saate kassi igal ajal tagastada.",
+      "foreverCoatPair": "Värv kuulub teile mõlemale igavesti. Asjad ja emotsioonid säilivad, saate kassi igal ajal tagastada.",
+      "updateTelegram": "Tärnidega ostmiseks värskendage Telegrami",
+      "opening": "Makse avamine...",
+      "retry": "Proovi uuesti",
+      "buy": "Ostke hinnaga {price} ⭐",
+      "notNow": "Mitte praegu",
+      "payNote": "Makse Telegrami tähtedega. Ostu puudutav küsimus: /paysupport in bot",
+      "fallbackTitle": "Värv"
+    },
+    "band": {
+      "shop": "Pood",
+      "current": "Nüüd: {name}",
+      "foreverSolo": "Pildid jäävad teiega igaveseks",
+      "foreverShared": "Kahe poolt jagatud kujundid igavesti"
+    },
+    "talking": {
+      "title": "Rääkivad kassid",
+      "every": "Esimesel ja seejärel igal {n} puudutusel ütleb kass midagi",
+      "soon": "Varsti",
+      "chosen": "Valitud",
+      "choose": "Vali"
+    }
+  },
+  "notes": {
+    "sheet": {
+      "titleSolo": "Märkus teie tulevasele minale",
+      "titlePair": "Üllatusmärkus",
+      "descriptionSolo": "See jõuab teieni Telegrami juhuslikul hetkel nädala jooksul. Keegi ei tea täpset aega, isegi mitte sina.",
+      "descriptionPair": "Saab {name}. See saabub juhuslikul hetkel nädala jooksul. Keegi ei tea täpset aega, isegi mitte sina.",
+      "empty": "Kirjutage märkme tekst",
+      "sent": "Sedel lendas minema. Tuleb ootamatult 💌",
+      "textAria": "Märkuse tekst",
+      "placeholderSolo": {
+        "m": "Näiteks: ära unusta, kuidas sul sel nädalal läks",
+        "f": "Näiteks: ära unusta, kuidas sul sel nädalal läks",
+        "n": "Näiteks: ära unusta, kuidas sul sel nädalal läks"
+      },
+      "placeholderPair": "Kirjutage midagi sooja",
+      "send": "Saada juhuslikult"
+    },
+    "sent": {
+      "cancelled": "Märkus tühistati",
+      "delivered": "Tarnitud {when}",
+      "onTheWay": "Teel · saabub enne {date}",
+      "cancel": "Tühista märkus"
+    }
+  },
+  "onboarding": {
+    "title": {
+      "start": "Tere, {name}!",
+      "create": "Uus paar",
+      "friends": "Oleme sõbrad",
+      "solo": "Sina ja Sipsik",
+      "join": "Kutse järgi"
+    },
+    "submit": {
+      "create": "Loo paar",
+      "friends": "Loo",
+      "solo": "Alusta"
+    },
+    "needStart": "Märkige, mis päevast olete koos olnud",
+    "needCode": "Sisestage kood",
+    "intro": "Sipsik Love on hubane ruum kassiga, kes kogub asju kraanidesse. Sees on soovinimekiri fotodega, kalender sünnipäevade, ostlemise, ülesannete ja üllatusmärkmetega. Paarile, sõpradele või lihtsalt teile.",
+    "choose": {
+      "pair": "Oleme paar",
+      "friends": "Oleme sõbrad",
+      "solo": "Ainult mina ja Sipsik",
+      "join": "Mul on kutse"
+    },
+    "join": {
+      "text": "Lihtsaim viis on järgida teile saadetud linki. Kui teil on ainult kuuekohaline kood, sisestage see siia.",
+      "placeholder": "Näiteks K7F2QX",
+      "aria": "Kutse kood",
+      "submit": "Liitu"
+    },
+    "form": {
+      "soloText": "Sinu kass, soovide nimekiri, ostlemine, ülesanded, kalender, tänupäevik ja märkmed endale tulevikuks. Kõik see on ainult teie jaoks.",
+      "friendsText": "Ühine kass, soovinimekirjad fotodega, kalender sünnipäevadega, ostlemine ja üllatusmärkmed kahele sõbrale. Pärast loomist kutsute lingi abil sõbra.",
+      "name": "Mis su nimi on?",
+      "gender": "Kuidas teiega ühendust võtta",
+      "startDate": "Suhte alguskuupäev",
+      "pickDate": "Valige kuupäev",
+      "startHint": "Sellest päevast peale loeb Sipsik, mitu päeva olete koos olnud. Seejärel saate seda seadetes muuta",
+      "petName": "Kassi nimi",
+      "defaultPet": "Sipsis"
+    }
+  },
+  "status": {
+    "loading": "Kassi laadimine...",
+    "notg": {
+      "title": "Avasta mind Telegramis",
+      "text": "Sipsik Love töötab Telegrami sees. Otsige bot",
+      "tap": "ja vajuta \"Ava Sipsik Love\"."
+    },
+    "error": {
+      "title": "Midagi läks valesti",
+      "retry": "Proovi uuesti"
+    }
+  },
+  "calendar": {
+    "today": "Täna",
+    "remind": {
+      "solo": "Tuletame teile meelde 3 päeva ette ja päeval ise",
+      "both": "Tuletame teile meelde nii 3 päeva ette kui ka päeval ise"
+    },
+    "month": {
+      "today": "Täna",
+      "prev": "Eelmine kuu",
+      "next": "Järgmisel kuul",
+      "legend": {
+        "plan": "Plaan",
+        "birthday": "Sünnipäev",
+        "ourDate": "Meie kohting",
+        "importantDate": "Tähtis kuupäev"
+      }
+    },
+    "day": {
+      "birthday": "Sünnipäev: {name}",
+      "birthdayAge": "Sünnipäev: {name}, {age}",
+      "allDay": "päeval",
+      "removePlan": "Kustuta plaan",
+      "empty": "Sellel päeval pole veel midagi",
+      "placeholder": "Mida me plaanime?",
+      "time": "Aeg",
+      "needTitle": "Kirjutage, mida plaanite",
+      "added": "Plaan lisati kaustale {date}"
+    },
+    "birthdays": {
+      "title": "Sünnipäevad",
+      "name": "Nimi",
+      "date": "Sünnikuupäev",
+      "turns": "{when} · pöörab {age}",
+      "needFields": "Vaja nime ja kuupäeva",
+      "added": "Lisatud: {name}"
+    },
+    "dates": {
+      "title": "Tähtsad kuupäevad",
+      "placeholder": "Näiteks esimene kohting",
+      "date": "Kuupäev",
+      "yearly": "Korda igal aastal",
+      "past": "oli",
+      "needFields": "Vaja nime ja kuupäeva",
+      "added": "Lisamise kuupäev 💗"
+    }
+  },
+  "places": {
+    "band": {
+      "title": "Kuhu me täna läheme?",
+      "idle": "Usaldagem loosi",
+      "again": "Jällegi",
+      "spin": "Keerake",
+      "goToday": "Lähme täna",
+      "planTitle": "Lähme: {place}",
+      "planned": "Tänaseks kalendrisse kantud"
+    },
+    "page": {
+      "title": "Meie kohad",
+      "count": "{n} koht | {n} kohta | {n} kohta",
+      "placeholder": "Kohvik, park, kino",
+      "picked": "kukkus välja",
+      "needTwo": "Lisage vähemalt kaks kohta ja rulett valib teie jaoks"
+    }
+  },
+  "wishlist": {
+    "page": {
+      "mine": "Ma tahan",
+      "partner": "Soovib {name}",
+      "whose": "Kelle nimekiri",
+      "noPartner": "Kui {other} liitub, kuvatakse siin tema soovid.",
+      "secretMine": "Sa ei näe, kes sulle kingitust valmistab",
+      "secretPartner": "Märkige ära, mida annate. {name} ei näe seda",
+      "add": "+ Lisage soov",
+      "emptyMine": "Nimekiri on veel tühi. Lisage oma esimene soov.",
+      "emptyPartner": {
+        "m": "{name} pole veel ühtegi soovi avaldanud. Lisage oma esimene soov.",
+        "f": "{name} pole veel ühtegi soovi avaldanud. Lisage oma esimene soov.",
+        "n": "{name} pole veel soovi avaldanud. Lisage oma esimene soov."
+      }
+    },
+    "form": {
+      "titleMine": "Minu jaoks uus soov",
+      "titlePartner": "Uus soov kasutajale {name}",
+      "photosFull": "Foto: {limit} asukohast {limit}. Uue lisamiseks eemaldage fotolt üks soov",
+      "photoAdded": "Foto lisatud",
+      "addPhoto": "Lisage foto",
+      "replaceHint": "Klõpsake asendamiseks",
+      "photoHint": "Ekraanipilt või foto üksuse {used} asukohast {limit}",
+      "what": "Mida sa tahad",
+      "price": "Hind",
+      "link": "Link",
+      "note": "Suurus, värv, kust osta"
+    },
+    "card": {
+      "remove": "Kustuta soov",
+      "link": "Link",
+      "confirmRemove": "Kas kustutada?",
+      "unreserve": "Ma ei anna",
+      "reserve": "Ma annan",
+      "markDone": "See sai teoks"
+    },
+    "photo": {
+      "done": "See sai teoks",
+      "reserved": "Ma annan",
+      "open": "Ava foto",
+      "replace": "Asenda foto",
+      "add": "+ foto",
+      "none": "fotot pole"
+    },
+    "toast": {
+      "needTitle": "Kirjuta, mida tahad",
+      "savingWithPhoto": "Salvestame selle koos fotoga...",
+      "added": "Soov lisatud",
+      "unreserved": "Märkimata",
+      "reserved": "Tagged: sa annad 🎁",
+      "done": "Hurraa, see sai teoks ✨",
+      "removed": "Soov eemaldatud",
+      "photoUnreadable": "Seda fotot ei saanud avada",
+      "photoUploading": "Fotode üleslaadimine...",
+      "photoAdded": "Foto lisatud"
+    }
+  },
+  "home": {
+    "band": {
+      "title": "Maja",
+      "shop": "Ostud",
+      "chores": "Kohustused",
+      "section": "Peatükk"
+    },
+    "shop": {
+      "title": "Ostud",
+      "left": "{n} on jäänud",
+      "allBought": "kõik on ostetud",
+      "bought": "Ostetud",
+      "empty": "Nimekiri on tühi. Lisage see, mida peate ostma.",
+      "clear": "Eemaldage ostetud",
+      "placeholder": "Mida osta"
+    },
+    "shopSheet": {
+      "title": "Lisa ostudele",
+      "inList": "Juba loendis: {items}",
+      "empty": "Nimekiri on veel tühi",
+      "done": "Valmis"
+    },
+    "chores": {
+      "title": "Asju",
+      "doneToday": "Täna valmistatud",
+      "swap": "Muutke seda, kes seda teeb",
+      "resetHint": "Märkeruudud lähtestatakse iga päev",
+      "resetHintPair": "Märkeruudud lähtestatakse iga päev. Juhtumi esitamiseks klõpsake nimel"
+    },
+    "choreForm": {
+      "placeholder": "Näiteks lillede kastmine",
+      "who": "Kes teeb",
+      "freq": "Kui tihti",
+      "submit": "Lisa juhtum"
+    },
+    "tally": {
+      "unit": "äri | asjaajamine | asjadest",
+      "doneToday": "valmis täna {done} alates {count}"
+    },
+    "toast": {
+      "alreadyInList": "Juba nimekirjas",
+      "added": "Lisatud: {title}",
+      "needChoreTitle": "Kirjutage juhtumi nimi",
+      "choreAdded": "Juhtum lisatud"
+    }
+  },
+  "games": {
+    "title": "Mängud",
+    "soon": "Minimängud teile kahele on varsti kohal 🎮"
+  },
+  "us": {
+    "band": {
+      "segments": {
+        "today": "Täna",
+        "mem": "Mälestused",
+        "thanks": "Aitäh"
+      },
+      "segmentsLabel": "Peatükk",
+      "pet": "Paita kassi",
+      "settings": "Seaded",
+      "nextItem": "Ikka {n} üksusele „{name}”"
+    },
+    "speech": {
+      "tired": "Olen väsinud, näeme homme 😴"
+    },
+    "streak": {
+      "startSolo": "Logige iga päev sisse ja sari algab",
+      "startCouple": "Logi sisse nii iga päev ja sari algab",
+      "daysSolo": "{n} päeva järjest teie ja teie kass | {n} päeva järjest teie ja teie kass | {n} päeva järjest olete kassiga koos",
+      "daysCouple": "{n} päeva järjest koos | {n} päeva järjest koos | {n} päeva järjest koos",
+      "withWait": "{text} · ootab {name}",
+      "waitToday": "Täna ootame {name}"
+    },
+    "thanks": {
+      "empty": "Kirjutage, mille eest tänate mind",
+      "savedJournal": "Päevikusse kirjutatud 💛",
+      "sent": "Aitäh saatnud 💛"
+    },
+    "care": {
+      "sosTitle": "Raske?",
+      "sosText": "{name} saab vihje, kuidas teid toetada",
+      "talkTitle": "Kas midagi tabas sind?",
+      "talkText": "Aitan teil seda ettevaatlikult, süüdistusteta öelda."
+    },
+    "question": {
+      "eyebrow": "Päeva küsimus",
+      "partnerAnswered": "{name} on juba vastanud. Vastuse nägemiseks vastake",
+      "partnerLocked": "Vastus {name} selgub, kui vastate mõlemad",
+      "empty": "Kirjutage oma vastus",
+      "saved": "Vastus salvestatud 💬",
+      "placeholder": "Sinu vastus",
+      "submit": "Vastus",
+      "you": "Sina",
+      "partnerWaiting": "{name} ei ole veel vastanud. Vastus ilmub siin"
+    },
+    "tasks": {
+      "title": "Igapäevased ülesanded",
+      "left": "{n} on jäänud",
+      "allDone": "kõik on valmis 🎉",
+      "done": "Valmis",
+      "doneByMe": {
+        "m": "Sa märkisid",
+        "f": "Sa märkisid",
+        "n": "Valmis"
+      },
+      "doneByPartner": {
+        "m": "Märgistatud {name}",
+        "f": "Märgistatud {name}",
+        "n": "Märgistatud {name}"
+      },
+      "bonus": "+{n} puudutage {name} ⭐ | +{n} tapa {name} ⭐ | +{n} puudutab {name} ⭐"
+    },
+    "gender": {
+      "saved": "Tehtud 💜",
+      "question": "Kuidas peaksin teiega ühendust võtma?",
+      "label": "Kuidas teiega ühendust võtta",
+      "whySolo": "Nii et {name} adresseerib teid õigesti",
+      "whyCouple": "Nii et {name} saab \"lisatud\" või \"lisatud\""
+    },
+    "items": {
+      "title": "Kassi asjad",
+      "todayTaps": "{done}/{cap} täna",
+      "next": "Järgmine: {name}",
+      "all": "{name} kogus kõik",
+      "left": "rohkem {n}",
+      "worn": "Kandmine",
+      "off": "Eemaldatud",
+      "cost": "{n} puudutage | {n} tapa | {n} puudutust",
+      "collapse": "Ahenda",
+      "showAll": "Kõik {n} asja: seemnetest kassipojani"
+    },
+    "memory": {
+      "byMe": "Sina",
+      "meta": "{when} · {who}",
+      "deleted": "Kustutatud",
+      "openPhoto": "Ava foto",
+      "confirmDelete": "Kas kustutada täpselt?"
+    },
+    "memoryForm": {
+      "title": "Uus mälu",
+      "empty": "Lisage foto või paar sõna",
+      "savingPhoto": "Salvestame selle koos fotoga...",
+      "saved": "Mälu salvestatud 📸",
+      "photoAdded": "Foto lisatud",
+      "addPhoto": "Lisage foto",
+      "tapToReplace": "Klõpsake asendamiseks",
+      "photoOptional": "Võimalik ilma fotodeta",
+      "placeholder": "Mida sa mäletad?",
+      "when": "Millal see oli"
+    },
+    "missed": {
+      "title": "{name} jäi {n} päeva vahele 🥺 | {name} jäi {n} päeva vahele 🥺 | {name} jätnud vahele {n} päeva 🥺",
+      "text": "Talgu teda ja ta naeratab uuesti.",
+      "welcomeTitle": "Tere tulemast tagasi 💜",
+      "welcomeText": "{name} on hea meel teid näha. Tulge millal soovite: ta on alati siin."
+    },
+    "mood": {
+      "title": "Milline sa täna oled?",
+      "partnerToday": "{name} täna:",
+      "partnerUnknown": "pole veel märgistanud"
+    },
+    "note": {
+      "titleSolo": "Märkus teie tulevasele minale",
+      "titleCouple": "Üllatusmärkus",
+      "textSolo": "Jõuab teie juurde nädala jooksul juhuslikul hetkel",
+      "textCouple": "{name} saab selle nädala jooksul juhuslikul ajal",
+      "onTheWay": "{text}. Teel: {n}",
+      "write": "Kirjutage"
+    },
+    "quick": {
+      "wish": "Soovi",
+      "shop": "Ostma",
+      "plan": "Plaan"
+    },
+    "received": {
+      "titleSolo": "Märkmeid minevikust",
+      "titleCouple": "Märkmed kasutajalt {name}"
+    },
+    "selfCare": {
+      "title": "🫂 Raske päev",
+      "text": "See juhtub ja see on normaalne. Võite kassiga lihtsalt veidi hingata: paar minutit ja see muutub veidi lihtsamaks.",
+      "breathe": "Hingake koos kassiga",
+      "helpText": "Kui tunnete end väga halvasti, ärge hoidke seda endas: kirjutage lähedasele või pöörduge psühholoogilise abitelefoni poole, kuulatakse tasuta ja anonüümselt.",
+      "findHelpline": "Otsi abitelefoni ›"
+    },
+    "soon": {
+      "title": "Ära unusta",
+      "calendar": "Kalender >",
+      "when": "{day}, {time}",
+      "birthday": "DR: {name}",
+      "empty": "Veel mitte midagi. Lisage oma kalendrisse plaanid."
+    },
+    "support": {
+      "eyebrow": "Signaal saadetud",
+      "waiting": "{name} sai Telegramis signaali. Vastus ilmub siin",
+      "breathe": "Hingake koos kassiga",
+      "better": "Ma tunnen end nüüd paremini"
+    },
+    "talk": {
+      "eyebrow": "Teie sõnum kasutajale {name}",
+      "waiting": "{name} sai sõnumi. Vastus ilmub siin",
+      "done": "Rääkisime ✓"
+    },
+    "feed": {
+      "fromMe": "Sina → {name}",
+      "toMe": "{name} → teile",
+      "like": "Meeldib",
+      "liked": "Mulle meeldis",
+      "confirmDelete": "Kas kustutada?"
+    },
+    "thanksPrompt": {
+      "title": "Aitäh väikeste asjade eest",
+      "textSolo": {
+        "m": "Mille eest sa täna tänulik oled?",
+        "f": "Mille eest sa täna tänulik oled?",
+        "n": "Mille eest sa täna tänulik oled?"
+      },
+      "textCouple": {
+        "m": "Mille eest olete täna kasutajale {name} tänulik?",
+        "f": "Mille eest olete täna kasutajale {name} tänulik?",
+        "n": "Mille eest olete täna kasutajale {name} tänulik?"
+      },
+      "write": "Kirjutage üles",
+      "thank": "Aitäh"
+    },
+    "tips": {
+      "title": "Kuidas siin kõik toimib",
+      "gotIt": "See on selge",
+      "solo": {
+        "tap": {
+          "title": "Puudutage kassi:",
+          "text": "kraanide eest saab ta asju. Igapäevased ülesanded annavad lisatasu."
+        },
+        "wishlist": {
+          "title": "Soovinimekiri",
+          "text": "fotoga: see tuleb kasuks, kui küsitakse, mida teile kinkida."
+        },
+        "note": {
+          "title": "Märkus teie tulevasele minale",
+          "text": "tuleb teie juurde juhuslikul hetkel nädalas."
+        },
+        "hardDay": {
+          "title": "Raske päev?",
+          "text": "Märkige oma meeleolu ja {name} kutsub teid koos hingama."
+        }
+      },
+      "couple": {
+        "tap": {
+          "title": "Puudutage kassi",
+          "text": "koos. Kraanid jagatakse ja kass saab nende eest asju."
+        },
+        "wishlist": {
+          "title": "Soovide nimekiri:",
+          "text": "nupp \"Ma annan\" soovil {other}. Ta ei tea, kes annab."
+        },
+        "note": {
+          "title": "Märkus",
+          "text": "{other} saabub juhuslikul ajal nädala jooksul."
+        },
+        "settings": {
+          "before": "Saate kutsuda kasutaja {other} ja lülitada sisse märguanded",
+          "link": "seaded",
+          "after": "üleval paremal."
+        }
+      }
+    },
+    "stats": {
+      "daysSolo": "päev kassiga | päev kassiga | päevad kassiga",
+      "daysFriends": "päev koos Sipsikus Love | päev koos Sipsikus Love | päevad koos Sipsik Armastuses",
+      "daysPair": "päev koos | päev koos | päevad koos",
+      "since": "koos kasutajaga {date}",
+      "anniversaryToday": "{years}. aastapäev täna",
+      "toAnniversary": "päev enne {years}. aastapäeva | päeva {years}. aastapäevani | päeva kuni {years}. aastapäevani",
+      "wishes": "sooviloendi soov | soovinimekirja soovid | soovid soovide nimekirjas",
+      "memories": "mälu | mälestused | mälestusi"
+    },
+    "journal": {
+      "title": {
+        "m": "Täna olen tänulik...",
+        "f": "Täna olen tänulik...",
+        "n": "Täna olen tänulik..."
+      },
+      "placeholder": "Näiteks: sooja tee ja vaikse õhtu jaoks",
+      "submit": "Kirjutage see üles 💛",
+      "week": "Nädala pärast",
+      "total": "Kokku",
+      "entries": "kanne | kanded | rekordid",
+      "empty": "Tänupäevik: iga päev üks rida headest asjadest. Kuu aja pärast on tore seda uuesti lugeda 💛"
+    },
+    "thanksSection": {
+      "mineWeek": "Olete nädala pärast",
+      "partnerWeek": "{name} nädalas",
+      "unit": "Aitäh",
+      "waitPartner": "Kui {other} liitub, saate siin üksteist tänada.",
+      "title": "Aitäh, {name}, et...",
+      "placeholder": "Näiteks: mida sa mulle õhtul teed keetsid?",
+      "submit": "Aitäh 💛",
+      "empty": "Siin on teie \"aitäh\" pisiasjade eest, millest on lihtne mööda vaadata. Kirjutage esimene \"aitäh\" 💛"
+    },
+    "memories": {
+      "yearsAgo": "{n} aasta tagasi | {n} aastat tagasi | {n} aastat tagasi",
+      "limitReached": "{limit} mälestust asukohast {limit}. Uue lisamiseks kustutage üks vanadest",
+      "add": "+Lisage mälu {n} kasutajalt {limit}",
+      "onThisDay": "Sellel päeval",
+      "empty": "Siin on teie hetked: fotod ja paar sõna päevast. Aasta pärast näitab Sipsik neid teile uuesti."
+    }
+  }
+}

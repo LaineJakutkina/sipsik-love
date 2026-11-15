@@ -7,13 +7,7 @@ const RISE = 46;
 const DURATION = 700;
 
 /** «+1» (or any short label) that floats up and fades out, then destroys itself */
-export function floatText(
-  tweens: Tweens,
-  message: string,
-  x: number,
-  y: number,
-  size = 17,
-): Text {
+export function floatText(tweens: Tweens, message: string, x: number, y: number, size = 17): Text {
   const t = new Text({
     text: message,
     style: {

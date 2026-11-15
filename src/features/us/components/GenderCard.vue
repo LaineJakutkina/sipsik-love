@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from "@/domain/i18n";
 import { GENDER_OPTIONS, type Gender } from "@/domain/moods";
 import { SegmentedPills } from "@/shared/components";
 import { Card } from "@/shared/ui/card";
@@ -15,7 +16,7 @@ function setGender(gender: Gender | "") {
     (s) => {
       s.me.gender = gender;
     },
-    "Готово 💜",
+    t("us.gender.saved"),
   );
 }
 </script>
@@ -26,19 +27,20 @@ function setGender(gender: Gender | "") {
     class="flex-row flex-wrap items-center justify-between gap-2.5"
   >
     <p class="min-w-[180px] flex-1">
-      <b>Как к тебе обращаться?</b><br />
+      <b>{{ t("us.gender.question") }}</b
+      ><br />
       <span class="text-muted-foreground text-[13px]">
         {{
           session.solo
-            ? `Чтобы ${session.petName} обращался к тебе правильно`
-            : `Чтобы ${session.partnerName} получал(а) «добавила» или «добавил»`
+            ? t("us.gender.whySolo", { name: session.petName })
+            : t("us.gender.whyCouple", { name: session.partnerName })
         }}
       </span>
     </p>
     <SegmentedPills
       :model-value="''"
       :options="GENDER_OPTIONS"
-      label="Как к тебе обращаться"
+      :label="t('us.gender.label')"
       @update:model-value="setGender"
     />
   </Card>

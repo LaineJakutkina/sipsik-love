@@ -7,6 +7,12 @@ export default defineConfig({
   // relative asset URLs: works on GitHub Pages under /sipsik-love/ and on any other path (hash router)
   base: "./",
   plugins: [vue(), tailwindcss()],
+  // vue-i18n esm-bundler feature flags: Composition API only, no devtools in production
+  define: {
+    __VUE_I18N_FULL_INSTALL__: true,
+    __VUE_I18N_LEGACY_API__: false,
+    __INTLIFY_PROD_DEVTOOLS__: false,
+  },
   resolve: {
     alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
   },

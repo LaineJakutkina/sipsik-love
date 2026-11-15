@@ -1,4 +1,5 @@
 import { COAT_META, isCoatId } from "@/domain/coats";
+import { formatLocale, t } from "@/domain/i18n";
 import { call } from "@/services/api/client";
 import { notify } from "@/services/notify";
 import { telegram } from "@/services/telegram";
@@ -38,8 +39,11 @@ export function useCoatActions() {
           const pet = session.petName;
           notify(
             isAnimalCoat(id) && isCoatId(id)
-              ? `Готово! ${pet} теперь ${COAT_META[id].name.toLowerCase()} 🎉`
-              : `Готово! ${pet} в новом окрасе 🎉`,
+              ? t("coats.actions.readyAnimal", {
+                  pet,
+                  name: COAT_META[id].name.toLocaleLowerCase(formatLocale()),
+                })
+              : t("coats.actions.readyCoat", { pet }),
             "success",
           );
           return;
@@ -48,7 +52,7 @@ export function useCoatActions() {
         // try again
       }
     }
-    notify("Оплата прошла. Окрас появится через минуту, обнови экран");
+    notify(t("coats.actions.paidLater"));
   }
 
   /** Opens the Stars invoice. Throws when the invoice link couldn't be created. */
@@ -59,10 +63,12 @@ export function useCoatActions() {
     if (status === "paid") {
       const pet = session.petName;
       notify(
-        isAnimalCoat(id) ? `Оплата прошла! ${pet} превращается…` : `Оплата прошла! Красим ${pet}…`,
+        isAnimalCoat(id)
+          ? t("coats.actions.paidAnimal", { pet })
+          : t("coats.actions.paidCoat", { pet }),
       );
       void waitForCoat(id);
-    } else if (status === "failed") notify("Оплата не прошла. Попробуй ещё раз");
+    } else if (status === "failed") notify(t("coats.actions.payFailed"));
   }
 
   return { chooseCoat, buyCoat };

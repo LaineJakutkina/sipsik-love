@@ -1,0 +1,1038 @@
+{
+  "common": {
+    "actions": {
+      "add": "Add",
+      "cancel": "Cancel",
+      "back": "Back",
+      "save": "Save",
+      "close": "Close",
+      "send": "Send",
+      "delete": "Delete",
+      "hide": "Hide",
+      "addMore": "+Add"
+    },
+    "savingWait": "Just a second, save...",
+    "units": {
+      "days": "day | day | days",
+      "years": "year | year | years",
+      "taps": "tap | tapa | taps"
+    },
+    "count": {
+      "days": "{n} day | {n} days | {n} days",
+      "years": "{n} year | {n} years | {n} years"
+    }
+  },
+  "settings": {
+    "language": {
+      "label": "Language",
+      "auto": "Like in Telegram - {name}"
+    },
+    "title": {
+      "pair": "Pair settings",
+      "other": "Settings"
+    },
+    "myName": "Your name",
+    "gender": "How to contact you",
+    "petName": "Cat's name",
+    "mode": {
+      "label": "Who are you to each other",
+      "pair": "Pair",
+      "friends": "Friends"
+    },
+    "startDate": "Start of a relationship",
+    "notify": "Send to Telegram that notes {name}",
+    "saved": "Saved",
+    "nowFriends": "Now you are friends 🤝",
+    "nowPair": "Now you are a couple 💜",
+    "privacy": "Privacy and data deletion",
+    "leave": {
+      "confirmSolo": "Exactly? The cat, wishlist and all lists will be deleted. Press again",
+      "confirm": "Are you sure you want to go out? Your desires will be removed. Press again",
+      "restart": "Start again",
+      "leaveSpace": "Get out of space",
+      "leavePair": "Leave the couple",
+      "cleared": "Everything is deleted, you can start again",
+      "left": {
+        "m": "You're out",
+        "f": "You came out",
+        "n": "You're out"
+      },
+      "leftPair": {
+        "m": "You left the couple",
+        "f": "You left the couple",
+        "n": "You left the couple"
+      }
+    },
+    "invite": {
+      "shareText": "Join me in Sipsik Love: we will have a common cat, wishlist and calendar",
+      "copy": "Copy",
+      "inviteFriend": "Invite a friend",
+      "invitePartner": "Invite your soul mate",
+      "cardText": "Send a link. As soon as {who} opens it, you will have a common cat and all lists.",
+      "shareTitle": "Share a cat",
+      "shareInfo": {
+        "m": "If you want, you can call a loved one. Then {pet}, wishlist and lists will become common, and everything you have already added will be saved.",
+        "f": "If you want, you can call a loved one. Then {pet}, wishlist and lists will become common, and everything that you have already added will be saved.",
+        "n": "If you want, you can call a loved one. Then {pet}, wishlist and lists will become common, and everything that you have already added will be saved."
+      },
+      "code": "Invitation code:",
+      "invite": "Invite {who}",
+      "together": "You are together: {me} and {partner}",
+      "inPair": "You are paired: {me} and {partner}"
+    }
+  },
+  "domain": {
+    "care": {
+      "sos": {
+        "hug": "Hug no questions asked",
+        "listen": "Listen to me",
+        "space": "I need some time alone",
+        "spaceF": "I need some time alone",
+        "calm": "We quarreled, let's cool down and make peace",
+        "care": "Take care of me"
+      },
+      "feelings": {
+        "hurt": "offense",
+        "anxiety": "alarm",
+        "sadness": "sadness",
+        "tiredness": "fatigue",
+        "irritation": "irritation",
+        "loneliness": "loneliness",
+        "confusion": "confusion",
+        "disappointment": "disappointment",
+        "jealousy": "jealousy",
+        "helplessness": "impotence"
+      },
+      "needs": {
+        "attention": "attention",
+        "support": "support",
+        "respect": "respect",
+        "predictability": "predictability",
+        "rest": "rest",
+        "closeness": "closeness",
+        "honesty": "honesty",
+        "help": "help",
+        "freedom": "freedom",
+        "care": "care"
+      },
+      "blame": "always, never, again, forever, specially, as usual, constantly",
+      "talk": {
+        "factFeelings": "When {fact}, I feel {feelings}.",
+        "fact": "When {fact}.",
+        "feelings": "I feel {feelings}.",
+        "needs": "What's important to me is: {needs}.",
+        "ask": "My request: {ask}."
+      },
+      "thanks": {
+        "couple": {
+          "nearby": "that he was nearby",
+          "dinner": "for a delicious dinner",
+          "chores": "that he helped around the house",
+          "support": "for your support",
+          "laugh": "that made me laugh"
+        },
+        "solo": {
+          "breakfast": "delicious breakfast",
+          "sun": "Sun",
+          "friend": "meeting a friend",
+          "rest": "rest",
+          "win": "small victory"
+        }
+      }
+    },
+    "catalog": {
+      "quickShopping": {
+        "bread": "Bread",
+        "eggs": "Eggs",
+        "milk": "Milk",
+        "sugar": "Sugar",
+        "coffee": "Coffee",
+        "catFood": "Feed Sipsiku"
+      },
+      "choreFrequency": {
+        "daily": "Every day",
+        "twiceWeekly": "2 times a week",
+        "weekly": "Once a week",
+        "monthly": "Once a month"
+      }
+    },
+    "catPhrases": {
+      "title": {
+        "jokes": "Cat joke",
+        "care": "Support cat",
+        "facts": "Cat scientist"
+      },
+      "about": {
+        "jokes": "Tells short modern jokes",
+        "care": "Speaks gentle words of support",
+        "facts": "Shares amazing facts about the world"
+      },
+      "jokes": {
+        "j01": "I bought a smart watch. Now they remind me every hour that I am sitting. Thanks, I'm aware.",
+        "j02": "The password must contain a capital letter, a number and a symbol. Entered “Kitty1!” Writes: “Too simple.” I was offended by the cat.",
+        "j03": "- Why was you late? — I set the alarm clock for seven. - AND? - He rang. I was surprised too.",
+        "j04": "I wanted to start a new life on Monday. Monday came again without warning.",
+        "j05": "I deleted all the games to become more productive. Now I’m productively scrolling through my feed.",
+        "j06": "The courier wrote: “I’ll be there in 5 minutes.” It was yesterday. Apparently, he has his own moments.",
+        "j07": "Signed up for the gym. I've been walking past it for a month now - it's great for cardio.",
+        "j08": "The cat sleeps 16 hours a day, I sleep six. Which of us is smarter is a closed question.",
+        "j09": "- How long do you have to get ready? - Five minutes. - Is it fair? - Fourty. But five of them I will say “I’m leaving.”",
+        "j10": "Weekend plan: relax. Fact: I dismantled the closet, replanted the ficus and was more tired than I had been in a week.",
+        "j11": "- Hello, is this the support service? - Yes. - Support me, please. Just morally.",
+        "j12": "A friend writes: “Are you sleeping?” I answer: “Yes.” He: “Okay.” So we talked.",
+        "j13": "I told myself: “Only one episode.” The sun did not agree - it was already rising.",
+        "j14": "As a child, I thought that adults knew what they were doing. Now I'm an adult and I know for sure: no.",
+        "j15": "I bought an organizer to get things organized. Now I'm looking for where to put the organizer.",
+        "j16": "— Why do cats always fall on their paws? - Because the sandwiches took the other side.",
+        "j17": "Navigator: “In 300 meters, turn right.” Me: “Where in life?” He silently reorganized his route.",
+        "j18": "I decided to go to bed early. Woke up at 2:40 to remember an awkward moment from seventh grade.",
+        "j19": "My cat thinks I work for him. Judging by the feeding schedule, he's right.",
+        "j20": "— What to give to a person who has everything? - Sipsis. He definitely doesn't have sipsis.",
+        "j21": "I wrote “ok” in the chat. I received an answer “ok.” with a dot. Now I don’t sleep, I analyze.",
+        "j22": "I went to get some bread. I bought a candle, a blanket and three types of cookies. I forgot the bread, but it’s cozy.",
+        "j23": "I turned on Do Not Disturb mode. The phone doesn't bother me anymore. Now I'm worried.",
+        "j24": "He told the smart speaker: “Turn on something to set the mood.” She turned on the alarm for tomorrow.",
+        "j25": "I decided to save money and not buy takeaway coffee. I bought a coffee machine. I've been saving for three years now."
+      },
+      "care": {
+        "c01": "You're doing enough. Is it true.",
+        "c02": "You don't have to be productive today. Just being is enough.",
+        "c03": "If the day is hard, you can live it in small steps. A sip of water is already a step.",
+        "c04": "Your feelings are important, even if they are uncomfortable right now.",
+        "c05": "A mistake is not a failure. It's just part of how we learn.",
+        "c06": "You don't have to deal with everything alone. Asking for help is brave.",
+        "c07": "Remember how many difficult days are already behind you. This one too will pass.",
+        "c08": "Take a deep breath... and exhale slowly. I'm nearby, I'm purring 🐾",
+        "c09": "Everyone has their own time. Don't be late for anything in your own life.",
+        "c10": "Little joys also count: warm tea, a blanket, this cat.",
+        "c11": "If today you only managed to get up, that’s also a victory.",
+        "c12": "You are valuable not for your deeds, but simply because you are.",
+        "c13": "You can be sad and still be okay.",
+        "c14": "Be as kind to yourself as you are to your friends.",
+        "c15": "Not everything needs to be resolved today. Some things can wait quietly until tomorrow.",
+        "c16": "You can say “no” and not explain why.",
+        "c17": "Rest is also a matter. And very important.",
+        "c18": "Don't compare your midway point to someone else's endgame.",
+        "c19": "Drink water, eat something warm, go to bed early. I'll follow up 🐾",
+        "c20": "There are those nearby who care about you. Even if it doesn't seem like it now.",
+        "c21": "Today you can praise yourself a little. Let me start: you are a wonderful person.",
+        "c22": "Everything you feel now will become easier over time.",
+        "c23": "It's good to have you here. I feel warm with you.",
+        "c24": "You have the right to pause. The world will wait a couple of minutes.",
+        "c25": "You can already do a lot - even if you don’t notice it yourself."
+      },
+      "facts": {
+        "f01": "Cats sleep on average 12–16 hours a day.",
+        "f02": "Cats do not sense sweet taste: the sweet receptor gene does not work in them.",
+        "f03": "A cat's tongue is covered with tiny hooks, which she uses to comb her fur like a brush.",
+        "f04": "The octopus has three hearts and blue blood: it contains copper instead of iron.",
+        "f05": "Light from the Sun travels to Earth in about 8 minutes 20 seconds.",
+        "f06": "Bananas are slightly radioactive due to potassium-40, but it is completely safe.",
+        "f07": "An adult has 206 bones, and a newborn has about 300 - many of them later grow together.",
+        "f08": "On Venus, the Sun rises in the west: the planet rotates “backwards”.",
+        "f09": "A day on Venus is longer than its year: 243 Earth days versus 225.",
+        "f10": "Wombats leave litter in the form of cubes.",
+        "f11": "Sea otters sometimes hold their paws while sleeping to prevent them from being carried away by the current.",
+        "f12": "In summer, the Eiffel Tower becomes higher by about 15 cm: the metal expands from the heat.",
+        "f13": "The heart of a blue whale weighs about 180 kg.",
+        "f14": "On Mars, sunsets are blue and days are orange-pink.",
+        "f15": "The shortest war in history, the Anglo-Zanzibar war of 1896, lasted less than an hour.",
+        "f16": "From a botanical point of view, a strawberry is not a berry, but a banana is a berry.",
+        "f17": "Bees dance to show their relatives where they have found nectar.",
+        "f18": "The brain makes up about 2% of the body's weight, but spends about 20% of all energy.",
+        "f19": "Sharks appeared on Earth earlier than trees.",
+        "f20": "Flamingos are pink because of pigments in their food—algae and crustaceans.",
+        "f21": "In space, tears do not flow down, but collect in a ball near the eye.",
+        "f22": "Elephants recognize themselves in the mirror - very few animals can do this.",
+        "f23": "Sound travels about 4 times faster in water than in air.",
+        "f24": "A year on Neptune lasts about 165 Earth years.",
+        "f25": "Water can boil and freeze at the same time - at the so-called triple point."
+      }
+    },
+    "coats": {
+      "names": {
+        "black": "Black",
+        "ginger": "Ginger",
+        "grey": "Grey",
+        "calico": "Tricolor",
+        "siamese": "Siamese",
+        "frog": "Toad",
+        "dog": "Dog",
+        "fox": "Fox",
+        "panda": "Panda",
+        "cow": "Cow",
+        "penguin": "Penguin",
+        "beaver": "Beaver",
+        "anon": "Anonymous",
+        "vampire": "Vampire",
+        "tuxedo": "Tuxedo",
+        "cream": "Cream",
+        "choco": "Chocolate",
+        "lavender": "Lavender",
+        "joker": "Cat joke",
+        "carer": "Support cat",
+        "scholar": "Cat scientist"
+      }
+    },
+    "items": {
+      "names": {
+        "panama": "Panama abibas",
+        "seeds": "Seeds",
+        "coffee": "Coffee to go",
+        "chain": "Gold chain",
+        "bandana": "Bandana",
+        "cap": "Cap back",
+        "lemonade": "Lemonade \"Pinocchio\"",
+        "stripes": "Vest",
+        "glasses": "Matrix glasses",
+        "cig": "Cigarette",
+        "tracksuit": "Sweatshirt abibas",
+        "mic": "Microphone",
+        "bag": "Purse",
+        "ushanka": "Ushanka",
+        "hawaii": "Hawaiian shirt",
+        "helmet": "Construction helmet",
+        "tablet": "Tablet",
+        "mouse": "Mouse",
+        "skate": "Skateboard",
+        "puffer": "Down jacket",
+        "bike": "Bicycle \"Ural\"",
+        "truck": "Truck",
+        "suit": "Suit with bow tie",
+        "kitten": "Kitten for Sipsy"
+      }
+    },
+    "moods": {
+      "names": {
+        "tears": "Tears",
+        "tired": "Tired",
+        "angry": "I'm angry",
+        "neutral": "Calmly",
+        "happy": "Happy"
+      },
+      "partner": {
+        "tears": "sad",
+        "tired": {
+          "m": "tired",
+          "f": "tired",
+          "n": "tired)"
+        },
+        "angry": "angry",
+        "neutral": "calmly",
+        "happy": {
+          "m": "happy",
+          "f": "happy",
+          "n": "happy"
+        }
+      },
+      "gender": {
+        "she": "She",
+        "he": "He"
+      }
+    },
+    "relationship": {
+      "yearly": "{title} · {n} year | {title} · {n} years | {title} · {n} years",
+      "daysTogether": "{n} day together | {n} days together | {n} days together",
+      "anniversary": "{n}th anniversary"
+    }
+  },
+  "stores": {
+    "session": {
+      "other": {
+        "friend": {
+          "nom": "Friend",
+          "gen": "friend",
+          "dat": "friend"
+        },
+        "partner": {
+          "nom": "partner",
+          "gen": "partner",
+          "dat": "partner"
+        }
+      },
+      "together": {
+        "friends": "You are together now!",
+        "pair": "You are now a couple!"
+      },
+      "defaultName": {
+        "friend": "Friend",
+        "partner": "Partner"
+      },
+      "petName": "Sipsis",
+      "offline": "No connection. Showing what happened last time"
+    },
+    "taps": {
+      "unlocked": "{name} received: {items}!",
+      "tired": "{name} tired. Taps will continue tomorrow 😴",
+      "cheered": "{name} happy again 💜"
+    }
+  },
+  "services": {
+    "notify": {
+      "copied": "Copied",
+      "copyManually": "Select the link and copy"
+    },
+    "api": {
+      "noResponse": "The server did not respond. Check the internet and try again",
+      "serverError": "Server error",
+      "unknown": "Something went wrong"
+    }
+  },
+  "game": {
+    "items": {
+      "seedsLabel": "SEEDS",
+      "lemonadeLabel": "Pinocchio"
+    }
+  },
+  "app": {
+    "brand": {
+      "name": "Sipsis",
+      "accent": "Love"
+    },
+    "nav": {
+      "label": "Sections",
+      "us": "We",
+      "plans": "Plans",
+      "home": "House",
+      "games": "Games",
+      "shop": "Shop"
+    },
+    "plans": {
+      "label": "Plans section",
+      "cal": "Calendar",
+      "go": "Places",
+      "wish": "Desires",
+      "myWishlist": "My wishlist",
+      "ourWishlist": "Our wishlist"
+    },
+    "demo": {
+      "you": "🧪 Demo · you — {name}",
+      "become": "Become: {name}",
+      "reset": "Reset",
+      "startOver": "Start again:",
+      "ready": "Ready pair",
+      "blank": "From scratch"
+    },
+    "photo": "Photo",
+    "sheetLoading": "Loading...",
+    "splashSkip": "Skip splash screen"
+  },
+  "shared": {
+    "photoPicker": {
+      "openFailed": "Couldn't open this photo"
+    }
+  },
+  "care": {
+    "actions": {
+      "sosSent": "Signal sent {name} 💜",
+      "sosReplied": "Reply sent 💜",
+      "sosResolved": "Glad you're feeling better 🌤",
+      "talkSent": "Message sent with care 🕊",
+      "talkReplied": "Reply sent 🕊",
+      "talkClosed": "Glad you talked 💜"
+    },
+    "breath": {
+      "title": "Breathe with the cat",
+      "secondsLeft": "{n} s",
+      "in": "Inhale",
+      "hold": "Hold your breath",
+      "out": "Exhalation"
+    },
+    "reply": {
+      "pickOrWrite": "Choose an answer or write your own",
+      "placeholder": "Or write your own",
+      "submit": "Answer"
+    },
+    "sosBanner": {
+      "asks": "{name} asking for support",
+      "youReplied": {
+        "m": "You replied:",
+        "f": "You answered:",
+        "n": "You answered:"
+      }
+    },
+    "sosSheet": {
+      "title": "What do you need now?",
+      "description": "{name} will immediately receive a message in Telegram with a hint on how to support you.",
+      "pickKind": "Choose what you need now",
+      "placeholder": "A few words if you want (optional)",
+      "send": "Send a signal"
+    },
+    "talkBanner": {
+      "wants": "{name} wants to talk carefully",
+      "tip": "First, just try to hear the feelings, not the accusations. Don't make excuses right away."
+    },
+    "talkSheet": {
+      "title": "Say it carefully",
+      "description": "Four steps of nonviolent communication. This way {name} will hear you and not start defending yourself.",
+      "fillOneStep": "Complete at least one step",
+      "fillStepsFirst": "First fill out the steps",
+      "aiDone": "Done ✨ Check and correct if necessary",
+      "factLabel": "1. What happened? Just a fact, no judgments",
+      "factPlaceholder": "For example: yesterday you came an hour late and didn’t write",
+      "blameHint": "Try without “always” and “never”: describe one specific case",
+      "feelingsLabel": "2. How I feel",
+      "needsLabel": "3. What is important to me",
+      "askLabel": "4. What am I asking for? Specific and doable",
+      "askPlaceholder": "For example: if you are late, write me a few words",
+      "assemble": "Collect message",
+      "resultLabel": "Ready message, can be corrected",
+      "resultAria": "Ready message",
+      "aiBusy": "AI thinks...",
+      "aiSoften": "✨ Make it softer with AI"
+    }
+  },
+  "coats": {
+    "actions": {
+      "readyAnimal": "Ready! {pet} is now {name} 🎉",
+      "readyCoat": "Ready! {pet} in new color 🎉",
+      "paidLater": "The payment has gone through. The color will appear in a minute, refresh the screen",
+      "paidAnimal": "Payment has passed! {pet} turns...",
+      "paidCoat": "Payment has passed! Let's paint {pet}...",
+      "payFailed": "Payment failed. Try again"
+    },
+    "button": {
+      "chosen": "Selected",
+      "owned": "Eat"
+    },
+    "card": {
+      "coats": "Colors",
+      "choice": "{n} to choose from",
+      "animals": "Other animals",
+      "animalsNote": "with emotions and things"
+    },
+    "sheet": {
+      "titleAnimal": "{pet} is now {name}",
+      "titleCoat": "{pet}: {name} color",
+      "foreverAnimalSolo": "The animal will remain with you forever. Things and emotions will be preserved, you can return the cat at any time.",
+      "foreverAnimalPair": "The animal will go to both of you forever. Things and emotions will be preserved, you can return the cat at any time.",
+      "foreverCoatSolo": "The color will stay with you forever. Things and emotions will be preserved, you can return the cat at any time.",
+      "foreverCoatPair": "The color will belong to both of you forever. Things and emotions will be preserved, you can return the cat at any time.",
+      "updateTelegram": "Update Telegram to buy with stars",
+      "opening": "Opening payment...",
+      "retry": "Try again",
+      "buy": "Buy for {price} ⭐",
+      "notNow": "Not now",
+      "payNote": "Payment with Telegram stars. Question about purchasing: /paysupport in bot",
+      "fallbackTitle": "Color"
+    },
+    "band": {
+      "shop": "Shop",
+      "current": "Now: {name}",
+      "foreverSolo": "The images stay with you forever",
+      "foreverShared": "Shapes shared by two, forever"
+    },
+    "talking": {
+      "title": "Talking cats",
+      "every": "At the first tap and then at every {n}th tap the cat will say something",
+      "soon": "Soon",
+      "chosen": "Selected",
+      "choose": "Choose"
+    }
+  },
+  "notes": {
+    "sheet": {
+      "titleSolo": "A note to your future self",
+      "titlePair": "Surprise note",
+      "descriptionSolo": "It will come to you on Telegram at a random moment during the week. No one will know the exact time, not even you.",
+      "descriptionPair": "Will get {name}. It will arrive at a random moment during the week. No one will know the exact time, not even you.",
+      "empty": "Write the text of the note",
+      "sent": "The note flew away. Will come unexpectedly 💌",
+      "textAria": "Note text",
+      "placeholderSolo": {
+        "m": "For example: don't forget how you did this week",
+        "f": "For example: don't forget how you did this week",
+        "n": "For example: don't forget how you did this week"
+      },
+      "placeholderPair": "Write something warm",
+      "send": "Send at random"
+    },
+    "sent": {
+      "cancelled": "Note canceled",
+      "delivered": "Delivered {when}",
+      "onTheWay": "On the way · will arrive before {date}",
+      "cancel": "Cancel note"
+    }
+  },
+  "onboarding": {
+    "title": {
+      "start": "Hello {name}!",
+      "create": "New couple",
+      "friends": "We are friends",
+      "solo": "You and Sipsik",
+      "join": "By invitation"
+    },
+    "submit": {
+      "create": "Create a pair",
+      "friends": "Create",
+      "solo": "Begin"
+    },
+    "needStart": "Indicate from what day you have been together",
+    "needCode": "Enter code",
+    "intro": "Sipsik Love is a cozy space with a cat who collects things in taps. Inside is a wishlist with photos, a calendar with birthdays, shopping, to-dos and surprise notes. For a couple, for friends or just for you.",
+    "choose": {
+      "pair": "We are a couple",
+      "friends": "We are friends",
+      "solo": "Just me and Sipsik",
+      "join": "I have an invitation"
+    },
+    "join": {
+      "text": "The easiest way is to follow the link that was sent to you. If you only have a six character code, enter it here.",
+      "placeholder": "For example, K7F2QX",
+      "aria": "Invitation code",
+      "submit": "Join"
+    },
+    "form": {
+      "soloText": "Your cat, wishlist, shopping, to-dos, calendar, gratitude diary and notes to yourself for the future. All this is just for you.",
+      "friendsText": "A shared cat, wishlists with photos, a calendar with birthdays, shopping and surprise notes for two friends. After creation, you will invite a friend using the link.",
+      "name": "What is your name",
+      "gender": "How to contact you",
+      "startDate": "Relationship start date",
+      "pickDate": "Select date",
+      "startHint": "From this day on, Sipsik counts how many days you have been together. Then you can change it in the settings",
+      "petName": "Cat's name",
+      "defaultPet": "Sipsis"
+    }
+  },
+  "status": {
+    "loading": "Loading your cat...",
+    "notg": {
+      "title": "Discover me on Telegram",
+      "text": "Sipsik Love works inside Telegram. Find a bot",
+      "tap": "and click “Open Sipsik Love”."
+    },
+    "error": {
+      "title": "Something went wrong",
+      "retry": "Try again"
+    }
+  },
+  "calendar": {
+    "today": "Today",
+    "remind": {
+      "solo": "We will remind you 3 days in advance and on the day itself",
+      "both": "We will remind you both 3 days in advance and on the day itself"
+    },
+    "month": {
+      "today": "Today",
+      "prev": "Previous month",
+      "next": "Next month",
+      "legend": {
+        "plan": "Plan",
+        "birthday": "Birthday",
+        "ourDate": "Our date",
+        "importantDate": "Important date"
+      }
+    },
+    "day": {
+      "birthday": "Birthday: {name}",
+      "birthdayAge": "Birthday: {name}, {age}",
+      "allDay": "day",
+      "removePlan": "Delete plan",
+      "empty": "There is nothing for this day yet",
+      "placeholder": "What are we planning?",
+      "time": "Time",
+      "needTitle": "Write what you plan",
+      "added": "Plan added to {date}"
+    },
+    "birthdays": {
+      "title": "Birthdays",
+      "name": "Name",
+      "date": "Date of birth",
+      "turns": "{when} · turns {age}",
+      "needFields": "Need name and date",
+      "added": "Added: {name}"
+    },
+    "dates": {
+      "title": "Important dates",
+      "placeholder": "For example, first date",
+      "date": "Date",
+      "yearly": "Repeat every year",
+      "past": "was",
+      "needFields": "Need name and date",
+      "added": "Date added 💗"
+    }
+  },
+  "places": {
+    "band": {
+      "title": "Where are we going today?",
+      "idle": "Let's trust the lot",
+      "again": "Again",
+      "spin": "Twist",
+      "goToday": "Let's go today",
+      "planTitle": "Let's go: {place}",
+      "planned": "Recorded in the calendar for today"
+    },
+    "page": {
+      "title": "Our places",
+      "count": "{n} place | {n} places | {n} seats",
+      "placeholder": "Cafe, park, cinema",
+      "picked": "fell out",
+      "needTwo": "Add at least two places, and roulette will choose for you"
+    }
+  },
+  "wishlist": {
+    "page": {
+      "mine": "I want",
+      "partner": "Wants {name}",
+      "whose": "Whose list",
+      "noPartner": "When {other} joins, his wishes will appear here.",
+      "secretMine": "You won't see who is preparing a gift for you",
+      "secretPartner": "Mark what you are giving. {name} won't see this",
+      "add": "+ Add a wish",
+      "emptyMine": "The list is still empty. Add your first wish.",
+      "emptyPartner": {
+        "m": "{name} hasn't made any wishes yet. Add your first wish.",
+        "f": "{name} hasn't made any wishes yet. Add your first wish.",
+        "n": "{name} hasn't made a wish yet. Add your first wish."
+      }
+    },
+    "form": {
+      "titleMine": "A new wish for me",
+      "titlePartner": "New wish for {name}",
+      "photosFull": "Photo: {limit} from {limit}. To add a new one, remove one of the wishes from the photo",
+      "photoAdded": "Photo added",
+      "addPhoto": "Add a photo",
+      "replaceHint": "Click to replace",
+      "photoHint": "Screenshot or photo of an item {used} from {limit}",
+      "what": "What do you want",
+      "price": "Price",
+      "link": "Link",
+      "note": "Size, color, where to buy"
+    },
+    "card": {
+      "remove": "Delete wish",
+      "link": "Link",
+      "confirmRemove": "Delete?",
+      "unreserve": "I don't give",
+      "reserve": "I'll give",
+      "markDone": "It came true"
+    },
+    "photo": {
+      "done": "It came true",
+      "reserved": "I give",
+      "open": "Open photo",
+      "replace": "Replace photo",
+      "add": "+ photo",
+      "none": "no photo"
+    },
+    "toast": {
+      "needTitle": "Write what you want",
+      "savingWithPhoto": "We save it along with the photo...",
+      "added": "Desire added",
+      "unreserved": "Unchecked",
+      "reserved": "Tagged: you give 🎁",
+      "done": "Hurray, it came true ✨",
+      "removed": "Wish removed",
+      "photoUnreadable": "Couldn't open this photo",
+      "photoUploading": "Uploading photos...",
+      "photoAdded": "Photo added"
+    }
+  },
+  "home": {
+    "band": {
+      "title": "House",
+      "shop": "Purchases",
+      "chores": "Responsibilities",
+      "section": "Chapter"
+    },
+    "shop": {
+      "title": "Purchases",
+      "left": "{n} left",
+      "allBought": "everything is bought",
+      "bought": "Purchased",
+      "empty": "The list is empty. Add what you need to buy.",
+      "clear": "Remove purchased",
+      "placeholder": "What to buy"
+    },
+    "shopSheet": {
+      "title": "Add to purchases",
+      "inList": "Already on the list: {items}",
+      "empty": "The list is still empty",
+      "done": "Ready"
+    },
+    "chores": {
+      "title": "Affairs",
+      "doneToday": "Made today",
+      "swap": "Change who does",
+      "resetHint": "Checkboxes are reset every day",
+      "resetHintPair": "The checkboxes are reset every day. Click on a name to submit a case"
+    },
+    "choreForm": {
+      "placeholder": "For example, watering flowers",
+      "who": "Who does",
+      "freq": "How often",
+      "submit": "Add a case"
+    },
+    "tally": {
+      "unit": "business | affairs | affairs",
+      "doneToday": "done today {done} from {count}"
+    },
+    "toast": {
+      "alreadyInList": "Already on the list",
+      "added": "Added: {title}",
+      "needChoreTitle": "Write the name of the case",
+      "choreAdded": "Case added"
+    }
+  },
+  "games": {
+    "title": "Games",
+    "soon": "Mini-games for you two will be here soon 🎮"
+  },
+  "us": {
+    "band": {
+      "segments": {
+        "today": "Today",
+        "mem": "Memories",
+        "thanks": "Thank you"
+      },
+      "segmentsLabel": "Chapter",
+      "pet": "Pet the cat",
+      "settings": "Settings",
+      "nextItem": "Still {n} to the item “{name}”"
+    },
+    "speech": {
+      "tired": "I'm tired, see you tomorrow 😴"
+    },
+    "streak": {
+      "startSolo": "Log in every day and the series will begin",
+      "startCouple": "Login both every day and the series will begin",
+      "daysSolo": "{n} day in a row you and your cat | {n} days in a row you and your cat | {n} days in a row you are with the cat",
+      "daysCouple": "{n} day in a row together | {n} days in a row together | {n} days in a row together",
+      "withWait": "{text} · waiting {name}",
+      "waitToday": "Today we are waiting for {name}"
+    },
+    "thanks": {
+      "empty": "Write what you thank me for",
+      "savedJournal": "Written in the diary 💛",
+      "sent": "Thank you sent 💛"
+    },
+    "care": {
+      "sosTitle": "Hard?",
+      "sosText": "{name} will receive a hint on how to support you",
+      "talkTitle": "Did something hit you?",
+      "talkText": "I’ll help you say this carefully, without accusations."
+    },
+    "question": {
+      "eyebrow": "Question of the day",
+      "partnerAnswered": "{name} already answered. Reply to see the answer",
+      "partnerLocked": "The answer {name} will be revealed when you both answer",
+      "empty": "Write your answer",
+      "saved": "Answer saved 💬",
+      "placeholder": "Your answer",
+      "submit": "Answer",
+      "you": "You",
+      "partnerWaiting": "{name} has not responded yet. The answer will appear here"
+    },
+    "tasks": {
+      "title": "Daily tasks",
+      "left": "{n} left",
+      "allDone": "everyone is ready 🎉",
+      "done": "Done",
+      "doneByMe": {
+        "m": "You noted",
+        "f": "You noted",
+        "n": "Ready"
+      },
+      "doneByPartner": {
+        "m": "Tagged {name}",
+        "f": "Tagged {name}",
+        "n": "Tagged {name}"
+      },
+      "bonus": "+{n} tap {name} ⭐ | +{n} tapa {name} ⭐ | +{n} taps {name} ⭐"
+    },
+    "gender": {
+      "saved": "Done 💜",
+      "question": "How should I contact you?",
+      "label": "How to contact you",
+      "whySolo": "So that {name} addresses you correctly",
+      "whyCouple": "So that {name} receives “added” or “added”"
+    },
+    "items": {
+      "title": "Cat's things",
+      "todayTaps": "{done} / {cap} today",
+      "next": "Next: {name}",
+      "all": "{name} collected everything",
+      "left": "more {n}",
+      "worn": "Wearing",
+      "off": "Removed",
+      "cost": "{n} tap | {n} tapa | {n} taps",
+      "collapse": "Collapse",
+      "showAll": "All {n} things: from seeds to a kitten"
+    },
+    "memory": {
+      "byMe": "You",
+      "meta": "{when} · {who}",
+      "deleted": "Deleted",
+      "openPhoto": "Open photo",
+      "confirmDelete": "Delete exactly?"
+    },
+    "memoryForm": {
+      "title": "New memory",
+      "empty": "Add a photo or a few words",
+      "savingPhoto": "We save it along with the photo...",
+      "saved": "Memory saved 📸",
+      "photoAdded": "Photo added",
+      "addPhoto": "Add a photo",
+      "tapToReplace": "Click to replace",
+      "photoOptional": "Possible without photos",
+      "placeholder": "What do you remember?",
+      "when": "When was this"
+    },
+    "missed": {
+      "title": "{name} missed {n} day 🥺 | {name} missed {n} days 🥺 | {name} missed {n} days 🥺",
+      "text": "Stomp him and he will smile again.",
+      "welcomeTitle": "Welcome back 💜",
+      "welcomeText": "{name} glad to see you. Come whenever you want: he is always here."
+    },
+    "mood": {
+      "title": "What are you like today?",
+      "partnerToday": "{name} today:",
+      "partnerUnknown": "hasn't tagged yet"
+    },
+    "note": {
+      "titleSolo": "A note to your future self",
+      "titleCouple": "Surprise note",
+      "textSolo": "Will come to you at a random point in the week",
+      "textCouple": "{name} will receive it at a random time during the week",
+      "onTheWay": "{text}. On the way: {n}",
+      "write": "Write"
+    },
+    "quick": {
+      "wish": "Wish",
+      "shop": "Purchase",
+      "plan": "Plan"
+    },
+    "received": {
+      "titleSolo": "Notes from the past",
+      "titleCouple": "Notes from {name}"
+    },
+    "selfCare": {
+      "title": "🫂 Hard day",
+      "text": "It happens, and that's normal. You can just breathe a little with the cat: a couple of minutes, and it will become a little easier.",
+      "breathe": "Breathe with the cat",
+      "helpText": "If you feel really bad, don’t keep it to yourself: write to a loved one or contact the psychological help line, they will listen free of charge and anonymously.",
+      "findHelpline": "Find helpline ›"
+    },
+    "soon": {
+      "title": "Don't forget",
+      "calendar": "Calendar >",
+      "when": "{day}, {time}",
+      "birthday": "DR: {name}",
+      "empty": "Nothing yet. Add plans to your calendar."
+    },
+    "support": {
+      "eyebrow": "Signal sent",
+      "waiting": "{name} received a signal in Telegram. The answer will appear here",
+      "breathe": "Breathe with the cat",
+      "better": "I'm feeling better now"
+    },
+    "talk": {
+      "eyebrow": "Your message for {name}",
+      "waiting": "{name} received a message. The answer will appear here",
+      "done": "We talked ✓"
+    },
+    "feed": {
+      "fromMe": "You → {name}",
+      "toMe": "{name} → to you",
+      "like": "Like",
+      "liked": "I liked it",
+      "confirmDelete": "Delete?"
+    },
+    "thanksPrompt": {
+      "title": "Thanks for the little things",
+      "textSolo": {
+        "m": "What are you grateful for today?",
+        "f": "What are you grateful for today?",
+        "n": "What are you grateful for today?"
+      },
+      "textCouple": {
+        "m": "What are you grateful for {name} today?",
+        "f": "What are you grateful for {name} today?",
+        "n": "What are you grateful for {name} today?"
+      },
+      "write": "Write down",
+      "thank": "Thank"
+    },
+    "tips": {
+      "title": "How everything works here",
+      "gotIt": "It's clear",
+      "solo": {
+        "tap": {
+          "title": "Tap the cat:",
+          "text": "for taps he gets things. Daily tasks give a bonus."
+        },
+        "wishlist": {
+          "title": "Wishlist",
+          "text": "with photo: it will come in handy when they ask what to give you."
+        },
+        "note": {
+          "title": "A note to your future self",
+          "text": "will come to you at a random moment in the week."
+        },
+        "hardDay": {
+          "title": "Rough day?",
+          "text": "Mark your mood and {name} will invite you to breathe together."
+        }
+      },
+      "couple": {
+        "tap": {
+          "title": "Tap the cat",
+          "text": "together. The taps are shared and the cat gets things for them."
+        },
+        "wishlist": {
+          "title": "Wishlist:",
+          "text": "button “I will give” on desire {other}. He won't know who is giving."
+        },
+        "note": {
+          "title": "Note",
+          "text": "{other} will arrive at a random time during the week."
+        },
+        "settings": {
+          "before": "You can invite {other} and turn off notifications in",
+          "link": "settings",
+          "after": "top right."
+        }
+      }
+    },
+    "stats": {
+      "daysSolo": "day with the cat | day with the cat | days with the cat",
+      "daysFriends": "day together in Sipsik Love | day together in Sipsik Love | days together in Sipsik Love",
+      "daysPair": "day together | day together | days together",
+      "since": "with {date}",
+      "anniversaryToday": "{years}th anniversary today",
+      "toAnniversary": "day before {years}th anniversary | days until the {years}th anniversary | days until {years}th anniversary",
+      "wishes": "wishlist wish | wishlist wishes | wishes in wish list",
+      "memories": "memory | memories | memories"
+    },
+    "journal": {
+      "title": {
+        "m": "Today I am grateful for...",
+        "f": "Today I am grateful for...",
+        "n": "Today I am grateful for..."
+      },
+      "placeholder": "For example: for warm tea and a quiet evening",
+      "submit": "Write it down 💛",
+      "week": "In a week",
+      "total": "Total",
+      "entries": "entry | entries | records",
+      "empty": "Gratitude journal: every day one line about good things. It will be nice to re-read it in a month 💛"
+    },
+    "thanksSection": {
+      "mineWeek": "You're in a week",
+      "partnerWeek": "{name} per week",
+      "unit": "Thank you",
+      "waitPartner": "Once {other} joins, this is where you can thank each other.",
+      "title": "Thank you, {name}, for...",
+      "placeholder": "For example: what did you make me tea in the evening?",
+      "submit": "Thank you 💛",
+      "empty": "This is where your “thank you” will be for little things that are easy to overlook. Write the first “thank you” 💛"
+    },
+    "memories": {
+      "yearsAgo": "{n} one year ago | {n} years ago | {n} years ago",
+      "limitReached": "{limit} memories from {limit}. To add a new one, delete one of the old ones",
+      "add": "+Add memory {n} from {limit}",
+      "onThisDay": "On this day",
+      "empty": "Here will be your moments: photos and a few words about the day. In a year, Sipsik will show them to you again."
+    }
+  }
+}

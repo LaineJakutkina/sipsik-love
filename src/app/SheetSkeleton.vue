@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from "@/domain/i18n";
 import { SheetTitle } from "@/shared/ui/sheet";
 import { Skeleton } from "@/shared/ui/skeleton";
 
@@ -7,7 +8,7 @@ import { Skeleton } from "@/shared/ui/skeleton";
 
 <template>
   <div class="flex flex-col gap-3" aria-busy="true">
-    <SheetTitle class="sr-only">Загружаем…</SheetTitle>
+    <SheetTitle class="sr-only">{{ t("app.sheetLoading") }}</SheetTitle>
     <Skeleton class="h-7 w-2/3" />
     <Skeleton class="h-4 w-full" />
     <Skeleton class="h-11 w-full rounded-full" />

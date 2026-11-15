@@ -1,5 +1,6 @@
 import { computed } from "vue";
 import { isoToDay } from "@/domain/dates";
+import { t } from "@/domain/i18n";
 import { isTmp, tmpId } from "@/domain/ids";
 import type { Thanks } from "@/domain/types";
 import { notify } from "@/services/notify";
@@ -35,7 +36,7 @@ export function useThanks() {
   function add(text: string): boolean {
     const body = text.trim();
     if (!body) {
-      notify("Напиши, за что спасибо");
+      notify(t("us.thanks.empty"));
       return false;
     }
     telegram.haptic("success");
@@ -51,13 +52,13 @@ export function useThanks() {
           created_at: new Date().toISOString(),
         });
       },
-      session.solo ? "Записано в дневник 💛" : "Спасибо отправлено 💛",
+      t(session.solo ? "us.thanks.savedJournal" : "us.thanks.sent"),
     );
     return true;
   }
 
   function heart(id: string) {
-    if (isTmp(id)) return notify("Секунду, сохраняем…");
+    if (isTmp(id)) return notify(t("common.savingWait"));
     telegram.haptic("light");
     session.mutate("thanks.heart", { id }, (s) => {
       const x = s.thanks?.find((y) => y.id === id);
@@ -66,7 +67,7 @@ export function useThanks() {
   }
 
   function remove(id: string) {
-    if (isTmp(id)) return notify("Секунду, сохраняем…");
+    if (isTmp(id)) return notify(t("common.savingWait"));
     ui.thanksDel = null;
     session.mutate("thanks.delete", { id }, (s) => {
       s.thanks = (s.thanks ?? []).filter((x) => x.id !== id);

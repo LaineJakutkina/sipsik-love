@@ -1,3 +1,4 @@
+import { t } from "@/domain/i18n";
 import type { ItemId } from "@/domain/items";
 import {
   circle,
@@ -171,7 +172,9 @@ export const ITEM_ART: Partial<Record<ItemId, () => ArtNode>> = {
         ],
         { style: outlined() },
       ),
-      text(203, 168, "СЕМКИ", 7.5, "#7a4d1a", { transform: rotateAbout(-12, 214, 166) }),
+      text(203, 168, t("game.items.seedsLabel"), 7.5, "#7a4d1a", {
+        transform: rotateAbout(-12, 214, 166),
+      }),
       ...[
         [210, 150],
         [220, 147],
@@ -203,7 +206,7 @@ export const ITEM_ART: Partial<Record<ItemId, () => ArtNode>> = {
         ],
         { style: outlined() },
       ),
-      text(214, 161, "БУРАТИНО", 5.6, "#c0392b", { anchor: "middle" }),
+      text(214, 161, t("game.items.lemonadeLabel"), 5.6, "#c0392b", { anchor: "middle" }),
     ]),
   mic: () =>
     group([

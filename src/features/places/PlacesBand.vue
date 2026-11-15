@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount } from "vue";
 import { today } from "@/domain/dates";
+import { t } from "@/domain/i18n";
 import { tmpId } from "@/domain/ids";
 import { Button } from "@/shared/ui/button";
 import { useSessionStore } from "@/stores/session";
@@ -11,12 +12,12 @@ const roulette = useRouletteStore();
 
 const names = computed(() => session.app.places.map((p) => p.title));
 const text = computed(() =>
-  roulette.spinning ? roulette.display : (roulette.result ?? "Доверимся жребию"),
+  roulette.spinning ? roulette.display : (roulette.result ?? t("places.band.idle")),
 );
 
 function goToday() {
   if (!roulette.result) return;
-  const title = "Идём: " + roulette.result;
+  const title = t("places.band.planTitle", { place: roulette.result });
   const day = today();
   session.mutate(
     "plan.add",
@@ -24,7 +25,7 @@ function goToday() {
     (s) => {
       s.plans.push({ id: tmpId(), day, time: null, title });
     },
-    "Записано в календарь на сегодня",
+    t("places.band.planned"),
   );
 }
 
@@ -32,7 +33,7 @@ onBeforeUnmount(roulette.settle);
 </script>
 
 <template>
-  <h1>Куда идём сегодня?</h1>
+  <h1>{{ t("places.band.title") }}</h1>
   <div
     class="group bg-navy-2 text-primary-foreground data-hit:bg-peach data-hit:text-navy grid min-h-[96px] place-items-center rounded-2xl p-3.5 text-center transition-colors"
     :data-hit="(roulette.result && !roulette.spinning) || undefined"
@@ -50,10 +51,10 @@ onBeforeUnmount(roulette.settle);
       :disabled="names.length < 2 || roulette.spinning"
       @click="roulette.spin(names)"
     >
-      {{ roulette.result ? "Ещё раз" : "Крутить" }}
+      {{ roulette.result ? t("places.band.again") : t("places.band.spin") }}
     </Button>
     <Button variant="inverse" :disabled="!roulette.result || roulette.spinning" @click="goToday">
-      Идём сегодня
+      {{ t("places.band.goToday") }}
     </Button>
   </div>
 </template>

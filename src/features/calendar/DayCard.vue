@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, useTemplateRef, watch, type ComponentPublicInstance } from "vue";
-import { formatShort, MONTHS_GEN, parseDate, today, WEEKDAYS } from "@/domain/dates";
+import { formatShort, formatTime, formatWeekdayDate, parseDate, today } from "@/domain/dates";
+import { t } from "@/domain/i18n";
 import { isTmp, tmpId } from "@/domain/ids";
 import type { Id } from "@/domain/types";
 import { notify } from "@/services/notify";
@@ -16,10 +17,7 @@ import { useCalendarUiStore } from "./calendarUi";
 const session = useSessionStore();
 const ui = useCalendarUiStore();
 
-const heading = computed(() => {
-  const d = parseDate(ui.selected);
-  return `${WEEKDAYS[d.getDay()]}, ${d.getDate()} ${MONTHS_GEN[d.getMonth()]}`;
-});
+const heading = computed(() => formatWeekdayDate(ui.selected));
 const plans = computed(() =>
   session.app.plans
     .filter((p) => p.day === ui.selected)
@@ -36,20 +34,20 @@ const title = ref("");
 const time = ref("");
 
 function add() {
-  const t = title.value.trim();
+  const what = title.value.trim();
   const tm = time.value.trim();
   const day = ui.selected;
-  if (!t) {
-    notify("Напиши, что планируете");
+  if (!what) {
+    notify(t("calendar.day.needTitle"));
     return;
   }
   session.mutate(
     "plan.add",
-    { day, time: tm, title: t },
+    { day, time: tm, title: what },
     (s) => {
-      s.plans.push({ id: tmpId(), day, time: tm || null, title: t });
+      s.plans.push({ id: tmpId(), day, time: tm || null, title: what });
     },
-    "План добавлен на " + formatShort(day),
+    t("calendar.day.added", { date: formatShort(day) }),
   );
   title.value = "";
   time.value = "";
@@ -57,7 +55,7 @@ function add() {
 
 function remove(id: Id) {
   if (isTmp(id)) {
-    notify("Секунду, сохраняем…");
+    notify(t("common.savingWait"));
     return;
   }
   session.mutate("plan.delete", { id }, (s) => {
@@ -88,32 +86,47 @@ watch(() => ui.focusPlan, focusPlan);
   <Card id="dayCard" ref="card">
     <div class="flex items-center gap-2">
       <CardTitle>{{ heading }}</CardTitle>
-      <Badge v-if="ui.selected === today()" variant="secondary" size="sm">сегодня</Badge>
+      <Badge v-if="ui.selected === today()" variant="secondary" size="sm">
+        {{ t("calendar.today") }}
+      </Badge>
     </div>
     <div class="mt-2.5 flex flex-col gap-2">
       <AgendaRow v-for="b in birthdays" :key="b.id" tone="navy">
-        День рождения: {{ b.name }}{{ b.age > 0 ? `, ${b.age}` : "" }}
+        {{
+          b.age > 0
+            ? t("calendar.day.birthdayAge", { name: b.name, age: b.age })
+            : t("calendar.day.birthday", { name: b.name })
+        }}
         <template #right>🎂</template>
       </AgendaRow>
       <AgendaRow v-for="p in plans" :key="p.id" tone="fill">
         {{ p.title }}
-        <template #right>{{ p.time ?? "день" }}</template>
+        <template #right>{{ p.time ? formatTime(p.time) : t("calendar.day.allDay") }}</template>
         <template #action>
-          <RemoveButton label="Удалить план" class="text-navy" @remove="remove(p.id)" />
+          <RemoveButton
+            :label="t('calendar.day.removePlan')"
+            class="text-navy"
+            @remove="remove(p.id)"
+          />
         </template>
       </AgendaRow>
       <p
         v-if="!birthdays.length && !plans.length"
         class="bg-muted text-muted-foreground rounded-2xl px-3.5 py-3 text-center text-sm font-semibold"
       >
-        На этот день пока ничего нет
+        {{ t("calendar.day.empty") }}
       </p>
     </div>
     <form class="mt-3 flex flex-col gap-2" @submit.prevent="add">
-      <Input ref="input" v-model="title" placeholder="Что планируем" maxlength="100" />
+      <Input
+        ref="input"
+        v-model="title"
+        :placeholder="t('calendar.day.placeholder')"
+        maxlength="100"
+      />
       <div class="grid grid-cols-2 gap-2">
-        <DateField v-model="time" type="time" placeholder="Время" />
-        <Button type="submit">Добавить</Button>
+        <DateField v-model="time" type="time" :placeholder="t('calendar.day.time')" />
+        <Button type="submit">{{ t("common.actions.add") }}</Button>
       </div>
     </form>
   </Card>

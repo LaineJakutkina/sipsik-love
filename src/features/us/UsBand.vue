@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { SlidersHorizontalIcon } from "@lucide/vue";
 import { computed, useTemplateRef } from "vue";
+import { formatNumber, t, tn } from "@/domain/i18n";
 import { itemProgress } from "@/domain/items";
 import CatStage from "@/game/vue/CatStage.vue";
 import { telegram } from "@/services/telegram";
 import { SegmentedPills, type PillOption } from "@/shared/components";
-import { formatNumber, plural, TAP_FORMS } from "@/shared/lib/plural";
 import { Button } from "@/shared/ui/button";
 import { Progress } from "@/shared/ui/progress";
 import { useSessionStore } from "@/stores/session";
@@ -16,11 +16,11 @@ import { useCatSpeech } from "./useCatSpeech";
 import { useTalkingCat } from "./useTalkingCat";
 import { useUsUiStore, type UsSegment } from "./usUi";
 
-const SEGMENTS: readonly PillOption<UsSegment>[] = [
-  { value: "today", label: "Сегодня" },
-  { value: "mem", label: "Воспоминания" },
-  { value: "thanks", label: "Спасибо" },
-];
+const segments = computed<readonly PillOption<UsSegment>[]>(() => [
+  { value: "today", label: t("us.band.segments.today") },
+  { value: "mem", label: t("us.band.segments.mem") },
+  { value: "thanks", label: t("us.band.segments.thanks") },
+]);
 /** Every N-th tap gets a burst of hearts */
 const ROUND_TAPS = 100;
 
@@ -63,7 +63,7 @@ function pet() {
 
 <template>
   <div class="relative">
-    <CatStage ref="stage" :look="look" :say="say" label="Погладить котика" @pet="pet" />
+    <CatStage ref="stage" :look="look" :say="say" :label="t('us.band.pet')" @pet="pet" />
     <span
       v-if="streak?.n"
       class="bg-primary text-primary-foreground pointer-events-none absolute top-2.5 left-2.5 rounded-full px-2.5 py-1 text-xs font-extrabold"
@@ -74,7 +74,7 @@ function pet() {
     <Button
       size="icon"
       class="absolute top-2.5 right-2.5 size-9"
-      aria-label="Настройки"
+      :aria-label="t('us.band.settings')"
       @click="sheets.open('settings')"
     >
       <SlidersHorizontalIcon class="size-[18px]" :stroke-width="2.2" />
@@ -90,16 +90,16 @@ function pet() {
     <b :key="couple.clicks" class="tabular text-secondary animate-pop inline-block">
       {{ formatNumber(couple.clicks) }}
     </b>
-    <span class="text-[13px]">{{ plural(couple.clicks, TAP_FORMS) }}</span>
+    <span class="text-[13px]">{{ tn("common.units.taps", couple.clicks) }}</span>
   </div>
   <div v-if="progress.next" class="flex w-full max-w-[260px] flex-col gap-1.5 self-center">
     <Progress :model-value="progress.percent" class="bg-navy-2 h-1.5 border-0" />
     <p class="text-center text-xs font-semibold opacity-80">
-      Ещё {{ formatNumber(progress.left) }} до вещи «{{ progress.next.name }}»
+      {{ t("us.band.nextItem", { n: formatNumber(progress.left), name: progress.next.name }) }}
     </p>
   </div>
   <p v-if="streak?.note" class="self-center text-center text-[13px] font-bold opacity-95">
     {{ streak.note }}
   </p>
-  <SegmentedPills v-model="segment" :options="SEGMENTS" track label="Раздел" />
+  <SegmentedPills v-model="segment" :options="segments" track :label="t('us.band.segmentsLabel')" />
 </template>

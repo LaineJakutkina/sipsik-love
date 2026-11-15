@@ -2,6 +2,7 @@ import { watchDebounced } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { DEFAULT_LIMITS, DEFAULT_TAP_CAP } from "@/domain/catalog";
+import { t, tg, type GenderedKey, type MessageParams } from "@/domain/i18n";
 import { isMood, type MoodId } from "@/domain/moods";
 import type { AppState, CoupleState, SpaceMode } from "@/domain/types";
 import { call, errorMessage } from "@/services/api/client";
@@ -75,15 +76,27 @@ export const useSessionStore = defineStore("session", () => {
   /** The other person as a word, in the cases the texts need */
   const other = computed(() =>
     friends.value
-      ? { nom: "друг", gen: "друга", dat: "другу" }
-      : { nom: "партнёр", gen: "партнёра", dat: "партнёру" },
+      ? {
+          nom: t("stores.session.other.friend.nom"),
+          gen: t("stores.session.other.friend.gen"),
+          dat: t("stores.session.other.friend.dat"),
+        }
+      : {
+          nom: t("stores.session.other.partner.nom"),
+          gen: t("stores.session.other.partner.gen"),
+          dat: t("stores.session.other.partner.dat"),
+        },
   );
-  const togetherMessage = computed(() => (friends.value ? "Вы теперь вместе!" : "Вы теперь пара!"));
+  const togetherMessage = computed(() =>
+    t(friends.value ? "stores.session.together.friends" : "stores.session.together.pair"),
+  );
   const meName = computed(() => state.value?.me.name ?? "");
   const partnerName = computed(
-    () => state.value?.partner?.name ?? (friends.value ? "Друг" : "Партнёр"),
+    () =>
+      state.value?.partner?.name ??
+      t(friends.value ? "stores.session.defaultName.friend" : "stores.session.defaultName.partner"),
   );
-  const petName = computed(() => state.value?.couple?.pet_name || "Сипсик");
+  const petName = computed(() => state.value?.couple?.pet_name || t("stores.session.petName"));
   const limits = computed(() => state.value?.limits ?? DEFAULT_LIMITS);
   const tapCap = computed(() => state.value?.couple?.tap_cap || DEFAULT_TAP_CAP);
   const tired = computed(() => (state.value?.couple?.taps_today ?? 0) >= tapCap.value);
@@ -102,10 +115,9 @@ export const useSessionStore = defineStore("session", () => {
     sad.value ? "tears" : tired.value ? "tired" : (myMood.value ?? "happy"),
   );
 
-  /** Pick wording by the user's grammatical gender: (masculine, feminine, unknown) */
-  function gendered(m: string, f: string, n: string) {
-    const g = state.value?.me.gender;
-    return g === "m" ? m : g === "f" ? f : n;
+  /** Wording by the user's grammatical gender: `key.m`, `key.f` or `key.n` */
+  function gendered(key: GenderedKey, params?: MessageParams) {
+    return tg(key, state.value?.me.gender, params);
   }
 
   /* ---------- sync ---------- */
@@ -222,7 +234,7 @@ export const useSessionStore = defineStore("session", () => {
       }
     } catch (e) {
       if (cached) {
-        notify("Нет связи. Показываем то, что было в прошлый раз");
+        notify(t("stores.session.offline"));
         return;
       }
       error.value = errorMessage(e);

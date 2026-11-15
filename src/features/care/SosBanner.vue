@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { t } from "@/domain/i18n";
 import { Card, CardEyebrow, CardTitle } from "@/shared/ui/card";
 import { useSessionStore } from "@/stores/session";
 import { useCareActions } from "./careActions";
@@ -14,12 +15,14 @@ const sos = computed(() => (session.app.partner ? session.app.sos : null));
 
 <template>
   <Card v-if="sos?.partner" tone="dark">
-    <CardEyebrow class="text-peach">{{ session.partnerName }} просит поддержки</CardEyebrow>
+    <CardEyebrow class="text-peach">{{
+      t("care.sosBanner.asks", { name: session.partnerName })
+    }}</CardEyebrow>
     <CardTitle>{{ sos.partner.emoji }} «{{ sos.partner.ask }}»</CardTitle>
     <p v-if="sos.partner.body" class="mt-1.5">{{ sos.partner.body }}</p>
     <CareTip>{{ sos.partner.tip }}</CareTip>
     <p v-if="sos.partner.reply" class="mt-2.5 text-[13px] opacity-80">
-      Ты ответил(а): <b>{{ sos.partner.reply }}</b>
+      {{ session.gendered("care.sosBanner.youReplied") }} <b>{{ sos.partner.reply }}</b>
     </p>
     <ReplyBox v-else :replies="sos.replies" :maxlength="200" @reply="replySos" />
   </Card>

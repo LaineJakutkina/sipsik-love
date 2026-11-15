@@ -20,14 +20,7 @@ export type PatternId =
   | "scholar";
 
 /** Special noses; anything else is a colour for the default triangle nose */
-export type NoseStyle =
-  | "none"
-  | "frog"
-  | "beak"
-  | "big"
-  | "beaver"
-  | "vamp"
-  | (string & {});
+export type NoseStyle = "none" | "frog" | "beak" | "big" | "beaver" | "vamp" | (string & {});
 
 /** Colours and features for one coat */
 export interface Palette {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { daysBetween, formatDate, today } from "@/domain/dates";
+import { t, tn } from "@/domain/i18n";
 import { isTmp, tmpId } from "@/domain/ids";
 import { importantDates } from "@/domain/relationship";
 import type { Id } from "@/domain/types";
@@ -14,7 +15,6 @@ import {
   ListTitle,
   RemoveButton,
 } from "@/shared/components";
-import { DAY_FORMS, plural } from "@/shared/lib/plural";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { Card, CardTitle } from "@/shared/ui/card";
@@ -25,11 +25,11 @@ import { useSessionStore } from "@/stores/session";
 const session = useSessionStore();
 
 const items = computed(() => {
-  const t = today();
+  const now = today();
   const { couple, dates } = session.app;
-  return importantDates(couple.start_date, dates ?? [], t, session.isPair).map((x) => ({
+  return importantDates(couple.start_date, dates ?? [], now, session.isPair).map((x) => ({
     ...x,
-    days: daysBetween(t, x.next),
+    days: daysBetween(now, x.next),
   }));
 });
 
@@ -39,20 +39,20 @@ const day = ref("");
 const yearly = ref(true);
 
 function add() {
-  const t = title.value.trim();
+  const what = title.value.trim();
   const d = day.value.trim();
   const y = yearly.value;
-  if (!t || !d) {
-    notify("Нужны название и дата");
+  if (!what || !d) {
+    notify(t("calendar.dates.needFields"));
     return;
   }
   session.mutate(
     "date.add",
-    { title: t, day: d, yearly: y },
+    { title: what, day: d, yearly: y },
     (s) => {
-      (s.dates ??= []).push({ id: tmpId(), title: t, day: d, yearly: y });
+      (s.dates ??= []).push({ id: tmpId(), title: what, day: d, yearly: y });
     },
-    "Дата добавлена 💗",
+    t("calendar.dates.added"),
   );
   title.value = "";
   day.value = "";
@@ -62,7 +62,7 @@ function add() {
 
 function remove(id: Id) {
   if (isTmp(id)) {
-    notify("Секунду, сохраняем…");
+    notify(t("common.savingWait"));
     return;
   }
   session.mutate("date.delete", { id }, (s) => {
@@ -74,13 +74,13 @@ function remove(id: Id) {
 <template>
   <Card>
     <div class="flex items-center justify-between gap-2.5">
-      <CardTitle>Важные даты</CardTitle>
+      <CardTitle>{{ t("calendar.dates.title") }}</CardTitle>
       <Button variant="link" :aria-expanded="adding" @click="adding = !adding">
-        {{ adding ? "Скрыть" : "+ Добавить" }}
+        {{ adding ? t("common.actions.hide") : t("common.actions.addMore") }}
       </Button>
     </div>
     <p class="text-muted-foreground text-[13px]">
-      Напомним {{ session.solo ? "тебе" : "вам обоим" }} за 3 дня и в сам день
+      {{ session.solo ? t("calendar.remind.solo") : t("calendar.remind.both") }}
     </p>
     <Expand>
       <form
@@ -88,14 +88,14 @@ function remove(id: Id) {
         class="bg-muted mt-3 flex flex-col gap-2 rounded-2xl p-3"
         @submit.prevent="add"
       >
-        <Input v-model="title" placeholder="Например, первое свидание" maxlength="80" />
+        <Input v-model="title" :placeholder="t('calendar.dates.placeholder')" maxlength="80" />
         <div class="grid grid-cols-2 gap-2">
-          <DateField v-model="day" placeholder="Дата" />
-          <Button type="submit">Добавить</Button>
+          <DateField v-model="day" :placeholder="t('calendar.dates.date')" />
+          <Button type="submit">{{ t("common.actions.add") }}</Button>
         </div>
         <label class="flex cursor-pointer items-center gap-3 text-sm font-semibold">
           <Switch v-model="yearly" />
-          <span>Повторять каждый год</span>
+          <span>{{ t("calendar.dates.yearly") }}</span>
         </label>
       </form>
     </Expand>
@@ -111,10 +111,12 @@ function remove(id: Id) {
         <ListTitle>{{ x.title }}</ListTitle>
         <ListSub>{{ formatDate(x.next) }}</ListSub>
         <template #trail>
-          <span v-if="x.past" class="text-muted-foreground flex-none text-xs font-bold">было</span>
-          <Badge v-else-if="x.days === 0" variant="secondary">сегодня</Badge>
+          <span v-if="x.past" class="text-muted-foreground flex-none text-xs font-bold">
+            {{ t("calendar.dates.past") }}
+          </span>
+          <Badge v-else-if="x.days === 0" variant="secondary">{{ t("calendar.today") }}</Badge>
           <Badge v-else variant="soft" class="tabular">
-            {{ x.days }} {{ plural(x.days, DAY_FORMS) }}
+            {{ tn("common.count.days", x.days) }}
           </Badge>
           <RemoveButton v-if="x.id !== undefined" @remove="remove(x.id)" />
         </template>

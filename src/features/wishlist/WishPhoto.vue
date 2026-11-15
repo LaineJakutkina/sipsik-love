@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { CameraIcon } from "@lucide/vue";
 import { computed } from "vue";
+import { t } from "@/domain/i18n";
 import type { Wish } from "@/domain/types";
 import CharacterThumb from "@/game/vue/CharacterThumb.vue";
 import { LazyImage } from "@/shared/components";
@@ -22,7 +23,11 @@ const sheets = useSheetsStore();
 const wishes = useWishes();
 
 const badge = computed(() =>
-  props.wish.done ? "Сбылось" : !props.mine && props.wish.reserved_by_me ? "Дарю я" : null,
+  props.wish.done
+    ? t("wishlist.photo.done")
+    : !props.mine && props.wish.reserved_by_me
+      ? t("wishlist.photo.reserved")
+      : null,
 );
 const canAdd = computed(() => !wishes.photosFull(props.wish.owner));
 
@@ -43,7 +48,7 @@ function onFile(e: Event) {
       <button
         type="button"
         class="absolute inset-0 cursor-zoom-in"
-        aria-label="Открыть фото"
+        :aria-label="t('wishlist.photo.open')"
         @click="open"
       >
         <LazyImage :src="wish.thumb_url" :alt="wish.title" class="absolute inset-0 size-full" />
@@ -53,7 +58,7 @@ function onFile(e: Event) {
         variant="ghost"
         size="icon-sm"
         class="bg-paper/90 text-foreground absolute right-2 bottom-2 size-8 shadow-sm"
-        aria-label="Заменить фото"
+        :aria-label="t('wishlist.photo.replace')"
       >
         <CameraIcon class="size-4" :stroke-width="2.2" />
         <input type="file" accept="image/*" class="sr-only" @change="onFile" />
@@ -72,7 +77,7 @@ function onFile(e: Event) {
         :width="44"
         class="size-11 opacity-90"
       />
-      {{ canAdd ? "+ фото" : "без фото" }}
+      {{ canAdd ? t("wishlist.photo.add") : t("wishlist.photo.none") }}
       <input v-if="canAdd" type="file" accept="image/*" class="sr-only" @change="onFile" />
     </component>
     <Badge v-if="badge" variant="secondary" size="sm" class="absolute top-2 left-2">

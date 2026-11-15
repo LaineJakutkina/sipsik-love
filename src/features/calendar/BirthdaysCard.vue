@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { inDays, MONTHS_GEN, nextOccurrence, parseDate, today } from "@/domain/dates";
+import { formatMonthShort, inDays, nextOccurrence, parseDate, today } from "@/domain/dates";
+import { t } from "@/domain/i18n";
 import { isTmp, tmpId } from "@/domain/ids";
 import type { Id } from "@/domain/types";
 import { notify } from "@/services/notify";
@@ -29,7 +30,7 @@ const list = computed(() =>
         ...b,
         next,
         dayOfMonth: d.getDate(),
-        month: (MONTHS_GEN[d.getMonth()] ?? "").slice(0, 3),
+        month: formatMonthShort(next),
         turns: d.getFullYear() - parseDate(b.bdate).getFullYear(),
       };
     })
@@ -45,7 +46,7 @@ function add() {
   const n = name.value.trim();
   const d = bdate.value.trim();
   if (!n || !d) {
-    notify("Нужны имя и дата");
+    notify(t("calendar.birthdays.needFields"));
     return;
   }
   session.mutate(
@@ -54,7 +55,7 @@ function add() {
     (s) => {
       s.birthdays.push({ id: tmpId(), name: n, bdate: d });
     },
-    "Добавлено: " + n,
+    t("calendar.birthdays.added", { name: n }),
   );
   name.value = "";
   bdate.value = "";
@@ -63,7 +64,7 @@ function add() {
 
 function remove(id: Id) {
   if (isTmp(id)) {
-    notify("Секунду, сохраняем…");
+    notify(t("common.savingWait"));
     return;
   }
   session.mutate("bday.delete", { id }, (s) => {
@@ -75,13 +76,13 @@ function remove(id: Id) {
 <template>
   <Card>
     <div class="flex items-center justify-between gap-2.5">
-      <CardTitle>Дни рождения</CardTitle>
+      <CardTitle>{{ t("calendar.birthdays.title") }}</CardTitle>
       <Button v-if="list.length" variant="link" :aria-expanded="adding" @click="adding = !adding">
-        {{ adding ? "Скрыть" : "+ Добавить" }}
+        {{ adding ? t("common.actions.hide") : t("common.actions.addMore") }}
       </Button>
     </div>
     <p class="text-muted-foreground text-[13px]">
-      Напомним {{ session.solo ? "тебе" : "вам обоим" }} за 3 дня и в сам день
+      {{ session.solo ? t("calendar.remind.solo") : t("calendar.remind.both") }}
     </p>
     <Expand>
       <form
@@ -89,10 +90,10 @@ function remove(id: Id) {
         class="bg-muted mt-3 flex flex-col gap-2 rounded-2xl p-3"
         @submit.prevent="add"
       >
-        <Input v-model="name" placeholder="Имя" maxlength="60" />
+        <Input v-model="name" :placeholder="t('calendar.birthdays.name')" maxlength="60" />
         <div class="grid grid-cols-2 gap-2">
-          <DateField v-model="bdate" placeholder="Дата рождения" :max="max" />
-          <Button type="submit">Добавить</Button>
+          <DateField v-model="bdate" :placeholder="t('calendar.birthdays.date')" :max="max" />
+          <Button type="submit">{{ t("common.actions.add") }}</Button>
         </div>
       </form>
     </Expand>
@@ -107,7 +108,9 @@ function remove(id: Id) {
           </span>
         </template>
         <ListTitle>{{ b.name }}</ListTitle>
-        <ListSub>{{ inDays(b.next) }} · исполнится {{ b.turns }}</ListSub>
+        <ListSub>{{
+          t("calendar.birthdays.turns", { when: inDays(b.next), age: b.turns })
+        }}</ListSub>
         <template #trail><RemoveButton @remove="remove(b.id)" /></template>
       </ListRow>
     </AnimatedList>

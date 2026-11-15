@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { t } from "@/domain/i18n";
 import type { Photo } from "@/domain/types";
 import { readPhoto } from "@/services/photo";
 import { notify } from "@/services/notify";
@@ -18,7 +19,7 @@ async function onChange(e: Event) {
   try {
     emit("pick", await readPhoto(file));
   } catch {
-    notify("Не получилось открыть это фото");
+    notify(t("shared.photoPicker.openFailed"));
   } finally {
     reading.value = false;
   }

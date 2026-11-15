@@ -174,7 +174,8 @@ function joinByCode(c: Ctx, raw: unknown) {
   const cp = c.w.couple;
   if (!cp || cp.invite_code !== code) fail("Приглашение не найдено или уже использовано");
   if (c.meUser.inCouple) return;
-  if (c.w.users[other(c.me)].inCouple === false) fail("Приглашение не найдено или уже использовано");
+  if (c.w.users[other(c.me)].inCouple === false)
+    fail("Приглашение не найдено или уже использовано");
   c.meUser.inCouple = true;
   if (cp) {
     cp.invite_code = null;
@@ -324,7 +325,16 @@ function buildState(c: Ctx): AppState {
 }
 
 function emptyLists() {
-  return { moods: { me: null, partner: null }, notes: { sent: [], received: [] }, plans: [], birthdays: [], places: [], shop: [], chores: [], wishes: [] };
+  return {
+    moods: { me: null, partner: null },
+    notes: { sent: [], received: [] },
+    plans: [],
+    birthdays: [],
+    places: [],
+    shop: [],
+    chores: [],
+    wishes: [],
+  };
 }
 
 /* ---------- actions ---------- */
@@ -340,7 +350,9 @@ function photoOf(b: Body) {
 function checkWishPhotoLimit(c: Ctx, owner: U, exceptId: string | null) {
   const n = c.w.wishes.filter((x) => x.owner === owner && x.photo && x.id !== exceptId).length;
   if (n >= WISH_PHOTO_LIMIT)
-    fail(`В вишлисте можно держать до ${WISH_PHOTO_LIMIT} фото. Удали одно из желаний с фото, чтобы добавить новое`);
+    fail(
+      `В вишлисте можно держать до ${WISH_PHOTO_LIMIT} фото. Удали одно из желаний с фото, чтобы добавить новое`,
+    );
 }
 
 const ACTIONS: Record<string, Handler> = {
@@ -350,9 +362,13 @@ const ACTIONS: Record<string, Handler> = {
 
   "couple.create": (c, b) => {
     if (c.meUser.inCouple) fail("Ты уже в паре");
-    const mode: SpaceMode | "solo" =
-      b.mode === "friends" ? "friends" : b.solo ? "solo" : "pair";
-    const start = mode !== "pair" ? c.day : isDay(b.start_date) ? b.start_date : fail("Укажи дату начала отношений");
+    const mode: SpaceMode | "solo" = b.mode === "friends" ? "friends" : b.solo ? "solo" : "pair";
+    const start =
+      mode !== "pair"
+        ? c.day
+        : isDay(b.start_date)
+          ? b.start_date
+          : fail("Укажи дату начала отношений");
     if (start > c.day) fail("Дата начала не может быть в будущем");
     c.w = { ...blankWorld(), users: c.w.users };
     c.w.users.a.inCouple = false;
@@ -386,7 +402,8 @@ const ACTIONS: Record<string, Handler> = {
     if ((b.mode === "pair" || b.mode === "friends") && modeOf(c) !== "solo") cp.mode = b.mode;
     if (b.my_name !== undefined) c.meUser.name = str(b.my_name, 30) ?? c.meUser.name;
     if (b.notify !== undefined) c.meUser.notify = !!b.notify;
-    if (b.gender !== undefined) c.meUser.gender = b.gender === "m" || b.gender === "f" ? b.gender : null;
+    if (b.gender !== undefined)
+      c.meUser.gender = b.gender === "m" || b.gender === "f" ? b.gender : null;
   },
   "couple.leave": (c) => {
     const cp = couple(c);
@@ -401,12 +418,27 @@ const ACTIONS: Record<string, Handler> = {
     const asked = Math.max(1, Math.min(300, Math.floor(Number(b.n) || 0)));
     const doneToday = (c.w.taps[`a|${c.day}`] ?? 0) + (c.w.taps[`b|${c.day}`] ?? 0);
     const n = Math.min(asked, Math.max(0, DAILY_TAP_CAP - doneToday));
-    if (n <= 0) return { clicks: cp.clicks, worn: cp.worn, unlocked: [], today: doneToday, cap: DAILY_TAP_CAP, capped: true };
+    if (n <= 0)
+      return {
+        clicks: cp.clicks,
+        worn: cp.worn,
+        unlocked: [],
+        today: doneToday,
+        cap: DAILY_TAP_CAP,
+        capped: true,
+      };
     const key = `${c.me}|${c.day}`;
     c.w.taps[key] = (c.w.taps[key] ?? 0) + n;
     const unlocked = addTaps(c, n);
     const total = doneToday + n;
-    return { clicks: cp.clicks, worn: { ...cp.worn }, unlocked, today: total, cap: DAILY_TAP_CAP, capped: total >= DAILY_TAP_CAP };
+    return {
+      clicks: cp.clicks,
+      worn: { ...cp.worn },
+      unlocked,
+      today: total,
+      cap: DAILY_TAP_CAP,
+      capped: total >= DAILY_TAP_CAP,
+    };
   },
   wear: (c, b) => {
     const cp = couple(c);
@@ -424,7 +456,13 @@ const ACTIONS: Record<string, Handler> = {
 
   "note.send": (c, b) => {
     couple(c);
-    c.w.notes.unshift({ id: uid(), from: c.me, body: need(b.body, "Записка"), deliver_at: Date.now() + NOTE_DELAY_MS, created_at: nowIso() });
+    c.w.notes.unshift({
+      id: uid(),
+      from: c.me,
+      body: need(b.body, "Записка"),
+      deliver_at: Date.now() + NOTE_DELAY_MS,
+      created_at: nowIso(),
+    });
   },
   "note.delete": (c, b) => {
     c.w.notes = drop(c.w.notes, b.id, (n) => n.from !== c.me);
@@ -434,12 +472,21 @@ const ACTIONS: Record<string, Handler> = {
     couple(c);
     const owner = b.owner === "partner" ? needPartner(c) : c.me;
     const link = str(b.link, 500);
-    if (link && !/^https?:\/\//i.test(link) && !/^[\w-]+(\.[\w-]+)+/.test(link)) fail("Ссылка выглядит неправильно");
+    if (link && !/^https?:\/\//i.test(link) && !/^[\w-]+(\.[\w-]+)+/.test(link))
+      fail("Ссылка выглядит неправильно");
     const { photo, thumb } = photoOf(b);
     if (photo) checkWishPhotoLimit(c, owner, null);
     c.w.wishes.unshift({
-      id: uid(), owner, title: need(b.title, "Название"), price: str(b.price, 40), link, note: str(b.note, 300),
-      photo, thumb, done: false, reserved_by: null,
+      id: uid(),
+      owner,
+      title: need(b.title, "Название"),
+      price: str(b.price, 40),
+      link,
+      note: str(b.note, 300),
+      photo,
+      thumb,
+      done: false,
+      reserved_by: null,
     });
   },
   "wish.photo": (c, b) => {
@@ -527,7 +574,12 @@ const ACTIONS: Record<string, Handler> = {
   "date.add": (c, b) => {
     couple(c);
     if (!isDay(b.day)) fail("Выбери дату");
-    c.w.dates.push({ id: uid(), title: need(b.title, "Название"), day: b.day, yearly: b.yearly !== false });
+    c.w.dates.push({
+      id: uid(),
+      title: need(b.title, "Название"),
+      day: b.day,
+      yearly: b.yearly !== false,
+    });
   },
   "date.delete": (c, b) => {
     c.w.dates = drop(c.w.dates, b.id);
@@ -536,7 +588,8 @@ const ACTIONS: Record<string, Handler> = {
   "task.done": (c, b) => {
     couple(c);
     const idx = Number(b.idx);
-    if (!dailyTaskIdx(c.day, tasksFor(c).length).includes(idx)) fail("Этого задания сегодня нет, обнови экран");
+    if (!dailyTaskIdx(c.day, tasksFor(c).length).includes(idx))
+      fail("Этого задания сегодня нет, обнови экран");
     if (c.w.taskDone.some((x) => x.day === c.day && x.idx === idx)) return;
     c.w.taskDone.push({ day: c.day, idx, user: c.me });
     addTaps(c, TASK_BONUS);
@@ -550,7 +603,14 @@ const ACTIONS: Record<string, Handler> = {
     needPartner(c);
     if (typeof b.kind !== "string" || !SOS[b.kind]) fail("Выбери, что тебе сейчас нужно");
     for (const s of c.w.sos) if (s.from === c.me) s.resolved = true;
-    c.w.sos.unshift({ id: uid(), from: c.me, kind: String(b.kind), body: str(b.body, 300), reply: null, resolved: false });
+    c.w.sos.unshift({
+      id: uid(),
+      from: c.me,
+      kind: String(b.kind),
+      body: str(b.body, 300),
+      reply: null,
+      resolved: false,
+    });
   },
   "sos.reply": (c, b) => {
     needPartner(c);
@@ -567,7 +627,13 @@ const ACTIONS: Record<string, Handler> = {
   "talk.send": (c, b) => {
     needPartner(c);
     for (const t of c.w.talks) if (t.from === c.me) t.closed = true;
-    c.w.talks.unshift({ id: uid(), from: c.me, body: need(b.body, "Сообщение"), reply: null, closed: false });
+    c.w.talks.unshift({
+      id: uid(),
+      from: c.me,
+      body: need(b.body, "Сообщение"),
+      reply: null,
+      closed: false,
+    });
   },
   "talk.reply": (c, b) => {
     needPartner(c);
@@ -583,7 +649,13 @@ const ACTIONS: Record<string, Handler> = {
   "thanks.add": (c, b) => {
     couple(c);
     if (modeOf(c) !== "solo") needPartner(c);
-    c.w.thanks.unshift({ id: uid(), from: c.me, body: need(b.body, "Благодарность"), hearted: false, created_at: nowIso() });
+    c.w.thanks.unshift({
+      id: uid(),
+      from: c.me,
+      body: need(b.body, "Благодарность"),
+      hearted: false,
+      created_at: nowIso(),
+    });
   },
   "thanks.heart": (c, b) => {
     const t = find(c.w.thanks, b.id);
@@ -601,7 +673,8 @@ const ACTIONS: Record<string, Handler> = {
     const body = str(b.body, 1000) ?? "";
     const { photo, thumb } = photoOf(b);
     if (!body && !photo) fail("Добавь фото или пару слов");
-    if (c.w.memories.length >= MEMORY_LIMIT) fail(`Можно хранить до ${MEMORY_LIMIT} воспоминаний. Удали одно, чтобы добавить новое`);
+    if (c.w.memories.length >= MEMORY_LIMIT)
+      fail(`Можно хранить до ${MEMORY_LIMIT} воспоминаний. Удали одно, чтобы добавить новое`);
     c.w.memories.unshift({ id: uid(), user: c.me, day, body, photo, thumb });
   },
   "memory.delete": (c, b) => {
@@ -630,13 +703,23 @@ const ACTIONS: Record<string, Handler> = {
 function context(w: World, day: DateStr): Ctx {
   const me = viewer();
   const p = other(me);
-  return { w, me, meUser: w.users[me], partner: w.users[me].inCouple && w.users[p].inCouple ? p : null, day };
+  return {
+    w,
+    me,
+    meUser: w.users[me],
+    partner: w.users[me].inCouple && w.users[p].inCouple ? p : null,
+    day,
+  };
 }
 
 const pause = () => new Promise((r) => setTimeout(r, 120 + Math.random() * 180));
 
 /** Same signature as the real `call()`; answers like the Supabase function would */
-export async function demoCall<A extends Action>(action: A, payload: PayloadOf<A> | undefined, day: DateStr): Promise<ResponseOf<A>> {
+export async function demoCall<A extends Action>(
+  action: A,
+  payload: PayloadOf<A> | undefined,
+  day: DateStr,
+): Promise<ResponseOf<A>> {
   await pause();
   const handler = ACTIONS[action] ?? fail("Неизвестное действие");
   const body: Body = { ...payload };
@@ -649,7 +732,10 @@ export async function demoCall<A extends Action>(action: A, payload: PayloadOf<A
       } catch (e) {
         save(c.w);
         const st = buildState(context(c.w, c.day));
-        return { ...st, joinError: e instanceof Error ? e.message : "Не получилось" } as ResponseOf<A>;
+        return {
+          ...st,
+          joinError: e instanceof Error ? e.message : "Не получилось",
+        } as ResponseOf<A>;
       }
       c = context(c.w, c.day);
     }
@@ -680,7 +766,9 @@ export function grantDemoPurchase(link: string) {
 export function payDemoInvoice(link: string): string {
   const offer = COATS[link.replace(/^demo:/, "")];
   if (!offer) return "failed";
-  const ok = window.confirm(`Демо: купить «${offer.n}» за ${offer.price} ⭐ понарошку? Звёзды не спишутся.`);
+  const ok = window.confirm(
+    `Демо: купить «${offer.n}» за ${offer.price} ⭐ понарошку? Звёзды не спишутся.`,
+  );
   if (!ok) return "cancelled";
   grantDemoPurchase(link);
   return "paid";

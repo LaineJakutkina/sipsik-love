@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ChevronLeftIcon, ChevronRightIcon } from "@lucide/vue";
 import { computed } from "vue";
-import { formatDate, MONTHS, monthGrid, today, WEEKDAYS_SHORT } from "@/domain/dates";
+import { formatDate, formatMonthYear, monthGrid, today, weekdaysShort } from "@/domain/dates";
+import { t } from "@/domain/i18n";
 import { isImportantOn } from "@/domain/relationship";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
@@ -13,18 +14,16 @@ import { DAY_DOT, dayVariants, type DayMark } from "./dayVariants";
 const session = useSessionStore();
 const ui = useCalendarUiStore();
 
-const title = computed(() => {
-  const [y = "", m = 1] = ui.month.split("-");
-  return `${MONTHS[Number(m) - 1] ?? ""} ${y}`;
-});
+const title = computed(() => formatMonthYear(ui.month));
+const weekdays = computed(() => weekdaysShort());
 /** «Сегодня» brings the calendar back once you have wandered off */
 const away = computed(() => {
-  const t = today();
-  return ui.selected !== t || ui.month !== t.slice(0, 7);
+  const now = today();
+  return ui.selected !== now || ui.month !== now.slice(0, 7);
 });
 
 const cells = computed(() => {
-  const t = today();
+  const now = today();
   const { plans, birthdays, dates = [] } = session.app;
   return monthGrid(ui.month).map((c) => {
     const marks: DayMark[] = [];
@@ -38,30 +37,37 @@ const cells = computed(() => {
       selected: c.date === ui.selected,
       cls: dayVariants({
         out: !c.inMonth,
-        today: c.date === t,
+        today: c.date === now,
         selected: c.date === ui.selected,
       }),
     };
   });
 });
 
-const legend: { label: string; mark: DayMark }[] = [
-  { label: "План", mark: "plan" },
-  { label: "День рождения", mark: "birthday" },
-  { label: session.isPair ? "Наша дата" : "Важная дата", mark: "important" },
-];
+const legend = computed<{ label: string; mark: DayMark }[]>(() => [
+  { label: t("calendar.month.legend.plan"), mark: "plan" },
+  { label: t("calendar.month.legend.birthday"), mark: "birthday" },
+  {
+    label: session.isPair
+      ? t("calendar.month.legend.ourDate")
+      : t("calendar.month.legend.importantDate"),
+    mark: "important",
+  },
+]);
 </script>
 
 <template>
   <Card>
     <div class="mb-3 flex items-center gap-2">
       <b class="min-w-0 flex-1 truncate text-lg font-extrabold">{{ title }}</b>
-      <Button v-if="away" variant="outline" size="sm" @click="ui.select(today())">Сегодня</Button>
+      <Button v-if="away" variant="outline" size="sm" @click="ui.select(today())">
+        {{ t("calendar.month.today") }}
+      </Button>
       <Button
         variant="ghost"
         size="none"
         class="bg-muted text-foreground size-9"
-        aria-label="Предыдущий месяц"
+        :aria-label="t('calendar.month.prev')"
         @click="ui.shift(-1)"
       >
         <ChevronLeftIcon class="size-5" :stroke-width="2.4" />
@@ -70,7 +76,7 @@ const legend: { label: string; mark: DayMark }[] = [
         variant="ghost"
         size="none"
         class="bg-muted text-foreground size-9"
-        aria-label="Следующий месяц"
+        :aria-label="t('calendar.month.next')"
         @click="ui.shift(1)"
       >
         <ChevronRightIcon class="size-5" :stroke-width="2.4" />
@@ -78,8 +84,8 @@ const legend: { label: string; mark: DayMark }[] = [
     </div>
     <div class="grid grid-cols-7 gap-1 text-center">
       <div
-        v-for="w in WEEKDAYS_SHORT"
-        :key="w"
+        v-for="(w, i) in weekdays"
+        :key="i"
         class="text-muted-foreground pb-1 text-[11px] font-bold uppercase"
       >
         {{ w }}

@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { TALK_ABOUT } from "@/domain/catPhrases";
 import type { CoatOffer, TalkKind } from "@/domain/coats";
+import { formatNumber, t } from "@/domain/i18n";
 import CharacterThumb from "@/game/vue/CharacterThumb.vue";
 import { Button } from "@/shared/ui/button";
 
@@ -18,10 +19,10 @@ const props = defineProps<{
 defineEmits<{ choose: [] }>();
 
 const label = computed(() => {
-  if (!props.offer) return "Скоро";
-  if (props.on) return "Выбран";
-  if (props.owned) return "Выбрать";
-  return `${props.offer.price} ⭐`;
+  if (!props.offer) return t("coats.talking.soon");
+  if (props.on) return t("coats.talking.chosen");
+  if (props.owned) return t("coats.talking.choose");
+  return `${formatNumber(props.offer.price)} ⭐`;
 });
 </script>
 

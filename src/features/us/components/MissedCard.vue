@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DAY_FORMS, plural } from "@/shared/lib/plural";
+import { t, tn } from "@/domain/i18n";
 import { Card, CardTitle } from "@/shared/ui/card";
 import { useSessionStore } from "@/stores/session";
 
@@ -12,15 +12,13 @@ const session = useSessionStore();
 
 <template>
   <Card v-if="session.sad" tone="soft">
-    <CardTitle>
-      {{ session.petName }} скучал {{ session.missed }} {{ plural(session.missed, DAY_FORMS) }} 🥺
-    </CardTitle>
-    <p class="mt-1 text-[13px]">Потапай его, и он снова улыбнётся.</p>
+    <CardTitle>{{ tn("us.missed.title", session.missed, { name: session.petName }) }}</CardTitle>
+    <p class="mt-1 text-[13px]">{{ t("us.missed.text") }}</p>
   </Card>
   <Card v-else-if="session.welcomeBack" tone="soft">
-    <CardTitle>С возвращением 💜</CardTitle>
+    <CardTitle>{{ t("us.missed.welcomeTitle") }}</CardTitle>
     <p class="mt-1 text-[13px]">
-      {{ session.petName }} рад тебя видеть. Приходи, когда захочется: он всегда здесь.
+      {{ t("us.missed.welcomeText", { name: session.petName }) }}
     </p>
   </Card>
 </template>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref, useTemplateRef } from "vue";
 import { QUICK_SHOPPING } from "@/domain/catalog";
+import { t } from "@/domain/i18n";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { useHousehold } from "./useHousehold";
@@ -12,9 +13,9 @@ const title = ref("");
 const input = useTemplateRef<{ $el: HTMLInputElement }>("input");
 
 async function submit() {
-  const t = title.value.trim();
-  if (!t) return;
-  household.addShop(t, props.inSheet);
+  const item = title.value.trim();
+  if (!item) return;
+  household.addShop(item, props.inSheet);
   title.value = "";
   await nextTick();
   input.value?.$el.focus();
@@ -27,8 +28,14 @@ onMounted(() => {
 
 <template>
   <form class="flex gap-2" @submit.prevent="submit">
-    <Input ref="input" v-model="title" placeholder="Что купить" maxlength="80" class="flex-1" />
-    <Button type="submit" class="flex-none">Добавить</Button>
+    <Input
+      ref="input"
+      v-model="title"
+      :placeholder="t('home.shop.placeholder')"
+      maxlength="80"
+      class="flex-1"
+    />
+    <Button type="submit" class="flex-none">{{ t("common.actions.add") }}</Button>
   </form>
   <div class="mt-2.5 flex flex-wrap gap-1.5">
     <button

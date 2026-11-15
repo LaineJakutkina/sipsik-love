@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { CalendarIcon, GiftIcon, ShoppingCartIcon } from "@lucide/vue";
-import type { Component } from "vue";
+import { computed, type Component } from "vue";
 import { useRouter } from "vue-router";
+import { t } from "@/domain/i18n";
 import { useCalendarUiStore } from "@/features/calendar/calendarUi";
 import { useWishUiStore } from "@/features/wishlist/wishUi";
 import { cn } from "@/shared/lib/utils";
@@ -13,32 +14,34 @@ const sheets = useSheetsStore();
 const wishUi = useWishUiStore();
 const calendarUi = useCalendarUiStore();
 
-const ACTIONS: { label: string; icon: Component; run: () => void }[] = [
+const actions = computed<{ id: string; label: string; icon: Component; run: () => void }[]>(() => [
   {
-    label: "Желание",
+    id: "wish",
+    label: t("us.quick.wish"),
     icon: GiftIcon,
     run: () => {
       wishUi.openForm();
       void router.push({ name: "wish" });
     },
   },
-  { label: "Покупка", icon: ShoppingCartIcon, run: () => sheets.open("shop") },
+  { id: "shop", label: t("us.quick.shop"), icon: ShoppingCartIcon, run: () => sheets.open("shop") },
   {
-    label: "План",
+    id: "plan",
+    label: t("us.quick.plan"),
     icon: CalendarIcon,
     run: () => {
       calendarUi.planToday();
       void router.push({ name: "cal" });
     },
   },
-];
+]);
 </script>
 
 <template>
   <div class="grid grid-cols-3 gap-2">
     <button
-      v-for="(a, i) in ACTIONS"
-      :key="a.label"
+      v-for="(a, i) in actions"
+      :key="a.id"
       type="button"
       :class="
         cn(

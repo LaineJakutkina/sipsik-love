@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, useTemplateRef } from "vue";
 import { BLAME, buildTalkMessage, FEELINGS, NEEDS } from "@/domain/care";
+import { t } from "@/domain/i18n";
 import { call, errorMessage } from "@/services/api/client";
 import { notify } from "@/services/notify";
 import { Field } from "@/shared/components";
@@ -39,7 +40,7 @@ const build = () =>
 async function assemble() {
   const txt = build();
   if (!txt) {
-    notify("Заполни хотя бы один шаг");
+    notify(t("care.talkSheet.fillOneStep"));
     return;
   }
   built.value = true;
@@ -51,14 +52,14 @@ async function assemble() {
 async function soften() {
   const src = result.value.trim() || build();
   if (!src) {
-    notify("Сначала заполни шаги");
+    notify(t("care.talkSheet.fillStepsFirst"));
     return;
   }
   aiBusy.value = true;
   try {
     const res = await call("nvc.rewrite", { text: src });
     result.value = res.text;
-    notify("Готово ✨ Проверь и поправь, если нужно");
+    notify(t("care.talkSheet.aiDone"));
   } catch (e) {
     notify(errorMessage(e));
   } finally {
@@ -69,7 +70,7 @@ async function soften() {
 function send() {
   const txt = result.value.trim() || build();
   if (!txt) {
-    notify("Заполни хотя бы один шаг");
+    notify(t("care.talkSheet.fillOneStep"));
     return;
   }
   sendTalk(txt);
@@ -77,47 +78,51 @@ function send() {
 </script>
 
 <template>
-  <SheetTitle>Сказать бережно</SheetTitle>
+  <SheetTitle>{{ t("care.talkSheet.title") }}</SheetTitle>
   <SheetDescription>
-    Четыре шага ненасильственного общения. Так {{ session.partnerName }} услышит тебя, а не начнёт
-    защищаться.
+    {{ t("care.talkSheet.description", { name: session.partnerName }) }}
   </SheetDescription>
-  <Field label="1. Что произошло? Только факт, без оценок">
+  <Field :label="t('care.talkSheet.factLabel')">
     <Textarea
       v-model="fact"
       rows="2"
       maxlength="400"
-      placeholder="Например: вчера ты пришёл на час позже и не написал"
+      :placeholder="t('care.talkSheet.factPlaceholder')"
     />
     <span v-if="blames" class="text-destructive text-xs leading-[1.4] font-bold">
-      Попробуй без «всегда» и «никогда»: опиши один конкретный случай
+      {{ t("care.talkSheet.blameHint") }}
     </span>
   </Field>
-  <Field as="div" label="2. Что я чувствую">
+  <Field as="div" :label="t('care.talkSheet.feelingsLabel')">
     <ChipPicker v-model="feelings" :options="FEELINGS" />
   </Field>
-  <Field as="div" label="3. Что мне важно">
+  <Field as="div" :label="t('care.talkSheet.needsLabel')">
     <ChipPicker v-model="needs" :options="NEEDS" />
   </Field>
-  <Field label="4. О чём я прошу? Конкретно и выполнимо">
+  <Field :label="t('care.talkSheet.askLabel')">
     <Textarea
       v-model="ask"
       rows="2"
       maxlength="300"
-      placeholder="Например: если задерживаешься, напиши мне пару слов"
+      :placeholder="t('care.talkSheet.askPlaceholder')"
     />
   </Field>
-  <Button variant="outline" @click="assemble">Собрать сообщение</Button>
+  <Button variant="outline" @click="assemble">{{ t("care.talkSheet.assemble") }}</Button>
   <div v-if="built" ref="resultBox">
-    <Field as="div" label="Готовое сообщение, можно поправить">
-      <Textarea v-model="result" rows="5" maxlength="1500" aria-label="Готовое сообщение" />
+    <Field as="div" :label="t('care.talkSheet.resultLabel')">
+      <Textarea
+        v-model="result"
+        rows="5"
+        maxlength="1500"
+        :aria-label="t('care.talkSheet.resultAria')"
+      />
       <Button v-if="aiAvailable" variant="outline" :disabled="aiBusy" @click="soften">
-        {{ aiBusy ? "ИИ думает…" : "✨ Сделать мягче с ИИ" }}
+        {{ aiBusy ? t("care.talkSheet.aiBusy") : t("care.talkSheet.aiSoften") }}
       </Button>
     </Field>
   </div>
   <div class="grid grid-cols-2 gap-2">
-    <Button variant="outline" @click="sheets.close()">Отмена</Button>
-    <Button @click="send">Отправить</Button>
+    <Button variant="outline" @click="sheets.close()">{{ t("common.actions.cancel") }}</Button>
+    <Button @click="send">{{ t("common.actions.send") }}</Button>
   </div>
 </template>

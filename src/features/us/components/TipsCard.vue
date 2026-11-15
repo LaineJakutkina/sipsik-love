@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { t } from "@/domain/i18n";
 import { storage } from "@/services/storage";
 import { Button } from "@/shared/ui/button";
 import { Card, CardTitle } from "@/shared/ui/card";
@@ -19,30 +20,42 @@ function dismiss() {
 
 <template>
   <Card v-if="!seen" tone="soft">
-    <CardTitle>Как тут всё устроено</CardTitle>
+    <CardTitle>{{ t("us.tips.title") }}</CardTitle>
     <ol class="mt-2.5 mb-3 flex list-decimal flex-col gap-1.5 pl-5 text-sm">
       <template v-if="session.solo">
-        <li><b>Тапай котика</b>: за тапы он получает вещи. Задания дня дают бонус.</li>
-        <li><b>Вишлист</b> с фото: пригодится, когда спросят, что тебе подарить.</li>
-        <li><b>Записка себе в будущее</b> придёт тебе в случайный момент недели.</li>
         <li>
-          <b>Тяжёлый день?</b> Отметь настроение, и {{ session.petName }} предложит подышать
-          вместе.
+          <b>{{ t("us.tips.solo.tap.title") }}</b> {{ t("us.tips.solo.tap.text") }}
+        </li>
+        <li>
+          <b>{{ t("us.tips.solo.wishlist.title") }}</b> {{ t("us.tips.solo.wishlist.text") }}
+        </li>
+        <li>
+          <b>{{ t("us.tips.solo.note.title") }}</b> {{ t("us.tips.solo.note.text") }}
+        </li>
+        <li>
+          <b>{{ t("us.tips.solo.hardDay.title") }}</b>
+          {{ t("us.tips.solo.hardDay.text", { name: session.petName }) }}
         </li>
       </template>
       <template v-else>
-        <li><b>Тапайте котика</b> вдвоём. Тапы общие, за них котик получает вещи.</li>
         <li>
-          <b>Вишлист:</b> кнопка «Я подарю» на желании {{ session.other.gen }}. Он не узнает, кто
-          дарит.
+          <b>{{ t("us.tips.couple.tap.title") }}</b> {{ t("us.tips.couple.tap.text") }}
         </li>
-        <li><b>Записка</b> придёт {{ session.other.dat }} в случайный момент недели.</li>
         <li>
-          Пригласить {{ session.other.gen }} и выключить уведомления можно в <b>настройках</b>
-          вверху справа.
+          <b>{{ t("us.tips.couple.wishlist.title") }}</b>
+          {{ t("us.tips.couple.wishlist.text", { other: session.other.gen }) }}
+        </li>
+        <li>
+          <b>{{ t("us.tips.couple.note.title") }}</b>
+          {{ t("us.tips.couple.note.text", { other: session.other.dat }) }}
+        </li>
+        <li>
+          {{ t("us.tips.couple.settings.before", { other: session.other.gen }) }}
+          <b>{{ t("us.tips.couple.settings.link") }}</b>
+          {{ t("us.tips.couple.settings.after") }}
         </li>
       </template>
     </ol>
-    <Button @click="dismiss">Понятно</Button>
+    <Button @click="dismiss">{{ t("us.tips.gotIt") }}</Button>
   </Card>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { formatList, t } from "@/domain/i18n";
 import { Button } from "@/shared/ui/button";
 import { SheetTitle } from "@/shared/ui/sheet";
 import { useSessionStore } from "@/stores/session";
@@ -13,10 +14,14 @@ const left = computed(() => session.app.shop.filter((x) => !x.done).map((x) => x
 </script>
 
 <template>
-  <SheetTitle>Добавить в покупки</SheetTitle>
+  <SheetTitle>{{ t("home.shopSheet.title") }}</SheetTitle>
   <ShopAddRow in-sheet />
   <p class="text-muted-foreground text-[13px]">
-    {{ left.length ? `Уже в списке: ${left.join(", ")}` : "Список пока пуст" }}
+    {{
+      left.length
+        ? t("home.shopSheet.inList", { items: formatList(left) })
+        : t("home.shopSheet.empty")
+    }}
   </p>
-  <Button variant="outline" @click="sheets.close()">Готово</Button>
+  <Button variant="outline" @click="sheets.close()">{{ t("home.shopSheet.done") }}</Button>
 </template>

@@ -4,6 +4,7 @@ import { config } from "@/shared/config";
 
 const BRAND_NAVY = "#1f1d38";
 const BRAND_PAPER = "#ffffff";
+const CLOUD_STORAGE_VERSION = "6.9";
 
 type Impact = "light" | "medium" | "heavy";
 type Notice = "error" | "success";
@@ -29,6 +30,10 @@ export const telegram = {
   /** Telegram id of the person who opened the app, or null outside Telegram */
   get userId(): number | null {
     return webApp()?.initDataUnsafe?.user?.id ?? null;
+  },
+  /** Language of the Telegram app (`en`, `ru`, `pt-br`…), null outside Telegram */
+  get languageCode(): string | null {
+    return webApp()?.initDataUnsafe?.user?.language_code ?? null;
   },
   get available() {
     return config.demo || !!webApp()?.initData;
@@ -67,6 +72,28 @@ export const telegram = {
   /** Ask for permission to send messages (notes, reminders) */
   requestWriteAccess() {
     safely((tg) => tg.requestWriteAccess?.());
+  },
+
+  /**
+   * Telegram CloudStorage: per-user values kept by Telegram itself, so they survive
+   * closing the app, a cleared WebView and other devices. Null when unsupported.
+   */
+  cloudGet(key: string): Promise<string | null> {
+    return new Promise((resolve) => {
+      const tg = webApp();
+      if (!tg?.isVersionAtLeast?.(CLOUD_STORAGE_VERSION)) return resolve(null);
+      try {
+        tg.CloudStorage.getItem(key, (error, value) => resolve(error ? null : value || null));
+      } catch {
+        resolve(null);
+      }
+    });
+  },
+
+  cloudSet(key: string, value: string) {
+    safely((tg) => {
+      if (tg.isVersionAtLeast?.(CLOUD_STORAGE_VERSION)) tg.CloudStorage.setItem(key, value);
+    });
   },
 
   openLink(url: string) {

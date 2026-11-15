@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
+import { t } from "@/domain/i18n";
 import { Dialog, DialogContent, DialogTitle } from "@/shared/ui/dialog";
 import { Skeleton } from "@/shared/ui/skeleton";
 
@@ -23,7 +24,7 @@ watch(shown, () => (loaded.value = false));
       class="grid size-full place-items-center p-4"
       @click="emit('close')"
     >
-      <DialogTitle class="sr-only">Фото</DialogTitle>
+      <DialogTitle class="sr-only">{{ t("app.photo") }}</DialogTitle>
       <Skeleton
         v-if="shown && !loaded"
         tone="overlay"

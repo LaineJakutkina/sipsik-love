@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { t } from "@/domain/i18n";
 import { SegmentedPills } from "@/shared/components";
 import type { PillOption } from "@/shared/components";
 import RouteView from "./RouteView.vue";
 import { isPlanSection, usePlansStore, type PlanSection } from "@/stores/plans";
 import { useSessionStore } from "@/stores/session";
 
-const OPTIONS: readonly PillOption<PlanSection>[] = [
-  { value: "cal", label: "Календарь" },
-  { value: "go", label: "Места" },
-  { value: "wish", label: "Желания" },
-];
+const options = computed<readonly PillOption<PlanSection>[]>(() => [
+  { value: "cal", label: t("app.plans.cal") },
+  { value: "go", label: t("app.plans.go") },
+  { value: "wish", label: t("app.plans.wish") },
+]);
 
 const route = useRoute();
 const router = useRouter();
@@ -36,9 +37,9 @@ const section = computed({
 /** Screen-reader title for sections whose band has nothing else; «Места» brings its own */
 const heading = computed(() => {
   const titles: Record<PlanSection, string | null> = {
-    cal: "Календарь",
+    cal: t("app.plans.cal"),
     go: null,
-    wish: session.solo ? "Мой вишлист" : "Наш вишлист",
+    wish: t(session.solo ? "app.plans.myWishlist" : "app.plans.ourWishlist"),
   };
   return titles[plans.last];
 });
@@ -46,6 +47,6 @@ const heading = computed(() => {
 
 <template>
   <h1 v-if="heading" class="sr-only">{{ heading }}</h1>
-  <SegmentedPills v-model="section" :options="OPTIONS" track label="Раздел планов" />
+  <SegmentedPills v-model="section" :options track :label="t('app.plans.label')" />
   <RouteView name="band" />
 </template>

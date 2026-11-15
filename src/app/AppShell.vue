@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
+import { t } from "@/domain/i18n";
 import CharacterThumb from "@/game/vue/CharacterThumb.vue";
 import { telegram } from "@/services/telegram";
 import { cn } from "@/shared/lib/utils";
@@ -35,7 +36,8 @@ onMounted(() => {
           :width="34"
           class="bg-paper size-[34px] rounded-full p-0.5"
         />
-        Сипсик <em class="text-secondary not-italic">Love</em>
+        {{ t("app.brand.name") }}
+        <em class="text-secondary not-italic">{{ t("app.brand.accent") }}</em>
       </div>
       <div class="flex flex-col gap-3.5">
         <slot name="band" />

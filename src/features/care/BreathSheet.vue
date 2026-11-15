@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { formatNumber, t } from "@/domain/i18n";
 import CharacterThumb from "@/game/vue/CharacterThumb.vue";
 import { Button } from "@/shared/ui/button";
 import { SheetTitle } from "@/shared/ui/sheet";
@@ -12,7 +13,7 @@ const { phase, label, left } = useBreathing();
 </script>
 
 <template>
-  <SheetTitle>Подыши вместе с котиком</SheetTitle>
+  <SheetTitle>{{ t("care.breath.title") }}</SheetTitle>
   <div class="flex flex-col items-center gap-2.5 pt-[26px] pb-3.5">
     <div
       :data-phase="phase"
@@ -27,7 +28,9 @@ const { phase, label, left } = useBreathing();
       />
     </div>
     <b class="text-xl" aria-live="polite">{{ label }}</b>
-    <span class="text-muted-foreground text-[13px] tabular">{{ left }} с</span>
+    <span class="text-muted-foreground text-[13px] tabular">{{
+      t("care.breath.secondsLeft", { n: formatNumber(left) })
+    }}</span>
   </div>
-  <Button variant="outline" @click="sheets.close()">Закрыть</Button>
+  <Button variant="outline" @click="sheets.close()">{{ t("common.actions.close") }}</Button>
 </template>

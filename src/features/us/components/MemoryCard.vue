@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { formatDate } from "@/domain/dates";
+import { t } from "@/domain/i18n";
 import { isTmp } from "@/domain/ids";
 import type { Memory } from "@/domain/types";
 import { LazyImage, RemoveButton } from "@/shared/components";
@@ -19,8 +20,9 @@ const ui = useUsUiStore();
 
 const meta = computed(() => {
   const m = props.memory;
-  const who = m.who === "me" ? "ты" : m.who === "partner" ? session.partnerName : "";
-  return `${props.ago || formatDate(m.day)}${who ? ` · ${who}` : ""}`;
+  const who = m.who === "me" ? t("us.memory.byMe") : m.who === "partner" ? session.partnerName : "";
+  const when = props.ago || formatDate(m.day);
+  return who ? t("us.memory.meta", { when, who }) : when;
 });
 
 function openPhoto() {
@@ -36,7 +38,7 @@ function remove(id: string) {
     (s) => {
       s.memories = (s.memories ?? []).filter((m) => m.id !== id);
     },
-    "Удалено",
+    t("us.memory.deleted"),
   );
 }
 </script>
@@ -53,7 +55,7 @@ function remove(id: string) {
     <button
       v-if="memory.thumb_url"
       type="button"
-      aria-label="Открыть фото"
+      :aria-label="t('us.memory.openPhoto')"
       :class="
         cn(
           'bg-muted block aspect-4/3 w-full cursor-zoom-in border-b-2 p-0',
@@ -74,7 +76,7 @@ function remove(id: string) {
             size="sm"
             @click="remove(memory.id)"
           >
-            Точно удалить?
+            {{ t("us.memory.confirmDelete") }}
           </Button>
           <RemoveButton v-else @remove="ui.memDel = memory.id" />
         </template>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { isoToDay, today } from "@/domain/dates";
+import { t } from "@/domain/i18n";
 import { Button } from "@/shared/ui/button";
 import { useSessionStore } from "@/stores/session";
 import { useUsUiStore } from "../usUi";
@@ -13,20 +14,21 @@ const ui = useUsUiStore();
 const visible = computed(() => {
   const s = session.app;
   if ((!s.partner && !session.solo) || !s.thanks) return false;
-  const t = today();
-  return !s.thanks.some((x) => x.who === "me" && isoToDay(x.created_at) === t);
+  const now = today();
+  return !s.thanks.some((x) => x.who === "me" && isoToDay(x.created_at) === now);
 });
 
-const text = computed(() => {
-  const grateful = session.gendered("благодарен", "благодарна", "благодарен(на)");
-  return session.solo
-    ? `За что ты ${grateful} сегодняшнему дню?`
-    : `За что ты ${grateful} ${session.partnerName} сегодня?`;
-});
+const text = computed(() =>
+  session.solo
+    ? session.gendered("us.thanksPrompt.textSolo")
+    : session.gendered("us.thanksPrompt.textCouple", { name: session.partnerName }),
+);
 </script>
 
 <template>
-  <CtaCard v-if="visible" tone="lilac" title="Спасибо за мелочи" emoji="💜" :text="text">
-    <Button class="relative" @click="ui.show('thanks')">{{ session.solo ? "Записать" : "Поблагодарить" }}</Button>
+  <CtaCard v-if="visible" tone="lilac" :title="t('us.thanksPrompt.title')" emoji="💜" :text="text">
+    <Button class="relative" @click="ui.show('thanks')">
+      {{ session.solo ? t("us.thanksPrompt.write") : t("us.thanksPrompt.thank") }}
+    </Button>
   </CtaCard>
 </template>

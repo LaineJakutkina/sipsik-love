@@ -1,4 +1,5 @@
 import { computed } from "vue";
+import { t } from "@/domain/i18n";
 import { isTmp, tmpId } from "@/domain/ids";
 import type { Id, Photo, Who, Wish } from "@/domain/types";
 import { notify } from "@/services/notify";
@@ -16,7 +17,7 @@ export interface WishDraft {
 /** Optimistic records can't be edited until the server confirms them */
 function busyTmp(id: Id) {
   if (!isTmp(id)) return false;
-  notify("Секунду, сохраняем…");
+  notify(t("common.savingWait"));
   return true;
 }
 
@@ -36,7 +37,7 @@ export function useWishes() {
   async function add(draft: WishDraft): Promise<boolean> {
     const title = draft.title.trim();
     if (!title) {
-      notify("Напиши, что хочется");
+      notify(t("wishlist.toast.needTitle"));
       return false;
     }
     const owner = wishUi.who;
@@ -50,11 +51,11 @@ export function useWishes() {
     };
     wishUi.closeForm();
     if (photo) {
-      notify("Сохраняем вместе с фото…");
+      notify(t("wishlist.toast.savingWithPhoto"));
       const ok = await session.act(
         "wish.add",
         { ...payload, photo: photo.full, thumb: photo.thumb },
-        "Желание добавлено",
+        t("wishlist.toast.added"),
       );
       if (!ok) {
         wishUi.formOpen = true;
@@ -73,7 +74,7 @@ export function useWishes() {
             done: false,
             reserved_by_me: false,
           }),
-        "Желание добавлено",
+        t("wishlist.toast.added"),
       );
     }
     return true;
@@ -89,7 +90,7 @@ export function useWishes() {
         const x = byId(s.wishes, id);
         if (x) x.reserved_by_me = !x.reserved_by_me;
       },
-      w?.reserved_by_me ? "Отметка снята" : "Отмечено: даришь ты 🎁",
+      w?.reserved_by_me ? t("wishlist.toast.unreserved") : t("wishlist.toast.reserved"),
     );
   }
 
@@ -102,7 +103,7 @@ export function useWishes() {
         const x = byId(s.wishes, id);
         if (x) x.done = true;
       },
-      "Ура, сбылось ✨",
+      t("wishlist.toast.done"),
     );
   }
 
@@ -115,7 +116,7 @@ export function useWishes() {
       (s) => {
         s.wishes = s.wishes.filter((w) => w.id !== id);
       },
-      "Желание удалено",
+      t("wishlist.toast.removed"),
     );
     return true;
   }
@@ -124,7 +125,7 @@ export function useWishes() {
     try {
       return await readPhoto(file);
     } catch {
-      notify("Не получилось открыть это фото");
+      notify(t("wishlist.toast.photoUnreadable"));
       return null;
     }
   }
@@ -132,11 +133,11 @@ export function useWishes() {
   async function uploadPhoto(id: Id, file: File) {
     const photo = await readFile(file);
     if (!photo || busyTmp(id)) return;
-    notify("Загружаем фото…");
+    notify(t("wishlist.toast.photoUploading"));
     await session.act(
       "wish.photo",
       { id, photo: photo.full, thumb: photo.thumb },
-      "Фото добавлено",
+      t("wishlist.toast.photoAdded"),
     );
   }
 

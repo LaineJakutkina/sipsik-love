@@ -1,6 +1,6 @@
 import { addDays, daysBetween, nextOccurrence, parseDate, today, ymd } from "./dates";
+import { t, tn } from "./i18n";
 import type { DateStr, Id, ImportantDate } from "./types";
-import { plural, YEAR_FORMS } from "@/shared/lib/plural";
 
 export interface Anniversary {
   /** Ordinal of the coming (or today's) anniversary */
@@ -9,13 +9,13 @@ export interface Anniversary {
   inDays: number;
 }
 
-export function nextAnniversary(start: DateStr, t: DateStr = today()): Anniversary {
+export function nextAnniversary(start: DateStr, now: DateStr = today()): Anniversary {
   const st = parseDate(start);
-  let years = parseDate(t).getFullYear() - st.getFullYear();
+  let years = parseDate(now).getFullYear() - st.getFullYear();
   const at = (n: number) => ymd(new Date(st.getFullYear() + n, st.getMonth(), st.getDate()));
   let date = at(years);
-  if (date < t) date = at(++years);
-  return { years, date, inDays: daysBetween(t, date) };
+  if (date < now) date = at(++years);
+  return { years, date, inDays: daysBetween(now, date) };
 }
 
 export interface DateEntry {
@@ -34,44 +34,50 @@ export interface DateEntry {
 export function importantDates(
   start: DateStr,
   dates: ImportantDate[],
-  t = today(),
+  now = today(),
   milestones = true,
 ): DateEntry[] {
   const items: DateEntry[] = [];
-  if (milestones) items.push(...relationshipMilestones(start, t));
+  if (milestones) items.push(...relationshipMilestones(start, now));
   for (const x of dates) {
     const next = x.yearly ? nextOccurrence(x.day) : x.day;
     const n = x.yearly ? Number(next.slice(0, 4)) - Number(x.day.slice(0, 4)) : 0;
     items.push({
       id: x.id,
       icon: "💗",
-      title: x.title + (x.yearly && n > 0 ? ` · ${n} ${plural(n, YEAR_FORMS)}` : ""),
+      title: x.yearly && n > 0 ? tn("domain.relationship.yearly", n, { title: x.title }) : x.title,
       next,
-      past: !x.yearly && x.day < t,
+      past: !x.yearly && x.day < now,
     });
   }
   return items.sort((a, b) => Number(a.past) - Number(b.past) || a.next.localeCompare(b.next));
 }
 
-function relationshipMilestones(start: DateStr, t: DateStr): DateEntry[] {
+function relationshipMilestones(start: DateStr, now: DateStr): DateEntry[] {
   const items: DateEntry[] = [];
-  const together = daysBetween(start, t);
+  const together = daysBetween(start, now);
   const next100 = (Math.floor(together / 100) + 1) * 100;
   items.push({
     icon: "💯",
-    title: `${next100} дней вместе`,
+    title: tn("domain.relationship.daysTogether", next100),
     next: addDays(start, next100),
     past: false,
   });
 
-  const y = parseDate(t).getFullYear();
+  const y = parseDate(now).getFullYear();
   let years = y - parseDate(start).getFullYear();
   let ann = y + start.slice(4);
-  if (ann < t) {
+  if (ann < now) {
     ann = y + 1 + start.slice(4);
     years++;
   }
-  if (years > 0) items.push({ icon: "🎉", title: `${years}-я годовщина`, next: ann, past: false });
+  if (years > 0)
+    items.push({
+      icon: "🎉",
+      title: t("domain.relationship.anniversary", { n: years }),
+      next: ann,
+      past: false,
+    });
   return items;
 }
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useEventListener } from "@vueuse/core";
 import { ref } from "vue";
+import { t } from "@/domain/i18n";
 import { DEMO_STORAGE_KEY, demoNames, resetDemo, viewer } from "@/services/api/demo/server";
 import { Button } from "@/shared/ui/button";
 import { useSessionStore } from "@/stores/session";
@@ -35,14 +36,22 @@ useEventListener(window, "storage", (e) => {
 <template>
   <div class="bg-lilac border-navy-2 text-foreground border-b-2 px-3 py-1.5 text-[12px]">
     <div class="mx-auto flex max-w-[520px] items-center gap-2">
-      <b class="grow">🧪 Демо · ты — {{ names.me }}</b>
-      <Button as="a" size="sm" variant="outline" :href="otherUrl">Стать: {{ names.other }}</Button>
-      <Button size="sm" variant="outline" @click="resetOpen = !resetOpen">Сброс</Button>
+      <b class="grow">{{ t("app.demo.you", { name: names.me }) }}</b>
+      <Button as="a" size="sm" variant="outline" :href="otherUrl">{{
+        t("app.demo.become", { name: names.other })
+      }}</Button>
+      <Button size="sm" variant="outline" @click="resetOpen = !resetOpen">{{
+        t("app.demo.reset")
+      }}</Button>
     </div>
     <div v-if="resetOpen" class="mx-auto mt-1.5 flex max-w-[520px] flex-wrap items-center gap-2">
-      <span class="grow">Начать заново:</span>
-      <Button size="sm" variant="secondary" @click="reset('ready')">Готовая пара</Button>
-      <Button size="sm" variant="secondary" @click="reset('blank')">С нуля</Button>
+      <span class="grow">{{ t("app.demo.startOver") }}</span>
+      <Button size="sm" variant="secondary" @click="reset('ready')">{{
+        t("app.demo.ready")
+      }}</Button>
+      <Button size="sm" variant="secondary" @click="reset('blank')">{{
+        t("app.demo.blank")
+      }}</Button>
     </div>
   </div>
 </template>

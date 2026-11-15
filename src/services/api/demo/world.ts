@@ -54,14 +54,27 @@ export interface World {
     reserved_by: U | null;
   } & Photo)[];
   shop: { id: string; title: string; done: boolean }[];
-  chores: { id: string; title: string; assignee: U; freq: string | null; done_on: DateStr | null }[];
+  chores: {
+    id: string;
+    title: string;
+    assignee: U;
+    freq: string | null;
+    done_on: DateStr | null;
+  }[];
   plans: { id: string; day: DateStr; time: string | null; title: string }[];
   birthdays: { id: string; name: string; bdate: DateStr }[];
   places: { id: string; title: string }[];
   dates: { id: string; title: string; day: DateStr; yearly: boolean }[];
   memories: ({ id: string; user: U; day: DateStr; body: string } & Photo)[];
   thanks: { id: string; from: U; body: string; hearted: boolean; created_at: string }[];
-  sos: { id: string; from: U; kind: string; body: string | null; reply: string | null; resolved: boolean }[];
+  sos: {
+    id: string;
+    from: U;
+    kind: string;
+    body: string | null;
+    reply: string | null;
+    resolved: boolean;
+  }[];
   talks: { id: string; from: U; body: string; reply: string | null; closed: boolean }[];
 }
 
@@ -118,13 +131,63 @@ export function readyWorld(): World {
     },
     moods: { [`b|${d}`]: "happy" },
     notes: [
-      { id: "n1", from: "b", body: "Ты сегодня самая красивая 💜", deliver_at: Date.now() - 3_600_000, created_at: ago(600) },
+      {
+        id: "n1",
+        from: "b",
+        body: "Ты сегодня самая красивая 💜",
+        deliver_at: Date.now() - 3_600_000,
+        created_at: ago(600),
+      },
     ],
     wishes: [
-      { id: "w1", owner: "a", title: "Плед с рукавами", price: "35 €", link: null, note: "Сиреневый!", done: false, reserved_by: null, photo: null, thumb: null },
-      { id: "w2", owner: "a", title: "Билеты на концерт", price: "80 €", link: null, note: null, done: false, reserved_by: "b", photo: null, thumb: null },
-      { id: "w3", owner: "b", title: "Наушники", price: "120 €", link: null, note: null, done: false, reserved_by: null, photo: null, thumb: null },
-      { id: "w4", owner: "b", title: "Книга про космос", price: "20 €", link: null, note: null, done: false, reserved_by: null, photo: null, thumb: null },
+      {
+        id: "w1",
+        owner: "a",
+        title: "Плед с рукавами",
+        price: "35 €",
+        link: null,
+        note: "Сиреневый!",
+        done: false,
+        reserved_by: null,
+        photo: null,
+        thumb: null,
+      },
+      {
+        id: "w2",
+        owner: "a",
+        title: "Билеты на концерт",
+        price: "80 €",
+        link: null,
+        note: null,
+        done: false,
+        reserved_by: "b",
+        photo: null,
+        thumb: null,
+      },
+      {
+        id: "w3",
+        owner: "b",
+        title: "Наушники",
+        price: "120 €",
+        link: null,
+        note: null,
+        done: false,
+        reserved_by: null,
+        photo: null,
+        thumb: null,
+      },
+      {
+        id: "w4",
+        owner: "b",
+        title: "Книга про космос",
+        price: "20 €",
+        link: null,
+        note: null,
+        done: false,
+        reserved_by: null,
+        photo: null,
+        thumb: null,
+      },
     ],
     shop: [
       { id: "s1", title: "Молоко", done: false },
@@ -147,7 +210,13 @@ export function readyWorld(): World {
       { id: "pl4", title: "Кино 🎬" },
     ],
     thanks: [
-      { id: "t1", from: "b", body: "Спасибо за завтрак в постель ☕", hearted: true, created_at: ago(1440) },
+      {
+        id: "t1",
+        from: "b",
+        body: "Спасибо за завтрак в постель ☕",
+        hearted: true,
+        created_at: ago(1440),
+      },
     ],
   };
 }

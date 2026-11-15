@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { t } from "@/domain/i18n";
 import { telegram } from "@/services/telegram";
 import { Button } from "@/shared/ui/button";
 import { Card, CardTitle } from "@/shared/ui/card";
@@ -22,15 +23,15 @@ function openHelplines(e: MouseEvent) {
 
 <template>
   <Card v-if="show" tone="dashed">
-    <CardTitle>🫂 Тяжёлый день</CardTitle>
+    <CardTitle>{{ t("us.selfCare.title") }}</CardTitle>
     <p class="text-muted-foreground mt-1 text-[13px]">
-      Так бывает, и это нормально. Можно просто немного подышать вместе с котиком: пара минут, и
-      станет чуть легче.
+      {{ t("us.selfCare.text") }}
     </p>
-    <Button class="mt-2.5" @click="sheets.open('breath')">Подышать с котиком</Button>
+    <Button class="mt-2.5" @click="sheets.open('breath')">
+      {{ t("us.selfCare.breathe") }}
+    </Button>
     <p class="text-muted-foreground mt-2.5 text-[13px]">
-      Если тебе очень плохо, не держи это в себе: напиши близкому человеку или обратись на линию
-      психологической помощи, там выслушают бесплатно и анонимно.
+      {{ t("us.selfCare.helpText") }}
     </p>
     <Button
       as="a"
@@ -39,7 +40,7 @@ function openHelplines(e: MouseEvent) {
       :href="HELPLINES_URL"
       @click="openHelplines"
     >
-      Найти линию помощи ›
+      {{ t("us.selfCare.findHelpline") }}
     </Button>
   </Card>
 </template>

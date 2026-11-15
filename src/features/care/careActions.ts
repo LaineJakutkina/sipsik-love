@@ -1,3 +1,4 @@
+import { t } from "@/domain/i18n";
 import { telegram } from "@/services/telegram";
 import { useSessionStore } from "@/stores/session";
 import { useSheetsStore } from "@/stores/sheets";
@@ -9,7 +10,7 @@ export function useCareActions() {
   const sheets = useSheetsStore();
 
   async function sendSos(kind: string, body: string) {
-    const msg = `Сигнал отправлен ${session.partnerName} 💜`;
+    const msg = t("care.actions.sosSent", { name: session.partnerName });
     sheets.close();
     telegram.haptic("success");
     if (await session.act("sos.send", { kind, body }, msg)) sheets.open("breath");
@@ -25,7 +26,7 @@ export function useCareActions() {
       (s) => {
         if (s.sos?.partner) s.sos.partner.reply = reply;
       },
-      "Ответ отправлен 💜",
+      t("care.actions.sosReplied"),
     );
   }
 
@@ -36,14 +37,14 @@ export function useCareActions() {
       (s) => {
         if (s.sos) s.sos.mine = null;
       },
-      "Рады, что тебе лучше 🌤",
+      t("care.actions.sosResolved"),
     );
   }
 
   function sendTalk(body: string) {
     sheets.close();
     telegram.haptic("success");
-    void session.act("talk.send", { body }, "Сообщение отправлено бережно 🕊");
+    void session.act("talk.send", { body }, t("care.actions.talkSent"));
   }
 
   function replyTalk(reply: string) {
@@ -55,7 +56,7 @@ export function useCareActions() {
       (s) => {
         if (s.talk?.partner) s.talk.partner.reply = reply;
       },
-      "Ответ отправлен 🕊",
+      t("care.actions.talkReplied"),
     );
   }
 
@@ -66,7 +67,7 @@ export function useCareActions() {
       (s) => {
         if (s.talk) s.talk.mine = null;
       },
-      "Рады, что вы поговорили 💜",
+      t("care.actions.talkClosed"),
     );
   }
 
