@@ -8,6 +8,7 @@ import { Badge } from "@/shared/ui/badge";
 import { Card } from "@/shared/ui/card";
 import { useSessionStore } from "@/stores/session";
 import CardHead from "./CardHead.vue";
+import { serverText } from "@/shared/locale/serverText";
 
 /** «Задания дня»: each one gives the cat bonus taps */
 const session = useSessionStore();
@@ -57,7 +58,7 @@ function complete(idx: number) {
         <span
           class="group-data-done:text-muted-foreground font-semibold group-data-done:line-through"
         >
-          {{ task.text }}
+          {{ serverText(task.text) }}
         </span>
         <ListSub v-if="task.done">{{ doneBy(task) }}</ListSub>
         <template v-if="!task.done" #trail>

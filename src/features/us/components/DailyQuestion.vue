@@ -7,6 +7,7 @@ import { Button } from "@/shared/ui/button";
 import { Card, CardEyebrow, CardTitle } from "@/shared/ui/card";
 import { Textarea } from "@/shared/ui/textarea";
 import { useSessionStore } from "@/stores/session";
+import { serverText } from "@/shared/locale/serverText";
 
 /** «Вопрос дня»: both answer, then both see each other's answers */
 const session = useSessionStore();
@@ -41,7 +42,7 @@ function send() {
 <template>
   <Card v-if="q">
     <CardEyebrow>{{ t("us.question.eyebrow") }}</CardEyebrow>
-    <CardTitle class="mt-1 text-[17px] leading-[1.3]">{{ q.text }}</CardTitle>
+    <CardTitle class="mt-1 text-[17px] leading-[1.3]">{{ serverText(q.text) }}</CardTitle>
     <form v-if="!q.mine" class="mt-2.5 flex flex-col gap-2" @submit.prevent="send">
       <Textarea
         v-model="answer"

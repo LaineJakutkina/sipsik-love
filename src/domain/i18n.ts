@@ -44,6 +44,9 @@ export function setLocalizer(next: Localizer) {
 
 export const t = (key: MessageKey, params?: MessageParams): string => localizer.t(key, params);
 
+/** For keys built at run time (see `shared/locale/serverText`); a missing key comes back as is */
+export const tAny = (key: string, params?: MessageParams): string => localizer.t(key, params);
+
 /** Wording by grammatical gender: `key.m`, `key.f`, or `key.n` when the gender is unknown */
 export const tg = (key: GenderedKey, gender: string | null | undefined, params?: MessageParams) =>
   localizer.t(`${key}.${gender === "m" || gender === "f" ? gender : "n"}`, params);

@@ -6,6 +6,7 @@ import { useSessionStore } from "@/stores/session";
 import { useCareActions } from "./careActions";
 import CareTip from "./CareTip.vue";
 import ReplyBox from "./ReplyBox.vue";
+import { serverText } from "@/shared/locale/serverText";
 
 /** The partner asked for support: how to help and quick replies */
 const session = useSessionStore();
@@ -18,9 +19,9 @@ const sos = computed(() => (session.app.partner ? session.app.sos : null));
     <CardEyebrow class="text-peach">{{
       t("care.sosBanner.asks", { name: session.partnerName })
     }}</CardEyebrow>
-    <CardTitle>{{ sos.partner.emoji }} «{{ sos.partner.ask }}»</CardTitle>
+    <CardTitle>{{ sos.partner.emoji }} «{{ serverText(sos.partner.ask) }}»</CardTitle>
     <p v-if="sos.partner.body" class="mt-1.5">{{ sos.partner.body }}</p>
-    <CareTip>{{ sos.partner.tip }}</CareTip>
+    <CareTip>{{ serverText(sos.partner.tip) }}</CareTip>
     <p v-if="sos.partner.reply" class="mt-2.5 text-[13px] opacity-80">
       {{ session.gendered("care.sosBanner.youReplied") }} <b>{{ sos.partner.reply }}</b>
     </p>

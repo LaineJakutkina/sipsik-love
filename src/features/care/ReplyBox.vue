@@ -5,6 +5,7 @@ import { notify } from "@/services/notify";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { toggleVariants } from "@/shared/ui/toggle";
+import { serverText } from "@/shared/locale/serverText";
 
 /** Quick reply chips plus a free-text answer, on a navy banner */
 defineProps<{ replies: readonly string[]; maxlength: number }>();
@@ -25,8 +26,14 @@ function submit(preset?: string) {
 
 <template>
   <div class="mt-3 mb-1 flex flex-wrap gap-1.5">
-    <button v-for="r in replies" :key="r" type="button" :class="chip" @click="submit(r)">
-      {{ r }}
+    <button
+      v-for="r in replies"
+      :key="r"
+      type="button"
+      :class="chip"
+      @click="submit(serverText(r))"
+    >
+      {{ serverText(r) }}
     </button>
   </div>
   <div class="mt-2 flex gap-2">

@@ -7,6 +7,7 @@ import { Button } from "@/shared/ui/button";
 import { Card, CardEyebrow, CardTitle } from "@/shared/ui/card";
 import { useSessionStore } from "@/stores/session";
 import { useSheetsStore } from "@/stores/sheets";
+import { serverText } from "@/shared/locale/serverText";
 
 /** The support signal already sent to the partner; the invitation lives in `CareCards` */
 const session = useSessionStore();
@@ -18,7 +19,7 @@ const sos = computed(() => (session.app.partner ? session.app.sos : null));
 <template>
   <Card v-if="sos?.mine" tone="muted">
     <CardEyebrow>{{ t("us.support.eyebrow") }}</CardEyebrow>
-    <CardTitle>{{ sos.mine.emoji }} {{ sos.mine.ask }}</CardTitle>
+    <CardTitle>{{ sos.mine.emoji }} {{ serverText(sos.mine.ask) }}</CardTitle>
     <div class="mt-3 flex flex-col gap-2">
       <ChatBubble v-if="sos.mine.reply" from="partner" :author="session.partnerName">
         {{ sos.mine.reply }}
